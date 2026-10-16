@@ -68,6 +68,8 @@ Otras premisas que sostienen las tareas:
     (los worktrees viven en `.claude/worktrees/<nombre>`; comprobé que esa ruta resuelve a las 24 ruedas [V]).
     Es configuración de la mecánica: la aplica o la autoriza el usuario, fuera de la PR de planeación
     (decisión D1).
+  - Estado: el usuario eligió D1 = A; la corrección está en la PR #4 (`chore/mechanism-config-master` → `master`),
+    que mergea el usuario. Comprobé el gancho corregido montando un worktree de prueba: `preparar: OK`.
 
 ### CORREGIR ANTES DE ENCARGAR
 
@@ -85,20 +87,22 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
   - Recomendación: añadir `"ramaPrincipal": "master"` en `proyecto` del perfil y regenerar con
     `.claude/da/da render` (la plantilla de `citas.yml` toma la rama de ahí), o renombrar `master` a `main` en
     GitHub. Decisión D1, junto con B1.
+  - Estado: en la misma PR #4; con ella `citas.yml` filtra `branches: [master]` y `da doctor` sigue en 41 OK.
 - **E2 — Las issues están deshabilitadas en el repositorio.** `gh issue list` responde «the repository has
   disabled issues» [V]. Los hallazgos de pre-vuelo no se pueden registrar como manda `CLAUDE.md`; quedan en
   este reporte (E3, E4). Decisión D3.
+  - Estado: el usuario las habilitó (D3 = A); E3, E4 y E5 están registradas como #5, #6 y #7.
 - **E3 — R16 y ECharts pueden chocar** (para la Fase 1/2, no para esta ola). R16 dice que el HTML «no contiene
   `http://`, `https://` ni `//` en `src`, `href`, `url()`, `import` o `fetch`» (`docs/DOMINIO.md:93`) y la
   regla innegociable 3 lo repite. La librería minificada de ECharts trae, que yo sepa, cadenas como el espacio
   de nombres de SVG (`http://www.w3.org/2000/svg`), que no son red [I: no puedo descargar ECharts para
   comprobarlo]. Si el test de R16 de la Fase 1 busca `http://` en todo el HTML, la Fase 2 no podrá incrustar
-  ECharts. Hay que precisar R16 antes de planear la Fase 1.
+  ECharts. Hay que precisar R16 antes de planear la Fase 1. Issue #5.
 - **E4 — Las reglas innegociables 1 y 2 (dirección de imports entre capas) no tienen test de
   arquitectura.** `tests/test_pureza.py` solo busca librerías de red, subprocesos y bases de datos. Lo natural
-  es que entre en la ola de la Fase 1, que crea las capas.
+  es que entre en la ola de la Fase 1, que crea las capas. Issue #6.
 - **E5 — `requirements.txt` queda sin uso** tras actualizar el README (solo lo cita `README.md:13`). No se
-  toca en esta ola.
+  toca en esta ola. Issue #7.
 - **E6 — `.claude/da/da sistema` probablemente falla hoy en `master`** porque no hay ningún test `sistema` y
   pytest sale con código 5 si no selecciona ninguno [I: no corrí el comando pesado]. El grupo 1 lo resuelve.
 
@@ -111,8 +115,8 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
 
 ## 6. Lo que la ola absorbe
 
-- No hay olas anteriores ni auditorías en `docs/olas/`. Absorbe E6 (sin issue: las issues están
-  deshabilitadas).
+- No hay olas anteriores ni auditorías en `docs/olas/`. Absorbe E6, que no tiene issue porque esta misma ola
+  lo resuelve. No absorbe #5, #6 ni #7: son de la Fase 1 o posteriores.
 
 ## 7. Lo que está bien
 
@@ -133,6 +137,7 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
    - B) Solo B1 ahora; E1 después.
    - C) Renombrar `master` a `main` en GitHub en vez de declarar `master`, y además arreglar B1.
    - Recomendación: **A**. Sin B1 la ola no arranca; E1 cuesta una línea más en el mismo archivo.
+   - **Cerrada (2026-10-15): A, decisión del usuario.** PR #4.
 2. **D2 — La verificación de ECharts que `docs/STACK.md` pone en la Fase 0.** *De alcance: sube al usuario.*
    `docs/STACK.md:32` («Se verifica en la Fase 0; si falla, 5.6.0») contradice al entregable de la Fase 0 en
    `docs/PLAN.md:60`, que no la nombra.
@@ -143,17 +148,20 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
      Exige resolver antes E3.
    - Recomendación: **A**. La ola está escrita así; con B el grupo 3 se añade al final y los grupos 1 y 2 no
      cambian.
+   - **Abierta.** No cambia los grupos 1 y 2.
 3. **D3 — Habilitar las issues del repositorio (E2).** *Del usuario: es configuración del repositorio.*
    - A) Habilitarlas (`gh repo edit res4fan456-sys/data-analysis-report-project --enable-issues`, lo corre el
      usuario) y que el Planeador registre E3, E4 y E5 con `origen:pre-vuelo`.
    - B) Dejarlas deshabilitadas y llevar los hallazgos en los reportes de `docs/olas/`.
    - Recomendación: **A**. La mecánica entera (hallazgos del PM, `Closes #N`, el Archivador) da por hecho que
      hay issues.
+   - **Cerrada (2026-10-15): A, decisión del usuario.** Issues #5, #6 y #7.
 4. **D4 — No exponer todavía una API del perfil inyectado.** *Técnica: la decide el Team Manager.*
    `docs/ARQUITECTURA.md:19` dice que el generador «expone su perfil inyectado para la suite de sistema».
    - A) Dejarlo para la Fase 2, la primera que compara lo detectado con lo inyectado (así está escrito el
      change).
    - B) Añadirlo ahora al grupo 2.
    - Recomendación: **A**. Esta fase solo mueve; diseñar la API sin quien la consume obliga a adivinar.
+   - **Cerrada (2026-10-15): A, decisión del Team Manager.**
 
 Brief: `docs/olas/0-scaffolding-brief.md`.

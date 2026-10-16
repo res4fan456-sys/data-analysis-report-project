@@ -49,11 +49,12 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
 
 ## 4. Lo que cada grupo debe saber (verificado en el código el 2026-10-15)
 
-- **Prerrequisito de los dos grupos (hallazgo B1).** Con el perfil de hoy, `.claude/da/da worktree montar`
-  falla en el gancho `preparar`: `--find-links .cache/pip` es relativo (`.claude/desarrollo-autonomo.json:60`),
-  corre con `cwd` en el worktree y allí `.cache/pip` no tiene ruedas (`.gitignore:15-16`). La corrección la
-  aplica el usuario (decisión D1 de la revisión). No montes ningún worktree de implementador hasta que esté;
-  si no está, pídela en la lista de arranque.
+- **Prerrequisito de los dos grupos (hallazgo B1).** Con el perfil de `master` 9fd8ab8,
+  `.claude/da/da worktree montar` falla en el gancho `preparar`: `--find-links .cache/pip` es relativo
+  (`.claude/desarrollo-autonomo.json:60`), corre con `cwd` en el worktree y allí `.cache/pip` no tiene ruedas
+  (`.gitignore:15-16`). La corrección es la PR #4 (`chore/mechanism-config-master`), que mergea el usuario.
+  `da worktree montar` lee el perfil del checkout desde el que lo corres, así que tiene que tener la corrección.
+  Si no la tiene, no montes ningún worktree de implementador: pídela en la lista de arranque.
 - **Grupo 1 — Guarda de reproducibilidad** (`implementador-generador`; skills de área `python-design-patterns`
   y `python-testing-patterns`).
   - Crea `tests/sistema/test_generador.py` con `pytestmark = pytest.mark.sistema` (el marcador ya está
@@ -97,14 +98,14 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
   `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con `.claude/da/da worktree montar`.
 - `.github/workflows/citas.yml` filtra `branches: [main]` y no corre en este repo (E1): no esperes CI en las
   PRs; la evidencia es tu `verify` y tu `sistema`.
-- Issues deshabilitadas en el repositorio (E2): lo que en otra ola iría a una issue `origen:ola`, anótalo en el
-  registro y escálalo al Team Manager. Esta ola no absorbe issues, así que la PR de cierre no lleva `Closes #N`.
+- Las issues ya están habilitadas (E2 resuelto). Los hallazgos de pre-vuelo #5, #6 y #7 son de fases
+  posteriores: esta ola no absorbe ninguna issue, así que la PR de cierre no lleva `Closes #N`.
 - Cierre: PR `ola/0-scaffolding → chore/0-scaffolding-planning` con la plantilla B, abierta para el usuario.
   Nada llega a `master` por el PM.
 
 ## 6. Primer paso concreto
 
-- Comprueba que el usuario ya corrigió el gancho `preparar` (B1). Si no, ese es el único punto de la lista de
+- Comprueba que el checkout desde el que montas worktrees ya tiene la corrección de la PR #4 (B1). Si no, ese es el único punto de la lista de
   arranque y esperas.
 - `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre la base, mecánica de OpenSpec. Con eso,
   la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager **solo si hay algo que pedir al
