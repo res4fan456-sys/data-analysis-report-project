@@ -6,8 +6,9 @@ marca **[V]**; lo inferido, **[I]**.
 ## 1. Veredicto
 
 - `move-generator-package`: **lista para un PM.**
-- Ola `0-scaffolding`: **lista para delegar**, con un prerrequisito de entorno que solo puede dar el usuario
-  (hallazgo B1). Hasta que esté, el PM no puede montar el worktree de ningún implementador.
+- Ola `0-scaffolding`: **lista para delegar**, sin nada pendiente del usuario. El prerrequisito de entorno
+  (hallazgo B1) quedó resuelto con la PR #4, mergeada en `master` 0e3c470; la rama de planeación está
+  rebasada encima.
 - Lo más importante: de la Fase 0 solo falta mover el generador a `generador/` y actualizar el README; el
   resto del entregable ya está en `master`, y el gate pasa en verde.
 
@@ -68,8 +69,8 @@ Otras premisas que sostienen las tareas:
     (los worktrees viven en `.claude/worktrees/<nombre>`; comprobé que esa ruta resuelve a las 24 ruedas [V]).
     Es configuración de la mecánica: la aplica o la autoriza el usuario, fuera de la PR de planeación
     (decisión D1).
-  - Estado: el usuario eligió D1 = A; la corrección está en la PR #4 (`chore/mechanism-config-master` → `master`),
-    que mergea el usuario. Comprobé el gancho corregido montando un worktree de prueba: `preparar: OK`.
+  - Estado: **resuelto.** El usuario eligió D1 = A y mergeó la PR #4 (`master` 0e3c470). Comprobé el gancho
+    corregido montando un worktree de prueba: `preparar: OK`.
 
 ### CORREGIR ANTES DE ENCARGAR
 
@@ -87,7 +88,7 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
   - Recomendación: añadir `"ramaPrincipal": "master"` en `proyecto` del perfil y regenerar con
     `.claude/da/da render` (la plantilla de `citas.yml` toma la rama de ahí), o renombrar `master` a `main` en
     GitHub. Decisión D1, junto con B1.
-  - Estado: en la misma PR #4; con ella `citas.yml` filtra `branches: [master]` y `da doctor` sigue en 41 OK.
+  - Estado: **resuelto** en la misma PR #4: `citas.yml` filtra `branches: [master]` y `da doctor` sigue en 41 OK.
 - **E2 — Las issues están deshabilitadas en el repositorio.** `gh issue list` responde «the repository has
   disabled issues» [V]. Los hallazgos de pre-vuelo no se pueden registrar como manda `CLAUDE.md`; quedan en
   este reporte (E3, E4). Decisión D3.
@@ -148,7 +149,8 @@ Ninguno pendiente. Lo que corregí al proponer: las líneas citadas del README, 
      Exige resolver antes E3.
    - Recomendación: **A**. La ola está escrita así; con B el grupo 3 se añade al final y los grupos 1 y 2 no
      cambian.
-   - **Abierta.** No cambia los grupos 1 y 2.
+   - **Cerrada (2026-10-15): A, decisión del usuario.** La corrección de `docs/STACK.md:32` es la PR #8 de
+     documentación aparte, para el usuario.
 3. **D3 — Habilitar las issues del repositorio (E2).** *Del usuario: es configuración del repositorio.*
    - A) Habilitarlas (`gh repo edit res4fan456-sys/data-analysis-report-project --enable-issues`, lo corre el
      usuario) y que el Planeador registre E3, E4 y E5 con `origen:pre-vuelo`.

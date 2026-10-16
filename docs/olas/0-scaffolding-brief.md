@@ -6,8 +6,8 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
 
 ## 1. La ola
 
-- Rama `ola/0-scaffolding` desde `chore/0-scaffolding-planning` en `56742b0` (el commit de los artefactos) o
-  posterior: usa el HEAD de esa rama. Registro: `docs/olas/0-scaffolding.md`.
+- Rama `ola/0-scaffolding` desde `chore/0-scaffolding-planning` en su HEAD (los artefactos están en `2f5b53b`,
+  rebasados sobre `master` 0e3c470). Registro: `docs/olas/0-scaffolding.md`.
 - Changes: `move-generator-package`, ya propuesto y revisado; lo tomas, no lo reescribes. Si
   `desarrollo-autonomo-pm` §1.3 destapa algo inalcanzable, `openspec-update-change` y registro.
 - Entregable: `python -m generador …` desde la raíz produce, byte a byte, el mismo CSV que hoy produce
@@ -19,7 +19,8 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
   paralelismo: el grupo 2 cambia la invocación de la guarda que escribe el grupo 1, y la guarda tiene que
   estar mergeada y en verde antes del movimiento. Los dos grupos los escriben **implementadores distintos**.
 - No se empieza: nada de la Fase 1 (capas `nucleo`, `datos`, `presentacion`, `app`; `python -m reporte`), ni
-  una API Python del perfil inyectado, ni la verificación de ECharts.
+  una API Python del perfil inyectado, ni la verificación de ECharts (pasa al inicio de la Fase 2: decisión D2
+  del usuario).
 
 ## 2. Lecturas obligatorias antes del primer encargo
 
@@ -49,12 +50,10 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
 
 ## 4. Lo que cada grupo debe saber (verificado en el código el 2026-10-15)
 
-- **Prerrequisito de los dos grupos (hallazgo B1).** Con el perfil de `master` 9fd8ab8,
-  `.claude/da/da worktree montar` falla en el gancho `preparar`: `--find-links .cache/pip` es relativo
-  (`.claude/desarrollo-autonomo.json:60`), corre con `cwd` en el worktree y allí `.cache/pip` no tiene ruedas
-  (`.gitignore:15-16`). La corrección es la PR #4 (`chore/mechanism-config-master`), que mergea el usuario.
-  `da worktree montar` lee el perfil del checkout desde el que lo corres, así que tiene que tener la corrección.
-  Si no la tiene, no montes ningún worktree de implementador: pídela en la lista de arranque.
+- **Worktrees (hallazgo B1, resuelto).** El gancho `preparar` toma las ruedas de
+  `{wt}/../../../.cache/pip` (`.claude/desarrollo-autonomo.json:60`, PR #4, en `master` 0e3c470). Esa ruta
+  supone el worktree en `.claude/worktrees/<nombre>`: no lo montes en otro sitio. Lo probé montando un worktree
+  de lectura: `preparar: OK`, `comprobar: OK`.
 - **Grupo 1 — Guarda de reproducibilidad** (`implementador-generador`; skills de área `python-design-patterns`
   y `python-testing-patterns`).
   - Crea `tests/sistema/test_generador.py` con `pytestmark = pytest.mark.sistema` (el marcador ya está
@@ -89,15 +88,15 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
 
 - **Base de la ola: `chore/0-scaffolding-planning`, por petición del usuario (avance continuo, sin merges a
   master), 2026-10-15.** Su PR de planeación a `master` está abierta y no se mergeará por ahora. De esa rama
-  sale `ola/0-scaffolding` y a ella apunta la PR de ola. Pasa la base siempre explícita (`--desde`): la mecánica
-  cree que la rama principal es `main` y en este repo es `master` (hallazgo E1), así que `da worktree montar`
-  sin `--desde` busca un `origin/main` que no existe.
+  sale `ola/0-scaffolding` y a ella apunta la PR de ola. La rama principal de la mecánica ya es `master`
+  (`.claude/desarrollo-autonomo.json:69`, PR #4), pero la base de la ola no es la principal: pásala siempre
+  explícita (`--desde`).
 - Quién propone: el Team Manager, vía el Planeador. Quién toma: tú. A quién escalas: al Team Manager. No sé de
   otras sesiones sobre el repo hoy, aparte del Team Manager. El handover, la regla de no cambiar la rama del
   checkout principal y el comando pesado uno a la vez viven en `desarrollo-autonomo-pm` (§6, §1.7) y en
   `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con `.claude/da/da worktree montar`.
-- `.github/workflows/citas.yml` filtra `branches: [main]` y no corre en este repo (E1): no esperes CI en las
-  PRs; la evidencia es tu `verify` y tu `sistema`.
+- `.github/workflows/citas.yml` solo corre en PRs a `master`: no esperes CI en las PRs de la ola; la evidencia
+  es tu `verify` y tu `sistema`.
 - Las issues ya están habilitadas (E2 resuelto). Los hallazgos de pre-vuelo #5, #6 y #7 son de fases
   posteriores: esta ola no absorbe ninguna issue, así que la PR de cierre no lleva `Closes #N`.
 - Cierre: PR `ola/0-scaffolding → chore/0-scaffolding-planning` con la plantilla B, abierta para el usuario.
@@ -105,8 +104,6 @@ esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team M
 
 ## 6. Primer paso concreto
 
-- Comprueba que el checkout desde el que montas worktrees ya tiene la corrección de la PR #4 (B1). Si no, ese es el único punto de la lista de
-  arranque y esperas.
 - `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre la base, mecánica de OpenSpec. Con eso,
   la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager **solo si hay algo que pedir al
   usuario** (si no, aviso y arranque), y después la rama, el registro y el encargo del grupo 1.
