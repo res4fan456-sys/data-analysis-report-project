@@ -7,6 +7,7 @@ import pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parents[1] / "src" / "reporte"
 PROHIBIDOS = {"requests", "httpx", "socket", "subprocess", "sqlite3", "psycopg", "boto3"}
+DEL_GENERADOR = {"generador", "faker"}
 
 
 def _imports(archivo: pathlib.Path) -> set[str]:
@@ -24,3 +25,11 @@ def test_el_nucleo_no_importa_io() -> None:
     for archivo in RAIZ.rglob("*.py"):
         prohibidos = _imports(archivo) & PROHIBIDOS
         assert not prohibidos, f"{archivo.relative_to(RAIZ.parent)} importa {sorted(prohibidos)}"
+
+
+def test_el_reporte_no_importa_el_generador_ni_faker() -> None:
+    for archivo in RAIZ.rglob("*.py"):
+        del_generador = _imports(archivo) & DEL_GENERADOR
+        assert not del_generador, (
+            f"{archivo.relative_to(RAIZ.parent)} importa {sorted(del_generador)}"
+        )

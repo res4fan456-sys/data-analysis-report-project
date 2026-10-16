@@ -1,17 +1,25 @@
-# Generador de transacciones financieras falsas
+# Reporte de gasto mensual
 
-Script en Python que usa [Faker](https://faker.readthedocs.io/) para generar un CSV con
-los gastos de **una persona durante un mes** (20,000 transacciones por defecto). Cada
-ejecución produce datos nuevos, pero siempre con patrones de gasto detectables, para
-alimentar un reporte en otro proyecto.
+Toma el CSV de transacciones de un mes y genera una única página HTML local, sin red y en
+español de México, con el análisis de gasto. Este repositorio incluye también un generador
+sintético que usa [Faker](https://faker.readthedocs.io/) para producir el CSV de prueba: los
+gastos de **una persona durante un mes** (20,000 transacciones por defecto). Cada ejecución
+produce datos nuevos, pero siempre con patrones de gasto detectables, para alimentar el reporte.
 
-## Uso
+## Instalación
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-python generar_transacciones.py
+pip install -e ".[dev]"
+```
+
+## Uso del generador
+
+Desde la raíz del repositorio, con el entorno activado:
+
+```bash
+python -m generador
 ```
 
 Genera `output/transacciones_AAAA-MM.csv` sin imprimir nada, para no revelar los patrones.
@@ -26,7 +34,7 @@ Con `-v` imprime el resumen con los patrones inyectados (la "respuesta").
 | `-o`, `--salida` | `output/transacciones_AAAA-MM.csv` | Ruta del CSV |
 | `-v`, `--verbose` | apagado | Imprime el resumen con los patrones inyectados |
 
-Ejemplo: `python generar_transacciones.py --mes 2026-09 --categoria-dominante Comida --semilla 42`
+Ejemplo: `python -m generador --mes 2026-09 --categoria-dominante Comida --semilla 42`
 
 Para revisar la respuesta después: genera con `--semilla N` y luego corre el mismo comando
 con `-v` agregado; la misma semilla produce exactamente el mismo CSV.
@@ -60,4 +68,5 @@ favoritos que se repiten, cargos fijos (renta, luz, suscripciones) y ~0.3 % de c
 ## Personalizar
 
 Zonas, comercios, rangos de montos, horarios y la intensidad de cada patrón están en
-[`configuracion.py`](configuracion.py). La lógica está en [`generar_transacciones.py`](generar_transacciones.py).
+[`generador/configuracion.py`](generador/configuracion.py). La lógica está en
+[`generador/generar_transacciones.py`](generador/generar_transacciones.py).

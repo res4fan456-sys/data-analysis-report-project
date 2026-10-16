@@ -19,8 +19,9 @@ from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
 
-import configuracion as cfg
 from faker import Faker
+
+from generador import configuracion as cfg
 
 LOCALE = "es_MX"
 COLUMNAS = [

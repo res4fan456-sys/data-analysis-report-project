@@ -46,7 +46,7 @@ class Corrida:
 def _generar(directorio: Path, *argumentos: str) -> Corrida:
     ruta = directorio / "transacciones.csv"
     proceso = subprocess.run(
-        [sys.executable, "generar_transacciones.py", *argumentos, "-o", str(ruta)],
+        [sys.executable, "-m", "generador", *argumentos, "-o", str(ruta)],
         cwd=RAIZ,
         capture_output=True,
         check=False,
