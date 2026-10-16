@@ -79,7 +79,9 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
 
 - **R13 — Mapa.**
   - Las transacciones se agregan por coordenada redondeada a 3 decimales (unos 100 m), con el monto sumado y el número de transacciones.
-  - La vista de ciudad se centra en el centro principal; la vista nacional muestra además las zonas lejanas.
+  - La vista de ciudad dibuja las 16 alcaldías de CDMX con los puntos encima y se centra en el centro principal.
+  - La vista nacional muestra los estados de México y las zonas lejanas.
+  - Si el centro principal no cae en CDMX, la vista de ciudad muestra solo los puntos, sin polígonos.
 - **R14 — Honestidad.**
   - Cada hallazgo sale de los datos y lleva su cifra.
   - Si un patrón no aparece (p. ej. ninguna categoría supera el 30 % del gasto variable, o el factor de quincena es < 1.1), se dice así y no se presenta como patrón.
@@ -105,6 +107,7 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
 | Categoría que no está en la lista conocida | Es válida; se muestra con su nombre tal cual y cuenta como gasto variable. |
 | Una sola cuenta | El desglose por cuenta muestra una fila; sin gráfica de reparto. |
 | Montos con más de 2 decimales | Se aceptan; se redondean solo al mostrarlos. |
+| Centro principal fuera de CDMX | La vista de ciudad muestra solo los puntos, sin polígonos de alcaldías (R13). |
 | Coordenadas fuera de México (lat 14–33, lon −119 a −86) | Se aceptan con un aviso visible en el reporte. |
 | Acentos y BOM en el CSV | Se leen correctamente (UTF-8 / UTF-8-SIG). |
 

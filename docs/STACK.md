@@ -8,7 +8,7 @@
 4. **Español de México:** textos, montos en MXN (`$1,234.56`) y fechas («15 de septiembre de 2026»).
 5. **Un solo archivo:** la página generada es un único HTML autocontenido.
 6. **Mensaje final literal:** «Aquí queda la línea del respeto».
-7. **Aspecto muy profesional y estético.**
+7. **Aspecto muy profesional y estético:** estilo moderno de colores brillantes con base negro y dorado; modo claro/oscuro automático con botón para cambiarlo.
 8. **Preferencia, no restricción:** Python, como el generador existente (Python 3.14 + Faker).
 
 ## Opciones evaluadas
@@ -31,7 +31,8 @@
 | Plantilla HTML | Jinja2 3.1.x |
 | Gráficas y mapa | Apache ECharts 6.0.0, vendorizado en `src/reporte/presentacion/activos/` e incrustado en el HTML. Se verifica en la Fase 0; si falla, 5.6.0 |
 | Tipografía | Inter (OFL) en WOFF2, incrustada en base64 |
-| Geometría | Natural Earth admin-1 de México (dominio público), simplificada. Sirve para la vista nacional y el contorno de CDMX; la vista de ciudad son puntos sobre ese contorno |
+| Estilo | Tokens CSS en `:root` con base negro y dorado y acentos brillantes. Tema claro y oscuro con `prefers-color-scheme`, más un botón que guarda la elección (con `try/catch` si no hay almacenamiento). Las gráficas ECharts usan la misma paleta mediante un tema registrado |
+| Geometría | Vista nacional: Natural Earth admin-1 de México (dominio público). Vista de ciudad: las 16 alcaldías de CDMX del Marco Geoestadístico INEGI (libre uso). Ambas simplificadas e incrustadas como GeoJSON |
 | Generador de prueba | Faker 40.43.0, solo como dependencia de desarrollo (`generador/` y suite de sistema) |
 | Tests | pytest (marcador `sistema` para la suite de sistema) |
 | Tipos | mypy `--strict` sobre `src/` (con pandas-stubs) |
