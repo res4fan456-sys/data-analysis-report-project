@@ -1,0 +1,835 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desarrollo-autonomo/perfil.schema.json",
+  "title": "Perfil de desarrollo-autonomo",
+  "description": "El perfil del proyecto (.claude/desarrollo-autonomo.json). Generado desde nucleo/lib/perfil.mjs; no se edita a mano.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "enum": [
+        1
+      ]
+    },
+    "proyecto": {
+      "type": "object",
+      "properties": {
+        "nombre": {
+          "type": "string"
+        },
+        "descripcion": {
+          "type": "string"
+        },
+        "usuarioFinal": {
+          "type": "string"
+        },
+        "idiomaCommits": {
+          "enum": [
+            "en",
+            "es"
+          ]
+        },
+        "idiomaRamas": {
+          "enum": [
+            "en",
+            "es"
+          ]
+        },
+        "ramaPrincipal": {
+          "type": "string"
+        },
+        "remoto": {
+          "type": "string"
+        },
+        "invariantes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "textosVisibles": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "nombre"
+      ]
+    },
+    "rutas": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "type": "string"
+        },
+        "arquitectura": {
+          "type": "string"
+        },
+        "olas": {
+          "type": "string"
+        },
+        "openspec": {
+          "type": "string"
+        },
+        "worktrees": {
+          "type": "string"
+        },
+        "capturas": {
+          "type": "string"
+        },
+        "sinCodigo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "documentos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ruta": {
+                "type": "string"
+              },
+              "antesDe": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "ruta",
+              "antesDe"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "comandos": {
+      "type": "object",
+      "properties": {
+        "verify": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "paso": {
+                "type": "string"
+              },
+              "cmd": {
+                "type": "string"
+              },
+              "resumen": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "paso",
+              "cmd"
+            ]
+          }
+        },
+        "ligeros": {
+          "type": "object",
+          "properties": {
+            "test": {
+              "type": "string"
+            },
+            "typecheck": {
+              "type": "string"
+            },
+            "typecheckTodos": {
+              "type": "string"
+            },
+            "lint": {
+              "type": "string"
+            },
+            "formato": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "test"
+          ]
+        },
+        "pesados": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pesadosSinRuta": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "instalacion": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "entorno": {
+          "type": "object",
+          "properties": {
+            "levantar": {
+              "type": "string"
+            },
+            "apagar": {
+              "type": "string"
+            },
+            "estado": {
+              "type": "string"
+            },
+            "puertos": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "verify",
+        "ligeros"
+      ]
+    },
+    "worktree": {
+      "type": "object",
+      "properties": {
+        "preparar": {
+          "type": "string"
+        },
+        "prepararSistema": {
+          "type": "string"
+        },
+        "comprobar": {
+          "type": "string"
+        },
+        "limpiar": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "areas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "principal": {
+            "type": "boolean"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "corto": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "rutas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string"
+                    },
+                    "cuando": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "nombre"
+                  ]
+                }
+              ]
+            }
+          },
+          "lecturas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "visual": {
+            "type": "boolean"
+          },
+          "contrato": {
+            "type": "boolean"
+          },
+          "etiqueta": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nombre",
+          "rutas"
+        ]
+      }
+    },
+    "skills": {
+      "type": "object",
+      "properties": {
+        "precargados": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "archivador": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "roles": {
+      "type": "object",
+      "properties": {
+        "team-manager": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "planeador": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            },
+            "modeloArquitectura": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "disparadoresArquitectura": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "pm": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "implementador": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "critico": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            }
+          },
+          "additionalProperties": false
+        },
+        "archivador": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            },
+            "modeloConDelta": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "lector": {
+          "type": "object",
+          "properties": {
+            "modelo": {
+              "enum": [
+                "opus",
+                "sonnet",
+                "haiku",
+                "fable",
+                "inherit"
+              ]
+            },
+            "esfuerzo": {
+              "enum": [
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            },
+            "maxTurns": {
+              "type": "integer"
+            },
+            "sinClaudeMd": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "limites": {
+      "type": "object",
+      "properties": {
+        "changesPorOla": {
+          "type": "integer"
+        },
+        "prsInternasPorOla": {
+          "type": "integer"
+        },
+        "lineasPorGrupo": {
+          "type": "integer"
+        },
+        "lineasAlarma": {
+          "type": "integer"
+        },
+        "rondasDeCritico": {
+          "type": "integer"
+        },
+        "lineasDeVeredicto": {
+          "type": "integer"
+        },
+        "relevoPrs": {
+          "type": "integer"
+        },
+        "relevoTokens": {
+          "type": "integer"
+        },
+        "planeacionMaxHoras": {
+          "type": "integer"
+        },
+        "profundidadSubagentes": {
+          "type": "integer"
+        },
+        "arreglo": {
+          "type": "object",
+          "properties": {
+            "lineasDeProducto": {
+              "type": "integer"
+            },
+            "lineasEncargo": {
+              "type": "integer"
+            },
+            "lineasProposal": {
+              "type": "integer"
+            },
+            "lineasContexto": {
+              "type": "integer"
+            },
+            "excluye": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "modulos": {
+      "type": "object",
+      "properties": {
+        "graft": {
+          "type": "boolean"
+        },
+        "citas": {
+          "type": "boolean"
+        },
+        "medicion": {
+          "type": "boolean"
+        },
+        "ci": {
+          "anyOf": [
+            {
+              "enum": [
+                false
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "workflowDocs": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "suiteDeSistema": {
+          "anyOf": [
+            {
+              "enum": [
+                false
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "cmd": {
+                  "type": "string"
+                },
+                "preparar": {
+                  "type": "string"
+                },
+                "resumen": {
+                  "type": "string"
+                },
+                "exclusiva": {
+                  "type": "boolean"
+                },
+                "soloComentarios": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "rutas": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "puertos": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "nombre",
+                "cmd"
+              ]
+            }
+          ]
+        },
+        "evidenciaVisual": {
+          "anyOf": [
+            {
+              "enum": [
+                false
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "herramienta": {
+                  "type": "string"
+                },
+                "dispositivo": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "despliegue": {
+          "anyOf": [
+            {
+              "enum": [
+                false
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "workflow": {
+                  "type": "string"
+                },
+                "sinPreguntar": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "avisos": {
+          "anyOf": [
+            {
+              "enum": [
+                false
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "herramienta": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "herramienta"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "git": {
+      "type": "object",
+      "properties": {
+        "merge": {
+          "enum": [
+            "squash",
+            "merge"
+          ]
+        },
+        "ola": {
+          "type": "string"
+        },
+        "arreglo": {
+          "type": "string"
+        },
+        "grupo": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "etiquetas": {
+      "type": "object",
+      "properties": {
+        "carrilArreglo": {
+          "type": "string"
+        },
+        "origen": {
+          "type": "object",
+          "properties": {
+            "planeacion": {
+              "type": "string"
+            },
+            "ola": {
+              "type": "string"
+            },
+            "auditoria": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "tipo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "impactoVisible": {
+          "type": "string"
+        },
+        "transversales": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "guardia": {
+      "type": "object",
+      "properties": {
+        "pesadoSoloPm": {
+          "type": "boolean"
+        },
+        "lanzamientosPorRol": {
+          "type": "boolean"
+        },
+        "protegerGenerados": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "kit": {
+      "type": "object",
+      "properties": {
+        "da": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "proyecto",
+    "comandos",
+    "areas"
+  ]
+}

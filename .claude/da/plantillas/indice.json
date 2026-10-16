@@ -1,0 +1,214 @@
+[
+  {
+    "plantilla": "claude-md/bloque.md",
+    "salida": "CLAUDE.md",
+    "tipo": "claude-md",
+    "semilla": "claude-md/proyecto.md"
+  },
+  {
+    "plantilla": "docs/DESARROLLO-AUTONOMO.md",
+    "salida": "docs/DESARROLLO-AUTONOMO.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/team-manager.md",
+    "salida": ".claude/agents/team-manager.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/planeador.md",
+    "salida": ".claude/agents/planeador.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/pm.md",
+    "salida": ".claude/agents/pm.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/implementador.md",
+    "salida": ".claude/agents/{{area.agente}}.md",
+    "tipo": "generado",
+    "porArea": true
+  },
+  {
+    "plantilla": "agentes/critico.md",
+    "salida": ".claude/agents/critico.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/archivador.md",
+    "salida": ".claude/agents/archivador.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "agentes/lector.md",
+    "salida": ".claude/agents/lector.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "settings/kit.json",
+    "salida": ".claude/settings.json",
+    "tipo": "settings"
+  },
+  {
+    "plantilla": "gitignore.txt",
+    "salida": ".gitignore",
+    "tipo": "gitignore"
+  },
+  {
+    "plantilla": "github/hallazgo.md",
+    "salida": ".github/ISSUE_TEMPLATE/hallazgo.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "github/citas.yml",
+    "salida": ".github/workflows/citas.yml",
+    "tipo": "generado",
+    "requiere": "modulos.ci"
+  },
+  {
+    "plantilla": "skills/critico/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-critico/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/implementador/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-implementador/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "semillas/trampas-de-capturas.md",
+    "salida": ".claude/skills/desarrollo-autonomo-implementador/trampas-de-capturas.md",
+    "tipo": "sembrado",
+    "requiere": "hayVisual"
+  },
+  {
+    "plantilla": "skills/archivador/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-archivador/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/arranque.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/arranque.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/arreglo.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/arreglo.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/retoma.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/retoma.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/cierre.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/cierre.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/registro-de-ola.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/registro-de-ola.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/bucle-por-grupo.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/bucle-por-grupo.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/formato-de-pr.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/formato-de-pr.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/encargo-implementador.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/encargo-implementador.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/pm/encargo-critico.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/encargo-critico.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "semillas/trampas-de-entorno.md",
+    "salida": ".claude/skills/desarrollo-autonomo-pm/trampas-de-entorno.md",
+    "tipo": "sembrado"
+  },
+  {
+    "plantilla": "skills/planeador/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/planeador/brief-de-pm.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/brief-de-pm.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/planeador/formato-de-ola.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/formato-de-ola.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/planeador/lista-de-comprobacion.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/lista-de-comprobacion.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "semillas/casos-del-pre-vuelo.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/casos-del-pre-vuelo.md",
+    "tipo": "sembrado"
+  },
+  {
+    "plantilla": "semillas/ejemplo-de-issue.md",
+    "salida": ".claude/skills/desarrollo-autonomo-planeador/ejemplo-de-issue.md",
+    "tipo": "sembrado"
+  },
+  {
+    "plantilla": "skills/team-manager/SKILL.md",
+    "salida": ".claude/skills/desarrollo-autonomo-team-manager/SKILL.md",
+    "tipo": "generado"
+  },
+  {
+    "plantilla": "skills/team-manager/brief-de-relevo.md",
+    "salida": ".claude/skills/desarrollo-autonomo-team-manager/brief-de-relevo.md",
+    "tipo": "generado"
+  },
+  {
+    "salida": ".claude/da/guardia.json",
+    "tipo": "generador",
+    "generador": "guardia"
+  },
+  {
+    "plantilla": "docs/PLAN.md",
+    "salida": "{{rutas.plan}}",
+    "tipo": "sembrado",
+    "salidaEsPlantilla": true
+  },
+  {
+    "plantilla": "docs/ARQUITECTURA.md",
+    "salida": "{{rutas.arquitectura}}",
+    "tipo": "sembrado",
+    "salidaEsPlantilla": true
+  },
+  {
+    "plantilla": "docs/STACK.md",
+    "salida": "docs/STACK.md",
+    "tipo": "sembrado"
+  },
+  {
+    "plantilla": "semillas/vacio.md",
+    "salida": "{{rutas.olas}}/.gitkeep",
+    "tipo": "sembrado",
+    "salidaEsPlantilla": true
+  }
+]

@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+'use strict';
+// Lanzador sin extensión para poder escribir `.claude/da/da <subcomando>`.
+// Node resuelve el symlink antes de fijar __dirname, así que vale enlazado.
+const { pathToFileURL } = require('node:url');
+const { join } = require('node:path');
+import(pathToFileURL(join(__dirname, 'da.mjs')).href).catch((e) => {
+  process.stderr.write(`da: ${e.message}\n`);
+  process.exitCode = 2;
+});

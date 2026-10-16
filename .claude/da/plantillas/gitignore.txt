@@ -1,0 +1,3 @@
+{{rutas.worktrees}}/
+.claude/da/logs/
+.claude/da/estado/
