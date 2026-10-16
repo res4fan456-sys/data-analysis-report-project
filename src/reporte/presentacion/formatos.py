@@ -24,10 +24,15 @@ def _redondear(valor: Decimal, decimales: int) -> Decimal:
     return valor.quantize(Decimal(1).scaleb(-decimales), rounding=ROUND_HALF_UP)
 
 
+def _decimal(valor: float) -> Decimal:
+    # Se redondea sobre la representación decimal corta del número, no sobre el binario: así 2.675
+    # da $2.68 como lo leería una persona. `float()` primero: el `repr` de un `np.float64` es
+    # `np.float64(2.675)`, que `Decimal` no entiende.
+    return Decimal(repr(float(valor)))
+
+
 def formatear_monto(monto: float) -> str:
-    # Se redondea sobre la representación decimal (`repr`), no sobre el binario: así 2.675 da
-    # $2.68 como lo leería una persona.
-    redondeado = _redondear(Decimal(repr(monto)), 2)
+    redondeado = _redondear(_decimal(monto), 2)
     return f"${redondeado:,.2f}"
 
 
@@ -35,7 +40,7 @@ def formatear_porcentaje(proporcion: float) -> str:
     """Recibe una proporción de 0 a 1. El espacio antes de `%` es el normal (U+0020), tal como
     lo escribe R15."""
     # La multiplicación va en `Decimal`: en `float`, 0.0045 * 100 da 0.44999… y bajaría la mitad.
-    redondeado = _redondear(Decimal(repr(proporcion)) * 100, 1)
+    redondeado = _redondear(_decimal(proporcion) * 100, 1)
     return f"{redondeado:.1f} %"
 
 

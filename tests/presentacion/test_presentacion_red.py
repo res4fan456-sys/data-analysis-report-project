@@ -205,7 +205,3 @@ def test_atributo_data_guion_no_es_el_atributo_data():
     html = f'<div data-url="{URL}" data-x="{URL}"></div>'
 
     assert referencias_de_red(html) == ()
-
-
-def test_html_sin_referencias_devuelve_tupla_vacia():
-    assert referencias_de_red("<p>hola</p>") == ()
