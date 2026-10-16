@@ -7,10 +7,11 @@ avance continuo; `master` en 037e0ef). Lo verificado (abierto o ejecutado) se ma
 ## 1. Veredicto
 
 - `read-transactions-csv`: **lista para un PM.**
-- `monthly-summary-page`: **lista para un PM**; su grupo 3 (PR 4) espera el activo de D3.
+- `monthly-summary-page`: **lista para un PM**; el activo de D3 ya está entregado.
 - Ola `1-monthly-summary`: **lista para delegar** (2026-10-16). El usuario cerró D1, D2 y D3 en su opción A;
-  el Team Manager, D4 = A y D5 tal cual. El PR 4 espera la fuente y su SHA-256 (D3); los PRs 1–3, no. La PR
-  #13 (documentos, para el usuario) no bloquea: los changes ya traen sus definiciones.
+  el Team Manager, D4 = A y D5 tal cual. La fuente ya está entregada y verificada, así que ningún PR espera al
+  usuario. La PR #13 (documentos) ya está en `master` (5c5da1d); no está en la base `ola/0-scaffolding`, y no
+  bloquea porque los changes ya traen sus definiciones.
 - Lo más importante: R16 leída al pie de la letra rechaza la fuente incrustada que la propia Fase 1 exige
   (B1), y R4/R14 piden hallazgos que solo existen con los patrones de la Fase 2 (B2).
 
@@ -84,8 +85,9 @@ avance continuo; `master` en 037e0ef). Lo verificado (abierto o ejecutado) se ma
   - Qué pasa: `src/reporte/presentacion/activos/` no existe [V]; `CLAUDE.md` (Reglas de proceso 5) prohíbe
     a los agentes descargar.
   - Recomendación: D3. Bloquea solo el grupo 3 (PR 4); los PRs 1 a 3 pueden arrancar sin ella.
-  - Estado: **resuelto para el arranque** (D3 = A, 2026-10-16): el usuario la descarga fuera del
-    repositorio; el PR 4 espera los archivos y su SHA-256, que pasa el Team Manager.
+  - Estado: **resuelto** (D3 = A, 2026-10-16): `/home/JP/activos-reporte/inter-4.1/InterVariable.woff2`
+    (352,240 bytes, SHA-256 `693b77d4…429a8e3`) y `LICENSE.txt` (SHA-256 `262481e8…e54935a`), verificados
+    [V]; las cifras completas están en el brief.
 
 ### CORREGIR ANTES DE ENCARGAR
 
@@ -144,7 +146,7 @@ Ninguno pendiente: lo corregí al proponer.
      al PR 3 y otra al PR 4.
    - Recomendación: **A**. El entregable de la Fase 1 ya dice «KPIs del resumen»; B escribe dos veces el
      orden de relevancia.
-   - **Cerrada (2026-10-16): A, decisión del usuario.** PR #13.
+   - **Cerrada (2026-10-16): A, decisión del usuario.** PR #13, mergeada en `master` (5c5da1d).
 2. **D2 — Qué cuenta como «referencia de red» en R16 (issue #5).** *Contrato: del usuario.*
    - A) Definición posicional (PR #13): una URL de red en una posición que el navegador carga (atributos de
      carga, `url()`/`@import`, APIs de carga de JS); las URL `data:` y las cadenas fuera de esas posiciones no
@@ -174,8 +176,9 @@ Ninguno pendiente: lo corregí al proponer.
 
      Si la lista no trae `web/InterVariable.woff2` o `LICENSE.txt` con esos nombres, se usa la ruta que
      muestre. El PM copia los dos archivos de `~/activos-reporte/inter-4.1/` al worktree del PR 4.
-   - **Cerrada (2026-10-16): A, decisión del usuario.** La descarga él fuera del repositorio; el SHA-256
-     llega por el Team Manager y solo bloquea el PR 4.
+   - **Cerrada (2026-10-16): A, decisión del usuario.** La descargó fuera del repositorio
+     (`/home/JP/activos-reporte/inter-4.1/`, entradas `web/InterVariable.woff2` y `LICENSE.txt`); los dos
+     SHA-256 coinciden con los que pasó el Team Manager [V].
 4. **D4 — El JavaScript del tema no tiene test automático.** *Técnica: del Team Manager.*
    - A) Script mínimo y revisión visual de sus tres escenarios en la PR de ola (sección «Revisión visual de
      la fase» de `monthly-summary-page/tasks.md`).

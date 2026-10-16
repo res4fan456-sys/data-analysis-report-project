@@ -26,8 +26,8 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
     frente a `presentacion`).
   - **PR 3** — `monthly-summary-page` grupo 2 (`analizar`, `Analisis`, `Resumen`), ~250. Tras el merge del
     PR 1 (consume `Transacciones`).
-  - **PR 4** — `monthly-summary-page` grupo 3 (la página), ~500 sin el binario. Tras el merge de PR 2 y PR 3,
-    y con la fuente entregada (§4, grupo 4).
+  - **PR 4** — `monthly-summary-page` grupo 3 (la página), ~500 sin el binario. Tras el merge de PR 2 y PR 3;
+    la fuente ya está entregada (§4, grupo 4).
   - **PR 5** — `monthly-summary-page` grupo 4 (CLI, suite `sistema`, README), ~300. Tras el merge del PR 4.
 - No se empieza: nada de la Fase 2 (patrones, gráficas, ECharts, hallazgos), `--abrir` (issue #12), la
   issue #7.
@@ -92,13 +92,21 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
     encargo.
   - Los tests son tablas hechas a mano con el resultado calculado a mano (`docs/ARQUITECTURA.md:65`).
 - **Grupo 4 — PR 4, `monthly-summary-page` grupo 3 (`implementador-presentacion`).**
-  - **El PR 4 espera el activo; los PRs 1–3 no.** El usuario descarga Inter 4.1 (OFL-1.1, de
-    `https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip`; D3) **fuera del repositorio**, en
-    `~/activos-reporte/inter-4.1/InterVariable.woff2` y `~/activos-reporte/inter-4.1/LICENSE.txt`. El
-    SHA-256 de los dos archivos te lo pasa el Team Manager. Antes del encargo del PR 4: comprueba que los dos
-    archivos existen y que `sha256sum` coincide con lo que te pasó; si falta algo o no coincide, no encargas
-    el PR 4 y lo escalas al Team Manager. Tú copias los dos archivos al worktree, y el SHA-256 va en
-    `LICENCIAS.md` (tarea 3.1); el implementador no descarga nada.
+  - **La fuente ya está entregada (D3); el PR 4 no espera nada del usuario.** El usuario la extrajo de
+    `Inter-4.1.zip` (`https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip`, 33,707,794 bytes;
+    entradas `web/InterVariable.woff2` y `LICENSE.txt`), fuera del repositorio:
+
+    | Archivo | Bytes | SHA-256 |
+    |---|---|---|
+    | `/home/JP/activos-reporte/inter-4.1/InterVariable.woff2` | 352,240 | `693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3` |
+    | `/home/JP/activos-reporte/inter-4.1/LICENSE.txt` | 4,380 | `262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a` |
+
+    Verificado el 2026-10-16: los dos SHA-256 coinciden, el WOFF2 empieza con la firma `wOF2` y la licencia es
+    SIL Open Font License 1.1. Antes del encargo del PR 4 copias los dos archivos al worktree, en
+    `src/reporte/presentacion/activos/` (`LICENSE.txt` con un nombre que diga de qué activo es, p. ej.
+    `Inter-LICENSE.txt`), y vuelves a pasar `sha256sum`; si no coincide, no encargas y escalas. La versión
+    (Inter 4.1), la licencia (OFL-1.1), el origen y el SHA-256 van en `LICENCIAS.md` (tarea 3.1). El
+    implementador no descarga nada.
   - `src/reporte/presentacion/activos/` no existe; `LICENCIAS.md` lo exige la regla innegociable 6.
   - La paleta concreta la elige el implementador dentro de «negro y dorado con acentos brillantes»
     (`docs/STACK.md:34`); el test de contraste es la guarda y el usuario la valida en la revisión visual.
@@ -118,11 +126,11 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
 - **Base de la ola:** `ola/0-scaffolding` (avance continuo pedido por el usuario el 2026-10-16; su PR de ola
   es la #11, apilada sobre la #3). De ahí sale la rama de ola y a ahí apunta su PR. La PR de planeación de
   esta ola apunta también a `ola/0-scaffolding`, y ninguna se mergea por la mecánica.
-- **La PR #13 es de documentos, para el usuario, y no bloquea la ola.** Apunta a `master` y escribe en
-  `docs/DOMINIO.md` y `docs/PLAN.md` lo que D1 y D2 decidieron. Los changes ya traen esas definiciones en
-  sus specs: implementas desde ellas, no desde `docs/`, y si la #13 sigue sin mergear, la base de la ola
-  (`ola/0-scaffolding`) tendrá la redacción anterior de R16 y de la tabla de fases. Un comentario de código
-  que cite R16 se escribe con la definición de la spec.
+- **La PR #13 (documentos) ya está en `master`** (merge 5c5da1d, del usuario): escribe en `docs/DOMINIO.md`,
+  `docs/PLAN.md` y `docs/ARQUITECTURA.md` lo que D1 y D2 decidieron. No bloquea la ola, pero **la base
+  `ola/0-scaffolding` no la trae**: allí R16 y la tabla de fases conservan la redacción anterior. Implementas
+  desde las specs de los changes, que ya traen esas definiciones; un comentario de código que cite R16 se
+  escribe con la definición de la spec, que es la misma que dice `docs/DOMINIO.md` en `master`.
 - Quién propone (el Team Manager, vía el Planeador) y quién toma (el PM); a quién se escala (al Team
   Manager). El handover, no cambiar la rama del checkout principal y el comando pesado uno a la vez viven en
   `desarrollo-autonomo-pm` (§6, §1.7) y en `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con
@@ -139,5 +147,4 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
 
 - `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre `ola/0-scaffolding`, mecánica de
   OpenSpec de los dos changes; con eso, la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager
-  **solo si hay algo que pedir al usuario** —la fuente de D3 o su SHA-256, si aún no te llegaron; no
-  frenan los PRs 1–3—, y después la rama, el registro y los encargos de los PRs 1 y 2 en paralelo.
+  **solo si hay algo que pedir al usuario** (hoy nada: la fuente ya está entregada), y después la rama, el registro y los encargos de los PRs 1 y 2 en paralelo.
