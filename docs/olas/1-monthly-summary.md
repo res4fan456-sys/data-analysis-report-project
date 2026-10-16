@@ -19,7 +19,7 @@
 | # | Grupo (change · tareas) | Rama | Estado |
 |---|---|---|---|
 | #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | en revisión (crítico, pasada 1); 1 devolución del PM antes del crítico (líneas en blanco, por lectura del diff) |
-| #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | ronda 1 en curso (BLOQUEA: `np.float64` en los formateadores) |
+| #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
 | — | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | pendiente (tras PR 1) |
 | — | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | pendiente (tras PR 2 y PR 3) |
 | — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
@@ -29,11 +29,13 @@
 - PR #17: un registro completamente vacío (línea en blanco) se ignora en cualquier posición, sin correr la numeración de hoja de cálculo; una línea de solo espacios sigue siendo una fila y se rechaza. Es lo que hacía el `read_csv` por defecto que el design proponía (`skip_blank_lines`). Descartado: rechazar el CSV válido que termina con una línea en blanco (lo que hacía la primera entrega, con un mensaje que nombraba un `id_transaccion` vacío). Devolución del PM antes del crítico, por lectura del diff.
 - PR #17: la lectura usa `csv` de stdlib en modo estricto en vez de `read_csv`, como el design deja a juicio del implementador; interfaz y mensajes no cambian. Descartado: traducir `ParserError` de pandas.
 - PR #17: `OSError` al leer (permisos) no se traduce a `ErrorDeEntrada`; `is_file()` cubre ruta inexistente y carpeta. Descartado: un test que simule el error con un doble del sistema de archivos.
-- PR #17: el reporte de mutación de la corrección de líneas en blanco no llegó al PM (las respuestas del implementador tras reanudarlo no se entregaron); sus seis tests van como `sin garantía` en `Mutación` y la mutación la siembra el crítico. Descartado: relanzar otra instancia solo para medirla.
+- PR #17: el reporte de mutación de la corrección de líneas en blanco no llegó al PM (las respuestas del implementador tras reanudarlo no se entregaron); sus seis tests van como `sin garantía` en `Mutación` y la mutación la siembra el crítico. Descartado: relanzar otra instancia solo para medirla. El crítico de #17 los sembró: los seis muerden.
+- PR #17: las líneas en blanco antes del encabezado también se ignoran (el encabezado es el primer registro no vacío), a raíz del NO BLOQUEA 3 del crítico. Descartado: rechazarlas con un «faltan las nueve columnas» que no dice qué arreglar.
 
 ## Deuda
 
 - PR #16: puntos ciegos del detector de red en JavaScript minificado (literal regex con comilla, `import{a}from"…"`, `importScripts(f(), …)`), caso cuadrático con `url(` sin cerrar, y posiciones fuera de la definición de R16 (`imagesrcset`, `background`, `meta refresh`, `image-set`, `img.src =`). No afecta a la página de la Fase 1; muerde al incrustar ECharts. Issue #18.
+- PR #17: la guarda de arquitectura no detecta en `nucleo` las llamadas de I/O de pandas (`pd.read_csv`, `to_csv`…). Hoy el núcleo no lee nada. Issue #19.
 
 ## Se coló
 
@@ -46,7 +48,7 @@
 ## Entorno vivo
 
 - Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
-- `.claude/worktrees/g1-datos` (`feat/1-read-transactions-csv`) y `.claude/worktrees/g2-presentacion` (`feat/1-es-mx-formatters-network-detector`), con sus PRs abiertas (#17 y #16).
+- `.claude/worktrees/g1-datos` (`feat/1-read-transactions-csv`) y `.claude/worktrees/g2-presentacion` (`feat/1-es-mx-formatters-network-detector`), con sus PRs (#17 abierta; #16 mergeada).
 - 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API (no los paró el usuario); reanudados por `SendMessage` a la misma instancia.
 
 ## Coste
