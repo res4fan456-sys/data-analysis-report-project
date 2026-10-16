@@ -22,19 +22,19 @@ mes») no se editan en ningún grupo; si la guarda falla tras el movimiento, se 
 
 ## 2. Mover el generador al paquete `generador/` (PR 2, área `generador` más dos archivos sin área, ~120 líneas)
 
-- [ ] 2.1 Mover `generar_transacciones.py` y `configuracion.py` a `generador/` conservando sus nombres, crear
+- [x] 2.1 Mover `generar_transacciones.py` y `configuracion.py` a `generador/` conservando sus nombres, crear
   `generador/__init__.py` y `generador/__main__.py` (llama a `main()`), y cambiar el import a
   `from generador import configuracion as cfg`; ningún otro cambio de lógica. Se verifica con la guarda del
   grupo 1 en verde tras 2.2.
-- [ ] 2.2 En `tests/sistema/test_generador.py` cambiar **solo** el comando que invoca al generador a
+- [x] 2.2 En `tests/sistema/test_generador.py` cambiar **solo** el comando que invoca al generador a
   `[sys.executable, "-m", "generador", ...]`; parámetros y valores esperados intactos. **Flujo que protege:**
   el mismo de 1.1, ahora por la invocación de la spec «El generador se invoca como paquete desde la raíz». Se
   verifica con la suite `sistema` en verde.
-- [ ] 2.3 Añadir a `tests/test_pureza.py` un test que falla si algún módulo bajo `src/reporte` importa
+- [x] 2.3 Añadir a `tests/test_pureza.py` un test que falla si algún módulo bajo `src/reporte` importa
   `generador` o `faker`, nombrando archivo y módulo (regla innegociable 5). **Flujo que protege:** que el
   reporte siga corriendo sin el generador ni Faker instalados. Se verifica con el test en verde y con la
   mutación de añadir `import faker` a `src/reporte/__init__.py` (falla).
-- [ ] 2.4 Actualizar `README.md`: describe este proyecto (no «otro proyecto»), instala con
+- [x] 2.4 Actualizar `README.md`: describe este proyecto (no «otro proyecto»), instala con
   `pip install -e ".[dev]"` (`docs/STACK.md`), invoca el generador con `python -m generador` en el uso y en el
   ejemplo, y enlaza `generador/configuracion.py` y `generador/generar_transacciones.py`. No documenta
   `python -m reporte`, que llega con la Fase 1. Se verifica con `.claude/da/da citas` limpio y con cada comando
