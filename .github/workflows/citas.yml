@@ -1,0 +1,50 @@
+name: Citas
+
+# El CI del proyecto filtra por rutas (`paths-ignore`) para no gastar minutos
+# de Actions en una PR que solo toca documentación o mecánica: no hay código
+# que verificar. El lint de citas es la única comprobación del gate que mira
+# precisamente esos archivos (rutas citadas en `docs/*.md`, citas a un change
+# activo, secciones de `CLAUDE.md`). GitHub salta un workflow con
+# `paths-ignore` solo si TODOS los archivos del cambio casan, y dispara uno
+# con `paths` si ALGUNO casa: con la misma lista en los dos, una PR de solo
+# documentación dispara únicamente este workflow, una de solo código dispara
+# únicamente el CI, y una PR mixta dispara los dos. Su lista de `paths` tiene
+# que ser la misma que la de `paths-ignore` del CI: si las dos listas se
+# desalinean, queda un hueco donde ningún workflow corre.
+#
+# `workflow_dispatch` permite lanzarlo a mano contra cualquier rama.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'openspec/**'
+      - 'docs/**'
+      - 'imgs/**'
+      - '.claude/**'
+      - '**/*.md'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'openspec/**'
+      - 'docs/**'
+      - 'imgs/**'
+      - '.claude/**'
+      - '**/*.md'
+  workflow_dispatch:
+
+# Un push nuevo a la misma rama cancela el run anterior en vuelo.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  citas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: .claude/da/da citas

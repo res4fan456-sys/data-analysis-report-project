@@ -4,3 +4,16 @@ output/
 
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+
+# desarrollo-autonomo:inicio
+.claude/worktrees/
+.claude/da/logs/
+.claude/da/estado/
+# desarrollo-autonomo:fin
+
+# Caché local de ruedas para worktrees (se llena con `pip download`, ver .cache/pip/LEEME.md).
+.cache/pip/*.whl
+.cache/pip/*.tar.gz
+
+# Metadatos de `pip install -e .`
+*.egg-info/

@@ -1,0 +1,230 @@
+{
+  "comandos": {
+    "verify": [
+      {
+        "paso": "formato",
+        "cmd": ".venv/bin/ruff format --check ."
+      },
+      {
+        "paso": "lint",
+        "cmd": ".venv/bin/ruff check ."
+      },
+      {
+        "paso": "tipos",
+        "cmd": ".venv/bin/mypy",
+        "resumen": "^(Success|Found \\d+ error)"
+      },
+      {
+        "paso": "test",
+        "cmd": ".venv/bin/pytest -q -m \"not sistema\"",
+        "resumen": "^\\d+ (passed|failed|error)"
+      }
+    ],
+    "ligeros": {
+      "test": ".venv/bin/pytest -q -m \"not sistema\" {rutas}",
+      "lint": ".venv/bin/ruff check {rutas}",
+      "formato": ".venv/bin/ruff format --check {rutas}",
+      "typecheck": ".venv/bin/mypy {rutas}",
+      "typecheckTodos": ".venv/bin/mypy"
+    },
+    "pesados": [
+      "pytest -q",
+      "pytest tests",
+      "docker compose up",
+      "docker compose build",
+      "docker build",
+      "docker run"
+    ],
+    "pesadosSinRuta": [
+      "pytest"
+    ],
+    "instalacion": [
+      "pip install",
+      "pip3 install",
+      "pipx install",
+      "uv add",
+      "uv pip install",
+      "uv sync",
+      "uvx",
+      "poetry add",
+      "conda install",
+      "npx",
+      "npm install",
+      "npm i",
+      "brew install",
+      "apt install",
+      "apt-get install"
+    ]
+  },
+  "worktree": {
+    "preparar": "python3 -m venv {wt}/.venv && {wt}/.venv/bin/pip install --quiet --disable-pip-version-check --no-index --find-links .cache/pip -r requirements-dev.txt -e .",
+    "comprobar": "{wt}/.venv/bin/python -c 'import reporte, pathlib; print(pathlib.Path(reporte.__file__).resolve())'",
+    "limpiar": "rm -rf {wt}/.venv"
+  },
+  "version": 1,
+  "proyecto": {
+    "nombre": "Reporte de gasto mensual",
+    "descripcion": "Toma el CSV de transacciones de un mes y genera una única página HTML local, sin red y en español de México, con el análisis de gasto; termina con «Aquí queda la línea del respeto».",
+    "usuarioFinal": "el autor",
+    "idiomaCommits": "en",
+    "idiomaRamas": "en",
+    "invariantes": [
+      "`nucleo` no hace I/O y no importa `datos`, `presentacion` ni `app`.",
+      "`presentacion` no lee archivos del usuario ni calcula estadísticas; solo da formato a lo que trae `Analisis`.",
+      "El HTML generado no contiene ni una referencia de red (`http(s)://`, `//` en `src`/`href`/`url()`, `fetch`, `import` remoto). Un test lo vigila.",
+      "Todo texto visible está en español de México y pasa por los formateadores de `presentacion`.",
+      "`src/` nunca importa `generador/` ni Faker.",
+      "Cada activo vendorizado (librería, fuente, geometría) lleva su versión exacta y su licencia en `src/reporte/presentacion/activos/LICENCIAS.md`.",
+      "La página siempre termina con el texto literal «Aquí queda la línea del respeto»."
+    ],
+    "textosVisibles": "Español de México: `presentacion/plantillas/`, formateadores y `ErrorDeEntrada`"
+  },
+  "rutas": {
+    "documentos": [
+      {
+        "ruta": "docs/DOMINIO.md",
+        "antesDe": "cambiar una regla de comportamiento del reporte (R1–R17)"
+      },
+      {
+        "ruta": "docs/STACK.md",
+        "antesDe": "añadir una dependencia o un activo vendorizado"
+      }
+    ]
+  },
+  "areas": [
+    {
+      "id": "nucleo",
+      "principal": true,
+      "nombre": "el núcleo de análisis",
+      "rutas": [
+        "src/reporte/nucleo/**",
+        "tests/nucleo/**"
+      ],
+      "visual": false,
+      "contrato": true,
+      "lecturas": [
+        "docs/DOMINIO.md",
+        "docs/ARQUITECTURA.md"
+      ],
+      "skills": [
+        "python-design-patterns",
+        {
+          "nombre": "python-testing-patterns",
+          "cuando": "si escribe o reorganiza tests"
+        }
+      ]
+    },
+    {
+      "id": "datos",
+      "nombre": "la lectura y validación del CSV",
+      "rutas": [
+        "src/reporte/datos/**",
+        "tests/datos/**"
+      ],
+      "visual": false,
+      "contrato": false,
+      "lecturas": [
+        "docs/DOMINIO.md",
+        "docs/ARQUITECTURA.md"
+      ],
+      "skills": [
+        "python-design-patterns",
+        {
+          "nombre": "python-testing-patterns",
+          "cuando": "si escribe o reorganiza tests"
+        }
+      ]
+    },
+    {
+      "id": "presentacion",
+      "nombre": "la presentación HTML",
+      "rutas": [
+        "src/reporte/presentacion/**",
+        "tests/presentacion/**"
+      ],
+      "visual": false,
+      "contrato": false,
+      "lecturas": [
+        "docs/DOMINIO.md",
+        "docs/ARQUITECTURA.md",
+        "docs/STACK.md"
+      ],
+      "skills": [
+        "python-design-patterns",
+        {
+          "nombre": "python-testing-patterns",
+          "cuando": "si escribe o reorganiza tests"
+        }
+      ]
+    },
+    {
+      "id": "app",
+      "nombre": "la CLI",
+      "rutas": [
+        "src/reporte/__main__.py",
+        "src/reporte/app.py",
+        "tests/app/**"
+      ],
+      "visual": false,
+      "contrato": false,
+      "lecturas": [
+        "docs/ARQUITECTURA.md"
+      ],
+      "skills": [
+        "python-design-patterns",
+        {
+          "nombre": "python-testing-patterns",
+          "cuando": "si escribe o reorganiza tests"
+        }
+      ]
+    },
+    {
+      "id": "generador",
+      "nombre": "el generador sintético",
+      "rutas": [
+        "generador/**",
+        "tests/sistema/**"
+      ],
+      "visual": false,
+      "contrato": false,
+      "lecturas": [
+        "docs/DOMINIO.md"
+      ],
+      "skills": [
+        "python-design-patterns",
+        {
+          "nombre": "python-testing-patterns",
+          "cuando": "si escribe o reorganiza tests"
+        }
+      ]
+    }
+  ],
+  "roles": {},
+  "modulos": {
+    "graft": true,
+    "citas": true,
+    "medicion": true,
+    "ci": {
+      "workflowDocs": "citas.yml"
+    },
+    "evidenciaVisual": false,
+    "despliegue": false,
+    "avisos": false,
+    "suiteDeSistema": {
+      "nombre": "sistema",
+      "cmd": ".venv/bin/pytest -q -m sistema",
+      "resumen": "^\\d+ (passed|failed|error)"
+    }
+  },
+  "git": {
+    "merge": "squash"
+  },
+  "guardia": {},
+  "skills": {
+    "precargados": [
+      "tdd",
+      "codebase-design",
+      "gh"
+    ]
+  }
+}

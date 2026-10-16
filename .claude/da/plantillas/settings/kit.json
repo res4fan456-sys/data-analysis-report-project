@@ -1,0 +1,15 @@
+{
+  "env": { "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "{{limites.profundidadSubagentes}}" },
+  "claudeMdExcludes": ["**/{{rutas.worktrees}}/**/CLAUDE.md"],
+  "permissions": { "deny": ["Agent(fork)"] },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Agent|Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR:-.}/.claude/da/guardia.cjs\"", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "kit": "0.1.0-dev",
+  "archivos": {
+    ".claude/agents/archivador.md": {
+      "tipo": "generado",
+      "hash": "85df2ad8f2b53c3a26eddadcf0e7f0827d13df8fdfba298029bbf82d747a7029"
+    },
+    ".claude/agents/critico.md": {
+      "tipo": "generado",
+      "hash": "c5992ebd9470c3a495f6543f58ef805b55f01d617e0993269b3a7080bb13beaf"
+    },
+    ".claude/agents/implementador-app.md": {
+      "tipo": "generado",
+      "hash": "62c874f6b63f6e13f7d7b9a20d23636ffc4eacbbc90e1a12d481bf595de05205"
+    },
+    ".claude/agents/implementador-datos.md": {
+      "tipo": "generado",
+      "hash": "826f9a1ec91fa31f17999865d61da0ac08c18221ddab5fd57a0bc5500b98ace1"
+    },
+    ".claude/agents/implementador-generador.md": {
+      "tipo": "generado",
+      "hash": "2b0fc31322029c99dd7934e69467cd3e7fe5b96cb06a083e8c1132c04bc32650"
+    },
+    ".claude/agents/implementador-presentacion.md": {
+      "tipo": "generado",
+      "hash": "99a6ecf41cb3935469b96b484bd73b25f1a8b83d2f4ba6c009d0d75af2f4b642"
+    },
+    ".claude/agents/implementador.md": {
+      "tipo": "generado",
+      "hash": "5a8f5232589334973e15bb242875a473df5750e1a4d91e13bbdcbeb89b0c41e9"
+    },
+    ".claude/agents/lector.md": {
+      "tipo": "generado",
+      "hash": "fd80759c3dbb10cc510af4564156bb5e7c6598bed0759974c9d0122b78d75866"
+    },
+    ".claude/agents/planeador.md": {
+      "tipo": "generado",
+      "hash": "94e3797025e0e8c6c393152f31cb9522f998d720fd64af72d61bc52555373c22"
+    },
+    ".claude/agents/pm.md": {
+      "tipo": "generado",
+      "hash": "7bdb854772343bb20021637c6c04e66cbf6c8c3262c31e45b070732147becaa1"
+    },
+    ".claude/agents/team-manager.md": {
+      "tipo": "generado",
+      "hash": "24ff8f62ec74fe136af11db0fa40caf4bb1d432c292547f70d4cf2ddcf3e9ce0"
+    },
+    ".claude/da/guardia.json": {
+      "tipo": "generado",
+      "hash": "f2011b8084a1cb602e5704b94b26a697e2c6ede6979ffedd197363206cc85a7b"
+    },
+    ".claude/settings.json": {
+      "tipo": "settings",
+      "hash": "0c75a741e68efced4ae35b8049ba81a8ddc69dcbc11f41df254c8aac2aca350e"
+    },
+    ".claude/skills/desarrollo-autonomo-archivador/SKILL.md": {
+      "tipo": "generado",
+      "hash": "dbc5c6c7113c14aab14a7f56ed949eea5df954dc26538d24e8af7c7f13401596"
+    },
+    ".claude/skills/desarrollo-autonomo-critico/SKILL.md": {
+      "tipo": "generado",
+      "hash": "7de57b1167e4b0dfe6d290bf0200b7477312cccff89828e689016e0de179367b"
+    },
+    ".claude/skills/desarrollo-autonomo-implementador/SKILL.md": {
+      "tipo": "generado",
+      "hash": "d229825f1d97a5fac5db0bfd3e3804f6b739ab8e3cffa899c67ee2f1ab8eeea6"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/brief-de-pm.md": {
+      "tipo": "generado",
+      "hash": "8b79f2daadef405e573d81b9504ba72489cc3c42f18bec415906800261f8d1a9"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/casos-del-pre-vuelo.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "510ab082af6d93a2c131dce06cdac94cde83bd1760ae771c7d6e68c21a614be0"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/ejemplo-de-issue.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "c14133774b2ee7d97c14f7439aa818be99d834f3e326181bcdb42128455361f3"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/formato-de-ola.md": {
+      "tipo": "generado",
+      "hash": "5fb6453a58977effd16e984eb4921ba5e1b577072744b050d90a28ae438a4246"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/lista-de-comprobacion.md": {
+      "tipo": "generado",
+      "hash": "c534930ac83bffdc4730e6956a1703a00267731f96b33691932ec3e6a25cac08"
+    },
+    ".claude/skills/desarrollo-autonomo-planeador/SKILL.md": {
+      "tipo": "generado",
+      "hash": "0bd77c304e7710fddcd571e7baaba663e7766611fef4c5c11082f9a9859620ae"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/arranque.md": {
+      "tipo": "generado",
+      "hash": "24d64af46cee41213b20ab43e35444397211aafda982dd5206a66e18a3df29cb"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/arreglo.md": {
+      "tipo": "generado",
+      "hash": "81c0a6748dfb92703d7d168cdb5905bfd56627a59ac8a6380ebd1e75ab4ed745"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/bucle-por-grupo.md": {
+      "tipo": "generado",
+      "hash": "6fb983e6ab21d0cc47102d13864457a82cb9e1127d0bdc60aff5511b0ce625ee"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/cierre.md": {
+      "tipo": "generado",
+      "hash": "9e4a3821c6ee296b89a563a9737d5bfef66b1bc760def74f73fd7ec277db6bf4"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/encargo-critico.md": {
+      "tipo": "generado",
+      "hash": "733aaec2a4a57548f2760e9cf6e149f4911d5b0950ce4ab40c41c2831036ab26"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/encargo-implementador.md": {
+      "tipo": "generado",
+      "hash": "de070144b0bd149a1a1a7aee92193739edfebbd85cc665906d3ca307e59a2eef"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/formato-de-pr.md": {
+      "tipo": "generado",
+      "hash": "0fddc04afab109d65d0b7de0ef3815e7f176b0673555052b30e8654356f5a04d"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/registro-de-ola.md": {
+      "tipo": "generado",
+      "hash": "1b81cff644e8663b05b13c308ea15101d874367a08b96f974aa292b41eab6a56"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/retoma.md": {
+      "tipo": "generado",
+      "hash": "c465f0850c8c00e80c45fa89e2bb4d38fb4c7537ca7458f998bcb120364c6c61"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/SKILL.md": {
+      "tipo": "generado",
+      "hash": "a61ddf1c88eb210d8e3e935d49715d6ea9905e634c3d604ae73e4b678b42ebb6"
+    },
+    ".claude/skills/desarrollo-autonomo-pm/trampas-de-entorno.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "27ba905bd45dc74d95c9a431b6ead719bfaf4bb7bc4255b0cae5da5840832973"
+    },
+    ".claude/skills/desarrollo-autonomo-team-manager/brief-de-relevo.md": {
+      "tipo": "generado",
+      "hash": "03ce011aab9bea9fbfe664a2755812d47a279e567802949cbaebb734dbecaa8c"
+    },
+    ".claude/skills/desarrollo-autonomo-team-manager/SKILL.md": {
+      "tipo": "generado",
+      "hash": "719d527305b33ce34360ea9d8a22f8e157c8e2175a6a6b25e0d08928649a0986"
+    },
+    ".github/ISSUE_TEMPLATE/hallazgo.md": {
+      "tipo": "generado",
+      "hash": "407f38309f8a7756f7377d0cd787476aeb6353e2913c9d642c9e2ccd8b46e2ef"
+    },
+    ".github/workflows/citas.yml": {
+      "tipo": "generado",
+      "hash": "eda43dbffdc8f56f2aefd28757834b911f51d9435ddd51ba6911cb408cfa4591"
+    },
+    ".gitignore": {
+      "tipo": "gitignore",
+      "hash": "3bdfe31123ab733b57eab0fb3a89b1fac452316aa4ab78c80e713e9aad46f6dc"
+    },
+    "CLAUDE.md": {
+      "tipo": "claude-md",
+      "hash": "11fa3be55f99cbf7b136ff6ce86e33f184091c4ae72bf36316843b06bc9b267b"
+    },
+    "docs/ARQUITECTURA.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "bf0c00edafd787f832041ca478b4169601d8748685085de2c97dcd3087c910fa"
+    },
+    "docs/DESARROLLO-AUTONOMO.md": {
+      "tipo": "generado",
+      "hash": "fe5b57f5f7dacd07020e227cdb2a5cf42a116fd28f19239d0d17785ab5a21ddb"
+    },
+    "docs/olas/.gitkeep": {
+      "tipo": "sembrado",
+      "hashSemilla": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/PLAN.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "091693db4fd47f004b6401d344359035a7de615fe5aea1376a493c4ce6c146e5"
+    },
+    "docs/STACK.md": {
+      "tipo": "sembrado",
+      "hashSemilla": "96fe1931687d40c97b3b8a1bf93225a51e9bff381055aab88a8b1efa3916fee4"
+    }
+  },
+  "expulsados": []
+}

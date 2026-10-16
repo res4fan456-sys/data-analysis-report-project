@@ -19,9 +19,8 @@ from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
 
-from faker import Faker
-
 import configuracion as cfg
+from faker import Faker
 
 LOCALE = "es_MX"
 COLUMNAS = [
@@ -78,12 +77,16 @@ def perfil_horario(rangos: list[tuple[int, int, float]]) -> list[float]:
     return pesos
 
 
-HORARIOS = {categoria: perfil_horario(datos["horas"]) for categoria, datos in cfg.CATEGORIAS.items()}
+HORARIOS = {
+    categoria: perfil_horario(datos["horas"]) for categoria, datos in cfg.CATEGORIAS.items()
+}
 
 
 def jitter(fake: Faker, centro: tuple[float, float], radio: float) -> tuple[float, float]:
     lat, lon = centro
-    return float(fake.coordinate(center=lat, radius=radio)), float(fake.coordinate(center=lon, radius=radio))
+    return float(fake.coordinate(center=lat, radius=radio)), float(
+        fake.coordinate(center=lon, radius=radio)
+    )
 
 
 def momento(rng: random.Random, dia: date, hora: int) -> datetime:
@@ -120,7 +123,9 @@ def es_quincena(tipo: str) -> bool:
 # --- Perfil y comercios ------------------------------------------------------
 
 
-def crear_perfil(fake: Faker, rng: random.Random, inicio: date, ultimo_dia: int, dominante: str | None) -> Perfil:
+def crear_perfil(
+    fake: Faker, rng: random.Random, inicio: date, ultimo_dia: int, dominante: str | None
+) -> Perfil:
     zonas = list(cfg.ZONAS_LOCALES)
     rng.shuffle(zonas)
     casa, trabajo, favorita, *otras = zonas
@@ -188,7 +193,11 @@ def crear_pool(
             else:
                 zona = zona_por_rol(rng, perfil, perfil_zona)
                 lat, lon = jitter(fake, CENTROS[zona], cfg.RADIO_COMERCIO)
-            comercios.append(Comercio(nombre, categoria, plantilla.monto_min, plantilla.monto_max, zona, lat, lon))
+            comercios.append(
+                Comercio(
+                    nombre, categoria, plantilla.monto_min, plantilla.monto_max, zona, lat, lon
+                )
+            )
 
     rng.shuffle(comercios)
     pesos = [
@@ -202,7 +211,9 @@ def crear_pool(
 def crear_comercios(fake: Faker, rng: random.Random, perfil: Perfil) -> dict:
     pools = {}
     for categoria, datos in cfg.CATEGORIAS.items():
-        pools[(categoria, "local")] = crear_pool(fake, rng, perfil, categoria, datos["comercios"], datos["zonas"])
+        pools[(categoria, "local")] = crear_pool(
+            fake, rng, perfil, categoria, datos["comercios"], datos["zonas"]
+        )
     for categoria, plantillas in cfg.COMERCIOS_VIAJE.items():
         pools[(categoria, "viaje")] = crear_pool(fake, rng, perfil, categoria, plantillas, None)
     return pools
@@ -240,7 +251,9 @@ def pesos_categoria(dia: date, perfil: Perfil, ultimo_dia: int) -> tuple[list[st
     return list(pesos), list(pesos.values())
 
 
-def calcular_monto(rng: random.Random, comercio: Comercio, perfil: Perfil, tipo: str, en_viaje: bool) -> float:
+def calcular_monto(
+    rng: random.Random, comercio: Comercio, perfil: Perfil, tipo: str, en_viaje: bool
+) -> float:
     bajo, alto = comercio.monto_min, comercio.monto_max
     monto = rng.triangular(bajo, alto, bajo + (alto - bajo) * 0.3)
     if comercio.categoria == perfil.categoria_dominante:
@@ -255,7 +268,13 @@ def calcular_monto(rng: random.Random, comercio: Comercio, perfil: Perfil, tipo:
 
 
 def generar_variables(
-    fake: Faker, rng: random.Random, perfil: Perfil, comercios: dict, inicio: date, ultimo_dia: int, n: int
+    fake: Faker,
+    rng: random.Random,
+    perfil: Perfil,
+    comercios: dict,
+    inicio: date,
+    ultimo_dia: int,
+    n: int,
 ) -> list[dict]:
     dias = [inicio + timedelta(days=i) for i in range(ultimo_dia)]
     pesos_dias = [peso_dia(dia, perfil, ultimo_dia) for dia in dias]
@@ -271,7 +290,11 @@ def generar_variables(
         comercio = rng.choices(pool, weights=popularidad)[0]
 
         if comercio.zona is None:
-            zona = perfil.destino if en_viaje else zona_por_rol(rng, perfil, cfg.CATEGORIAS[categoria]["zonas"])
+            zona = (
+                perfil.destino
+                if en_viaje
+                else zona_por_rol(rng, perfil, cfg.CATEGORIAS[categoria]["zonas"])
+            )
             lat, lon = jitter(fake, CENTROS[zona], cfg.RADIO_MOVIL)
         else:
             zona, lat, lon = comercio.zona, comercio.lat, comercio.lon
@@ -295,7 +318,9 @@ def generar_variables(
     return filas
 
 
-def generar_cargos_fijos(fake: Faker, rng: random.Random, perfil: Perfil, inicio: date, ultimo_dia: int) -> list[dict]:
+def generar_cargos_fijos(
+    fake: Faker, rng: random.Random, perfil: Perfil, inicio: date, ultimo_dia: int
+) -> list[dict]:
     lat, lon = perfil.coord_casa
     filas = []
     for concepto, categoria, monto_min, monto_max, dia_min, dia_max, cuenta in cfg.CARGOS_FIJOS:
@@ -315,7 +340,9 @@ def generar_cargos_fijos(fake: Faker, rng: random.Random, perfil: Perfil, inicio
     return filas
 
 
-def generar_cargos_viaje(fake: Faker, rng: random.Random, perfil: Perfil, inicio: date) -> list[dict]:
+def generar_cargos_viaje(
+    fake: Faker, rng: random.Random, perfil: Perfil, inicio: date
+) -> list[dict]:
     llegada, regreso = min(perfil.dias_viaje), max(perfil.dias_viaje)
     credito = perfil.cuentas["Tarjeta de Crédito"]
     ciudad = perfil.destino.split(",")[0]
@@ -366,7 +393,9 @@ def escribir_csv(filas: list[dict], salida: Path) -> None:
             )
 
 
-def imprimir_resumen(filas: list[dict], perfil: Perfil, salida: Path, semilla: int, ultimo_dia: int) -> None:
+def imprimir_resumen(
+    filas: list[dict], perfil: Perfil, salida: Path, semilla: int, ultimo_dia: int
+) -> None:
     total = sum(fila["monto"] for fila in filas)
     por_categoria: Counter[str] = Counter()
     por_zona: Counter[str] = Counter()
@@ -407,16 +436,33 @@ def mes_anterior() -> date:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("-n", "--registros", type=int, default=20_000, help="número de transacciones (default: 20000)")
-    parser.add_argument("--mes", type=mes_valido, default=mes_anterior(), help="mes a simular, AAAA-MM (default: mes anterior)")
-    parser.add_argument("--semilla", type=int, help="semilla para reproducir un set exacto (default: aleatoria)")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "-n",
+        "--registros",
+        type=int,
+        default=20_000,
+        help="número de transacciones (default: 20000)",
+    )
+    parser.add_argument(
+        "--mes",
+        type=mes_valido,
+        default=mes_anterior(),
+        help="mes a simular, AAAA-MM (default: mes anterior)",
+    )
+    parser.add_argument(
+        "--semilla", type=int, help="semilla para reproducir un set exacto (default: aleatoria)"
+    )
     parser.add_argument(
         "--categoria-dominante",
         choices=list(cfg.FACTOR_DOMINANTE),
         help="categoría en la que se gasta de más (default: aleatoria)",
     )
-    parser.add_argument("-o", "--salida", type=Path, help="ruta del CSV (default: output/transacciones_AAAA-MM.csv)")
+    parser.add_argument(
+        "-o", "--salida", type=Path, help="ruta del CSV (default: output/transacciones_AAAA-MM.csv)"
+    )
     parser.add_argument(
         "-v",
         "--verbose",
@@ -438,7 +484,9 @@ def main() -> None:
     perfil = crear_perfil(fake, rng, inicio, ultimo_dia, args.categoria_dominante)
     comercios = crear_comercios(fake, rng, perfil)
 
-    fijas = generar_cargos_fijos(fake, rng, perfil, inicio, ultimo_dia) + generar_cargos_viaje(fake, rng, perfil, inicio)
+    fijas = generar_cargos_fijos(fake, rng, perfil, inicio, ultimo_dia) + generar_cargos_viaje(
+        fake, rng, perfil, inicio
+    )
     n_variables = args.registros - len(fijas)
     if n_variables < 1:
         sys.exit(f"--registros debe ser mayor que {len(fijas)} (número de cargos fijos)")

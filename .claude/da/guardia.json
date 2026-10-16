@@ -1,0 +1,110 @@
+{
+  "rolesVetados": [
+    "implementador",
+    "implementador-datos",
+    "implementador-presentacion",
+    "implementador-app",
+    "implementador-generador",
+    "critico"
+  ],
+  "tiposDelTeamManager": [
+    "planeador",
+    "pm",
+    "archivador",
+    "lector"
+  ],
+  "lanzamientos": {
+    "team-manager": [
+      "planeador",
+      "pm",
+      "archivador",
+      "lector"
+    ],
+    "pm": [
+      "implementador",
+      "implementador-datos",
+      "implementador-presentacion",
+      "implementador-app",
+      "implementador-generador",
+      "critico",
+      "lector"
+    ],
+    "planeador": [
+      "lector"
+    ]
+  },
+  "da": ".claude/da/da",
+  "pesados": [
+    ".claude/da/da verify",
+    ".claude/da/da sistema",
+    ".venv/bin/pytest -q -m sistema",
+    "pytest -q",
+    "pytest tests",
+    "docker compose up",
+    "docker compose build",
+    "docker build",
+    "docker run",
+    "graft build"
+  ],
+  "pesadosSinRuta": [
+    "pytest"
+  ],
+  "instalacion": [
+    "pip install",
+    "pip3 install",
+    "pipx install",
+    "uv add",
+    "uv pip install",
+    "uv sync",
+    "uvx",
+    "poetry add",
+    "conda install",
+    "npx",
+    "npm install",
+    "npm i",
+    "brew install",
+    "apt install",
+    "apt-get install"
+  ],
+  "graft": true,
+  "interruptores": {
+    "pesadoSoloPm": false,
+    "lanzamientosPorRol": false,
+    "protegerGenerados": false
+  },
+  "generados": [
+    "docs/DESARROLLO-AUTONOMO.md",
+    ".claude/agents/team-manager.md",
+    ".claude/agents/planeador.md",
+    ".claude/agents/pm.md",
+    ".claude/agents/implementador.md",
+    ".claude/agents/implementador-datos.md",
+    ".claude/agents/implementador-presentacion.md",
+    ".claude/agents/implementador-app.md",
+    ".claude/agents/implementador-generador.md",
+    ".claude/agents/critico.md",
+    ".claude/agents/archivador.md",
+    ".claude/agents/lector.md",
+    ".github/ISSUE_TEMPLATE/hallazgo.md",
+    ".github/workflows/citas.yml",
+    ".claude/skills/desarrollo-autonomo-critico/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-implementador/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-archivador/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-pm/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-pm/arranque.md",
+    ".claude/skills/desarrollo-autonomo-pm/arreglo.md",
+    ".claude/skills/desarrollo-autonomo-pm/retoma.md",
+    ".claude/skills/desarrollo-autonomo-pm/cierre.md",
+    ".claude/skills/desarrollo-autonomo-pm/registro-de-ola.md",
+    ".claude/skills/desarrollo-autonomo-pm/bucle-por-grupo.md",
+    ".claude/skills/desarrollo-autonomo-pm/formato-de-pr.md",
+    ".claude/skills/desarrollo-autonomo-pm/encargo-implementador.md",
+    ".claude/skills/desarrollo-autonomo-pm/encargo-critico.md",
+    ".claude/skills/desarrollo-autonomo-planeador/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-planeador/brief-de-pm.md",
+    ".claude/skills/desarrollo-autonomo-planeador/formato-de-ola.md",
+    ".claude/skills/desarrollo-autonomo-planeador/lista-de-comprobacion.md",
+    ".claude/skills/desarrollo-autonomo-team-manager/SKILL.md",
+    ".claude/skills/desarrollo-autonomo-team-manager/brief-de-relevo.md"
+  ]
+}

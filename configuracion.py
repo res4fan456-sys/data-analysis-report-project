@@ -188,9 +188,9 @@ MONTO_NOCHE_HOTEL = (1500, 4000)
 # Multiplicador del volumen de transacciones por día de la semana (lunes = 0).
 PESO_DIA_SEMANA = [0.9, 0.9, 1.0, 1.0, 1.3, 1.5, 1.2]
 
-FACTOR_QUINCENA = 2.5        # días de pago: 15 y último del mes
-FACTOR_POST_QUINCENA = 1.8   # día siguiente al pago: 16 y 1
-FACTOR_PRE_QUINCENA = 0.7    # 3 días antes de cada pago ("la cuesta")
+FACTOR_QUINCENA = 2.5  # días de pago: 15 y último del mes
+FACTOR_POST_QUINCENA = 1.8  # día siguiente al pago: 16 y 1
+FACTOR_PRE_QUINCENA = 0.7  # 3 días antes de cada pago ("la cuesta")
 FACTOR_VIAJE = 1.3
 
 # Ajuste de categorías por tipo de día (multiplica su peso).
