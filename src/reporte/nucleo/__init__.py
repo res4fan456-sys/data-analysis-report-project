@@ -1,3 +1,5 @@
 """Núcleo del dominio: análisis puro, sin I/O."""
 
-__all__: list[str] = []
+from reporte.nucleo.analisis import Analisis, Resumen, analizar
+
+__all__ = ["Analisis", "Resumen", "analizar"]

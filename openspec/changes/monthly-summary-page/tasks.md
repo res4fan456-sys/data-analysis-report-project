@@ -34,7 +34,7 @@ Reglas de la fase para todos los grupos:
 
 ## 2. Resumen del mes en el núcleo (PR 3, área `nucleo`, ~250 líneas)
 
-- [ ] 2.1 Crear en `src/reporte/nucleo/` el `Analisis`, el `Resumen` y `analizar(transacciones)`, exportado
+- [x] 2.1 Crear en `src/reporte/nucleo/` el `Analisis`, el `Resumen` y `analizar(transacciones)`, exportado
   desde `reporte.nucleo` (design, «`Analisis` de la Fase 1»), con todos los requisitos de la spec
   `resumen-del-mes`. **Flujo que protege:** que las cifras del resumen que el autor ve sean las del mes:
   total, número, ticket promedio, día de mayor gasto con su desempate, gasto variable y su proporción, último
