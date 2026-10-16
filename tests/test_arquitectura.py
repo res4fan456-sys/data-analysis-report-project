@@ -11,16 +11,19 @@ import pytest
 RAIZ = pathlib.Path(__file__).resolve().parents[1] / "src" / "reporte"
 
 IO_PROHIBIDO = {"pathlib", "os", "io", "shutil", "tempfile", "glob", "socket", "urllib", "http"}
+# Con `importlib`, `builtins` y `__import__` el núcleo podría llegar a esos módulos sin importarlos.
+ACCESO_INDIRECTO = {"importlib", "builtins"}
 STDLIB = set(sys.stdlib_module_names)
 
 # capa -> (librerías externas permitidas, prefijos internos permitidos). Una capa ausente de la tabla
 # (`app`, `__main__` y el `__init__.py` raíz) puede importar de todas.
 MATRIZ: dict[str, tuple[set[str], tuple[str, ...]]] = {
-    "nucleo": ((STDLIB - IO_PROHIBIDO) | {"pandas"}, ("reporte.nucleo",)),
+    "nucleo": ((STDLIB - IO_PROHIBIDO - ACCESO_INDIRECTO) | {"pandas"}, ("reporte.nucleo",)),
     "datos": (STDLIB | {"pandas"}, ("reporte.datos", "reporte.nucleo.tipos")),
     "presentacion": (STDLIB | {"jinja2"}, ("reporte.presentacion", "reporte.nucleo")),
 }
-CAPAS_SIN_LLAMADAS_A_OPEN = {"nucleo"}
+CAPAS_SIN_LLAMADAS_PROHIBIDAS = {"nucleo"}
+LLAMADAS_PROHIBIDAS = {"open", "__import__"}
 
 
 def _paquete(archivo: pathlib.Path, raiz: pathlib.Path) -> str:
@@ -70,14 +73,14 @@ def infracciones(raiz: pathlib.Path) -> list[str]:
         for nombre in _importaciones(arbol, paquete):
             if _prohibido(capa, nombre, raiz.name):
                 encontradas.append(f"{relativo} importa {nombre}")
-        if capa in CAPAS_SIN_LLAMADAS_A_OPEN:
+        if capa in CAPAS_SIN_LLAMADAS_PROHIBIDAS:
             for nodo in ast.walk(arbol):
                 if (
                     isinstance(nodo, ast.Call)
                     and isinstance(nodo.func, ast.Name)
-                    and nodo.func.id == "open"
+                    and nodo.func.id in LLAMADAS_PROHIBIDAS
                 ):
-                    encontradas.append(f"{relativo} llama a open")
+                    encontradas.append(f"{relativo} llama a {nodo.func.id}")
     return encontradas
 
 
@@ -104,6 +107,11 @@ PROHIBIDOS = [
     ("nucleo/analisis.py", "from ..datos import leer\n", "reporte.datos.leer"),
     ("nucleo/sub/hondo.py", "from ... import presentacion\n", "reporte.presentacion"),
     ("nucleo/analisis.py", "datos = open('f.csv')\n", "open"),
+    ("nucleo/analisis.py", "import importlib\n", "importlib"),
+    ("nucleo/analisis.py", "from importlib import import_module\n", "importlib.import_module"),
+    ("nucleo/analisis.py", "import builtins\n", "builtins"),
+    ("nucleo/analisis.py", "from builtins import open\n", "builtins.open"),
+    ("nucleo/analisis.py", "modulo = __import__('os')\n", "__import__"),
     ("datos/lectura.py", "import reporte.presentacion\n", "reporte.presentacion"),
     ("datos/lectura.py", "from reporte.nucleo import analizar\n", "reporte.nucleo.analizar"),
     ("datos/lectura.py", "from ..nucleo.analisis import analizar\n", "reporte.nucleo.analisis"),

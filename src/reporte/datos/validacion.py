@@ -21,27 +21,26 @@ COLUMNAS = (
 )
 _SIN_TRANSACCIONES = "El archivo no tiene transacciones"
 _FORMATO_FECHA = "%Y-%m-%d %H:%M:%S"
-_PATRON_FECHA = r"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"
+_PATRON_FECHA = r"[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-5][0-9]"
 _LATITUD_MEXICO = (14, 33)
 _LONGITUD_MEXICO = (-119, -86)
 
 
 def validar_registros(registros: Sequence[Sequence[str]]) -> Transacciones:
-    """Valida el encabezado y las filas (el primer registro es el encabezado).
+    """Valida el encabezado y las filas (el primer registro con campos es el encabezado).
 
-    Un registro sin ningún campo (una línea en blanco) no es una transacción y se ignora, pero
-    cada fila conserva su posición en el archivo para nombrarla como la ve el autor en una hoja
-    de cálculo.
+    Un registro sin ningún campo (una línea en blanco), en cualquier posición, no es una
+    transacción ni un encabezado y se ignora, pero cada fila conserva su posición en el archivo
+    para nombrarla como la ve el autor en una hoja de cálculo.
     """
-    if not registros:
+    con_campos = [i for i, registro in enumerate(registros) if registro]
+    if len(con_campos) < 2:
         raise ErrorDeEntrada(_SIN_TRANSACCIONES)
-    encabezado = list(registros[0])
-    posiciones = [i for i, f in enumerate(registros[1:]) if f]
-    if not posiciones:
-        raise ErrorDeEntrada(_SIN_TRANSACCIONES)
+    encabezado = list(registros[con_campos[0]])
     _comprobar_columnas(encabezado)
 
-    filas = [registros[1 + i] for i in posiciones]
+    posiciones = [i - 1 for i in con_campos[1:]]
+    filas = [registros[i] for i in con_campos[1:]]
     de_mas = pd.Series([len(f) > len(COLUMNAS) for f in filas], index=posiciones, dtype=bool)
     completas = [[*f[: len(COLUMNAS)], *[""] * (len(COLUMNAS) - len(f))] for f in filas]
     crudo = pd.DataFrame(completas, columns=encabezado, index=posiciones)[list(COLUMNAS)]
@@ -74,9 +73,16 @@ def validar_registros(registros: Sequence[Sequence[str]]) -> Transacciones:
 
 def _comprobar_columnas(encabezado: list[str]) -> None:
     faltantes = [c for c in COLUMNAS if c not in encabezado]
-    sobrantes = [c for c in dict.fromkeys(encabezado) if c not in COLUMNAS]
-    repetidas = [c for c in dict.fromkeys(encabezado) if encabezado.count(c) > 1]
+    sobrantes = [c for c in dict.fromkeys(encabezado) if c.strip() and c not in COLUMNAS]
+    repetidas = [c for c in dict.fromkeys(encabezado) if c.strip() and encabezado.count(c) > 1]
+    sin_nombre = sum(1 for c in encabezado if not c.strip())
     problemas = []
+    if sin_nombre:
+        problemas.append(
+            "hay una columna sin nombre"
+            if sin_nombre == 1
+            else f"hay {sin_nombre} columnas sin nombre"
+        )
     if faltantes:
         problemas.append(f"faltan las columnas {', '.join(faltantes)}")
     if sobrantes:

@@ -30,6 +30,10 @@ def _nombra_la_fila(mensaje: str, numero: int) -> bool:
         "2026-9-1 10:00:00",
         "2026-09-31 10:00:00",
         "2026-09-15 24:00:00",
+        "2026-09-15 10:60:00",
+        "2026-09-15 10:00:60",
+        "2026-09-15 10:00:61",
+        "2026-09-30 23:59:60",
     ],
 )
 def test_una_fecha_con_otro_formato_o_inexistente_se_rechaza_nombrando_fila_y_campo(
@@ -357,3 +361,35 @@ def test_una_linea_en_blanco_en_medio_se_ignora_y_la_tabla_queda_contigua(
 
     assert resultado.tabla["id_transaccion"].tolist() == ["TX000001", "TX000002"]
     assert list(resultado.tabla.index) == [0, 1]
+
+
+def test_una_fila_con_campos_de_mas_despues_de_una_linea_en_blanco_nombra_su_fila_de_hoja(
+    tmp_path: pathlib.Path,
+) -> None:
+    ruta = escribir_lineas(tmp_path, [",".join(COLUMNAS), linea(), "", linea() + ",sobra"])
+
+    assert _nombra_la_fila(_rechazo(ruta), 4)
+
+
+def test_las_lineas_en_blanco_antes_del_encabezado_se_ignoran(tmp_path: pathlib.Path) -> None:
+    ruta = escribir_lineas(tmp_path, ["", "", ",".join(COLUMNAS), linea()])
+
+    resultado = leer_transacciones(ruta)
+
+    assert resultado.tabla["id_transaccion"].tolist() == ["TX000001"]
+
+
+def test_las_lineas_en_blanco_antes_del_encabezado_no_corren_la_numeracion_de_las_filas(
+    tmp_path: pathlib.Path,
+) -> None:
+    ruta = escribir_lineas(tmp_path, ["", "", ",".join(COLUMNAS), linea(monto="abc")])
+
+    assert _nombra_la_fila(_rechazo(ruta), 4)
+
+
+def test_un_archivo_de_solo_lineas_en_blanco_no_tiene_transacciones(
+    tmp_path: pathlib.Path,
+) -> None:
+    ruta = escribir_lineas(tmp_path, ["", ""])
+
+    assert _rechazo(ruta) == "El archivo no tiene transacciones"

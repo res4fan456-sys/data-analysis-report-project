@@ -6,7 +6,7 @@ from datetime import date
 
 import pandas as pd
 import pytest
-from _csv_de_prueba import COLUMNAS, escribir, fila
+from _csv_de_prueba import COLUMNAS, escribir, escribir_lineas, fila, linea
 
 from reporte.datos import ErrorDeEntrada, leer_transacciones
 from reporte.nucleo.tipos import Transacciones
@@ -114,6 +114,17 @@ def test_el_rechazo_nombra_cada_columna_faltante(tmp_path: pathlib.Path) -> None
 
     assert "zona" in str(error.value)
     assert "cuenta" in str(error.value)
+
+
+def test_un_encabezado_con_coma_final_se_rechaza_diciendo_que_hay_una_columna_sin_nombre(
+    tmp_path: pathlib.Path,
+) -> None:
+    ruta = escribir_lineas(tmp_path, [",".join(COLUMNAS) + ",", linea() + ","])
+
+    with pytest.raises(ErrorDeEntrada) as error:
+        leer_transacciones(ruta)
+
+    assert "sin nombre" in str(error.value)
 
 
 def test_sobra_una_columna_y_el_rechazo_la_nombra(tmp_path: pathlib.Path) -> None:
