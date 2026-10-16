@@ -10,7 +10,7 @@ mes») no se editan en ningún grupo; si la guarda falla tras el movimiento, se 
 
 ## 1. Guarda de reproducibilidad del generador (PR 1, área `generador`, ~70 líneas)
 
-- [ ] 1.1 Crear `tests/sistema/test_generador.py` con marcador `sistema` que ejecuta el generador actual de la
+- [x] 1.1 Crear `tests/sistema/test_generador.py` con marcador `sistema` que ejecuta el generador actual de la
   raíz (`[sys.executable, "generar_transacciones.py", ...]`, `cwd` en la raíz del repositorio, salida en
   `tmp_path`) en los dos escenarios de la spec: septiembre de 2026 con `-v` (SHA-256 del CSV y de la salida
   estándar sin su primera línea, calculado sobre bytes) y febrero de 2028 sin `-v` (SHA-256 del CSV, salida
