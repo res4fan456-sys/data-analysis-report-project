@@ -64,7 +64,7 @@ formatear en `presentacion`.
 |---|---|---|---|
 | `nucleo` | Reglas R4–R14 de `DOMINIO.md`, una o más pruebas por regla, y los casos borde | Tablas pequeñas hechas a mano en el test, con el resultado esperado calculado a mano | `tests/nucleo/` |
 | `datos` | R1–R3: columnas, filas inválidas (con número de fila), varios meses, BOM, acentos, archivo vacío | CSV de fixture en `tests/datos/fixtures/` | `tests/datos/` |
-| `presentacion` | R15–R17: formato es-MX, ausencia total de URLs de red, mensaje final como último texto visible, presencia de cada sección, opciones de gráficas válidas | Un `Analisis` construido a mano y HTML parseado con `html.parser` de stdlib | `tests/presentacion/` |
+| `presentacion` | R15–R17: formato es-MX, ninguna referencia de red (definida en R16), mensaje final como último texto visible, presencia de cada sección, opciones de gráficas válidas | Un `Analisis` construido a mano y HTML parseado con `html.parser` de stdlib | `tests/presentacion/` |
 | `app` | Códigos de salida, ruta de salida por defecto, mensaje de error legible | `main([...])` con `tmp_path` | `tests/app/` |
 | Sistema | El producto real de punta a punta | Marcador `sistema`. Genera con semillas fijas para las 4 categorías dominantes y corre `main`. Comprueba que lo detectado coincide con el perfil inyectado, que no hay red, que está el mensaje final y que pesa < 10 MB | `tests/sistema/` |
 

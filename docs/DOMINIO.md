@@ -90,8 +90,12 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
   - Fechas como «15 de septiembre de 2026» y días de la semana en español.
   - Todo texto visible está en español.
 - **R16 — Un archivo, cero red.**
-  - El HTML es un solo archivo y no contiene `http://`, `https://` ni `//` en `src`, `href`, `url()`, `import` o `fetch`.
-  - La librería de gráficas, la fuente y las geometrías van incrustadas.
+  - El HTML es un solo archivo: no hay `<script src>` ni `<link href>` a otro archivo, y la librería de gráficas, la fuente y las geometrías van incrustadas.
+  - No tiene ninguna **referencia de red**: una URL `http:`, `https:`, `ws:`, `wss:` o `ftp:`, o una que empieza con `//`, en una posición que el navegador carga:
+    - un atributo `src`, `href`, `srcset`, `action`, `formaction`, `poster`, `data` o `xlink:href`;
+    - un `url()` o un `@import` de CSS;
+    - un `import`, `import()`, `fetch`, `XMLHttpRequest`, `WebSocket`, `EventSource`, `sendBeacon` o `importScripts` de JavaScript.
+  - No son referencias de red: una URL `data:`, aunque su base64 contenga `//`, ni una cadena con `http://` fuera de esas posiciones (un espacio de nombres XML como `http://www.w3.org/2000/svg`, el aviso de licencia de una librería, un texto visible).
 - **R17 — Cierre.** El último texto visible de la página es, literalmente, «Aquí queda la línea del respeto».
 
 ## Casos borde
