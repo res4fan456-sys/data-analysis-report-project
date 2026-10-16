@@ -137,7 +137,11 @@ def _comprobar_filas(
 
 
 def _fila_de_hoja(posicion: int) -> int:
-    """Posición (desde 0) entre las líneas de datos. El encabezado es la fila 1; la primera, la 2."""
+    """Fila de hoja de cálculo de un registro: su posición en el archivo contando desde 1.
+
+    `posicion` es el índice del registro en el archivo menos uno, con las líneas en blanco y el
+    encabezado incluidos.
+    """
     return posicion + 2
 
 

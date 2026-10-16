@@ -23,8 +23,8 @@ def leer_transacciones(ruta: Path) -> Transacciones:
 
 
 def _registros(texto: str) -> list[list[str]]:
-    # strict: unas comillas mal cerradas se rechazan; leerlas como otro texto alteraría una fila en
-    # silencio y R2 de docs/DOMINIO.md prohíbe descartar o cambiar filas sin avisar.
+    # strict: unas comillas mal cerradas se rechazan en lugar de leerse como otro texto, que
+    # cambiaría la fila sin avisar. R2 de docs/DOMINIO.md: «Nunca se descartan filas en silencio».
     lector = csv.reader(io.StringIO(texto, newline=""), strict=True)
     try:
         return list(lector)
