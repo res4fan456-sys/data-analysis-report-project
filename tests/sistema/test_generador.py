@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -15,6 +16,7 @@ import pytest
 pytestmark = pytest.mark.sistema
 
 RAIZ = Path(__file__).resolve().parents[2]
+TIEMPO_MAXIMO_SEGUNDOS = 300
 
 COLUMNAS = [
     "id_transaccion",
@@ -38,6 +40,7 @@ class Corrida:
     codigo: int
     csv: bytes
     salida: bytes
+    errores: bytes
 
 
 def _generar(directorio: Path, *argumentos: str) -> Corrida:
@@ -47,9 +50,15 @@ def _generar(directorio: Path, *argumentos: str) -> Corrida:
         cwd=RAIZ,
         capture_output=True,
         check=False,
+        timeout=TIEMPO_MAXIMO_SEGUNDOS,
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
     )
     contenido = ruta.read_bytes() if ruta.exists() else b""
-    return Corrida(proceso.returncode, contenido, proceso.stdout)
+    return Corrida(proceso.returncode, contenido, proceso.stdout, proceso.stderr)
+
+
+def _exigir_exito(corrida: Corrida) -> None:
+    assert corrida.codigo == 0, corrida.errores.decode("utf-8", errors="replace")
 
 
 def _sha256(datos: bytes) -> str:
@@ -71,9 +80,9 @@ def septiembre_2026(tmp_path_factory: pytest.TempPathFactory) -> Corrida:
 
 
 def test_semilla_fija_genera_csv_con_contrato_de_nueve_columnas(septiembre_2026: Corrida) -> None:
+    _exigir_exito(septiembre_2026)
     filas = _filas(septiembre_2026.csv)
 
-    assert septiembre_2026.codigo == 0
     assert filas[0] == COLUMNAS
     assert len(filas) - 1 == 2000
 
@@ -81,6 +90,7 @@ def test_semilla_fija_genera_csv_con_contrato_de_nueve_columnas(septiembre_2026:
 def test_septiembre_2026_con_semilla_fija_reproduce_csv_y_perfil_inyectado(
     septiembre_2026: Corrida,
 ) -> None:
+    _exigir_exito(septiembre_2026)
     # La primera línea de la salida nombra la ruta de salida, que cambia en cada corrida.
     _, _, resumen = septiembre_2026.salida.partition(b"\n")
 
@@ -93,10 +103,9 @@ def test_febrero_2028_bisiesto_reproduce_csv_y_no_revela_patrones_sin_verboso(
 ) -> None:
     corrida = _generar(tmp_path, "-n", "1500", "--mes", "2028-02", "--semilla", "2026")
 
-    ultima_fila = _filas(corrida.csv)[-1]
-    fecha = ultima_fila[COLUMNAS.index("fecha")]
+    _exigir_exito(corrida)
+    fecha = _filas(corrida.csv)[-1][COLUMNAS.index("fecha")]
 
-    assert corrida.codigo == 0
+    assert fecha.startswith("2028-02-29")
     assert _sha256(corrida.csv) == SHA_CSV_FEBRERO
     assert corrida.salida == b""
-    assert fecha.startswith("2028-02-29")
