@@ -1,0 +1,9 @@
+id_transaccion,fecha,monto,concepto,categoria,cuenta,zona,latitud,longitud
+TX000001,2026-09-01 07:39:47,151.41,Estacionamiento Valentín,Transporte,Cuenta Digital ****9403,"Coyoacán, CDMX",19.347168,-99.158736
+TX000002,2026-09-01 08:07:29,1658.47,Gasolinera Valverde,Transporte,Cuenta Digital ****9403,"Coyoacán, CDMX",19.351216,-99.163924
+TX000003,2026-09-01 09:13:45,824.19,Restaurante Jaramillo,Comida,Tarjeta de Crédito ****0262,"Polanco, CDMX",19.435022,-99.192397
+TX000004,2026-09-01 09:19:00,336.33,DiDi,Transporte,Tarjeta de Crédito ****0262,"Santa Fe, CDMX",19.367569,-99.267709
+TX000005,2026-09-01 15:42:35,130.18,Taquería Nájera,Comida,Cuenta Digital ****9403,"Condesa, CDMX",19.412228,-99.171545
+TX000006,2026-09-01 18:03:09,69.70,Abarrotes Carmona,Supermercado,Débito Nómina ****0132,"Polanco, CDMX",19.428434,-99.198680
+TX000007,2026-09-01 18:12:23,1190.34,Gasolinera Sanabria,Transporte,Cuenta Digital ****9403,"Condesa, CDMX",19.410048,-99.169025
+TX000008,2026-09-01 19:02:36,1624.08,Gasolinera Valverde,Transporte,Débito Nómina ****0132,"Coyoacán, CDMX",19.351216,-99.163924
