@@ -7,11 +7,10 @@ avance continuo; `master` en 037e0ef). Lo verificado (abierto o ejecutado) se ma
 ## 1. Veredicto
 
 - `read-transactions-csv`: **lista para un PM.**
-- `monthly-summary-page`: **lista para un PM si el usuario confirma D1 y D2** tal como se recomiendan; su
-  grupo 3 necesita además el activo de D3.
-- Ola `1-monthly-summary`: **no lista** hasta que el usuario cierre D1 (alcance), D2 (contrato de R16) y D3
-  (entregar la fuente). Con las tres como se recomiendan no hay nada más que escribir: los changes y el brief
-  ya están redactados así.
+- `monthly-summary-page`: **lista para un PM**; su grupo 3 (PR 4) espera el activo de D3.
+- Ola `1-monthly-summary`: **lista para delegar** (2026-10-16). El usuario cerró D1, D2 y D3 en su opción A;
+  el Team Manager, D4 = A y D5 tal cual. El PR 4 espera la fuente y su SHA-256 (D3); los PRs 1–3, no. La PR
+  #13 (documentos, para el usuario) no bloquea: los changes ya traen sus definiciones.
 - Lo más importante: R16 leída al pie de la letra rechaza la fuente incrustada que la propia Fase 1 exige
   (B1), y R4/R14 piden hallazgos que solo existen con los patrones de la Fase 2 (B2).
 
@@ -71,6 +70,7 @@ avance continuo; `master` en 037e0ef). Lo verificado (abierto o ejecutado) se ma
     fuente o se ablanda el test a mitad de ola.
   - Recomendación: precisar R16 con una definición posicional (D2 = A, PR #13) y escribir el detector con
     ella. La spec `pagina-del-reporte` ya la trae.
+  - Estado: **resuelto** (D2 = A, 2026-10-16).
 - **B2 — El PLAN cierra en la Fase 1 reglas que hablan de patrones de la Fase 2.**
   - Qué pasa: `docs/PLAN.md:61` cierra R4 y R14 en la Fase 1. R4 pide «entre 3 y 5 hallazgos principales,
     ordenados por relevancia» (`docs/DOMINIO.md:41`) y R14 gobierna hallazgos y patrones
@@ -79,10 +79,13 @@ avance continuo; `master` en 037e0ef). Lo verificado (abierto o ejecutado) se ma
   - Por qué importa: con solo KPIs, los «hallazgos» serían las mismas cifras en prosa, con un orden de
     relevancia inventado que la Fase 2 tendría que rehacer.
   - Recomendación: D1 = A (PR #13).
+  - Estado: **resuelto** (D1 = A, 2026-10-16).
 - **B3 — La fuente no está en el repositorio y ningún agente la puede descargar.**
   - Qué pasa: `src/reporte/presentacion/activos/` no existe [V]; `CLAUDE.md` (Reglas de proceso 5) prohíbe
     a los agentes descargar.
   - Recomendación: D3. Bloquea solo el grupo 3 (PR 4); los PRs 1 a 3 pueden arrancar sin ella.
+  - Estado: **resuelto para el arranque** (D3 = A, 2026-10-16): el usuario la descarga fuera del
+    repositorio; el PR 4 espera los archivos y su SHA-256, que pasa el Team Manager.
 
 ### CORREGIR ANTES DE ENCARGAR
 
@@ -141,6 +144,7 @@ Ninguno pendiente: lo corregí al proponer.
      al PR 3 y otra al PR 4.
    - Recomendación: **A**. El entregable de la Fase 1 ya dice «KPIs del resumen»; B escribe dos veces el
      orden de relevancia.
+   - **Cerrada (2026-10-16): A, decisión del usuario.** PR #13.
 2. **D2 — Qué cuenta como «referencia de red» en R16 (issue #5).** *Contrato: del usuario.*
    - A) Definición posicional (PR #13): una URL de red en una posición que el navegador carga (atributos de
      carga, `url()`/`@import`, APIs de carga de JS); las URL `data:` y las cadenas fuera de esas posiciones no
@@ -150,6 +154,7 @@ Ninguno pendiente: lo corregí al proponer.
    - C) A, más la prohibición de cualquier `http(s)://` en el marcado y el CSS propios (fuera de las
      librerías incrustadas).
    - Recomendación: **A**. C añade una regla que la Fase 1 no necesita.
+   - **Cerrada (2026-10-16): A, decisión del usuario.** PR #13; la spec `pagina-del-reporte` ya la trae.
 3. **D3 — La fuente Inter.** *Activo: solo el usuario lo puede descargar.*
    - A) `InterVariable.woff2` de Inter 4.1 (OFL-1.1): todos los pesos en un archivo, ~350 KB, ~460 KB en el
      HTML.
@@ -169,12 +174,15 @@ Ninguno pendiente: lo corregí al proponer.
 
      Si la lista no trae `web/InterVariable.woff2` o `LICENSE.txt` con esos nombres, se usa la ruta que
      muestre. El PM copia los dos archivos de `~/activos-reporte/inter-4.1/` al worktree del PR 4.
+   - **Cerrada (2026-10-16): A, decisión del usuario.** La descarga él fuera del repositorio; el SHA-256
+     llega por el Team Manager y solo bloquea el PR 4.
 4. **D4 — El JavaScript del tema no tiene test automático.** *Técnica: del Team Manager.*
    - A) Script mínimo y revisión visual de sus tres escenarios en la PR de ola (sección «Revisión visual de
      la fase» de `monthly-summary-page/tasks.md`).
    - B) Añadir un motor de JS al gate (`node` existe en la máquina, pero no está en `docs/STACK.md`): cambio
      de stack, subiría al usuario.
    - Recomendación: **A**. Son unas líneas; B mete una cadena de herramientas por ellas.
+   - **Cerrada (2026-10-16): A, decisión del Team Manager.**
 5. **D5 — Decisiones técnicas escritas en los artefactos.** *Del Team Manager: confirma o revierte.*
    - Absorber #5 y #6 en esta ola (sección 6).
    - Columnas en cualquier orden; se nombra la primera fila inválida, numerada como en una hoja de cálculo
@@ -188,5 +196,6 @@ Ninguno pendiente: lo corregí al proponer.
    - La ruta por defecto sale del mes de los datos, no del nombre del CSV; `--abrir` fuera (#12); las
      palabras fijas de `argparse` quedan en inglés.
    - Recomendación: confirmarlas todas.
+   - **Cerrada (2026-10-16): confirmadas tal cual por el Team Manager.**
 
-Brief: `docs/olas/1-monthly-summary-brief.md` (redactado con D1–D3 en su opción A).
+Brief: `docs/olas/1-monthly-summary-brief.md`.

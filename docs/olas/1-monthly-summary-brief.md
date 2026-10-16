@@ -4,9 +4,8 @@ Eres el **project manager** de la Ola 1-monthly-summary de Reporte de gasto mens
 skill `desarrollo-autonomo-pm` (entra por §1) y tus reglas son `CLAUDE.md`. Este brief delimita la misión; lo
 que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team Manager.
 
-> **Vigencia.** Redactado con las decisiones D1, D2 y D3 del pre-vuelo en su opción A
-> (`docs/olas/1-monthly-summary-revision.md`, §8). Si el Team Manager te lanza, es que el usuario las
-> confirmó; si alguna cambió, el Planeador rehace este brief antes del primer encargo.
+> **Decisiones del pre-vuelo, cerradas el 2026-10-16** (`docs/olas/1-monthly-summary-revision.md`, §8):
+> D1 = A, D2 = A y D3 = A, del usuario; D4 = A y D5 tal cual, del Team Manager. No queda ninguna abierta.
 
 ## 1. La ola
 
@@ -93,11 +92,13 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
     encargo.
   - Los tests son tablas hechas a mano con el resultado calculado a mano (`docs/ARQUITECTURA.md:65`).
 - **Grupo 4 — PR 4, `monthly-summary-page` grupo 3 (`implementador-presentacion`).**
-  - **Prerrequisito del usuario:** `~/activos-reporte/inter-4.1/InterVariable.woff2` y
-    `~/activos-reporte/inter-4.1/LICENSE.txt` (Inter 4.1, OFL-1.1, de
-    `https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip`; D3 del pre-vuelo). Si no están al
-    llegar aquí, pídelos al Team Manager; los PRs 1–3 no los necesitan. Tú copias los dos archivos al
-    worktree antes del encargo; el implementador no descarga nada.
+  - **El PR 4 espera el activo; los PRs 1–3 no.** El usuario descarga Inter 4.1 (OFL-1.1, de
+    `https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip`; D3) **fuera del repositorio**, en
+    `~/activos-reporte/inter-4.1/InterVariable.woff2` y `~/activos-reporte/inter-4.1/LICENSE.txt`. El
+    SHA-256 de los dos archivos te lo pasa el Team Manager. Antes del encargo del PR 4: comprueba que los dos
+    archivos existen y que `sha256sum` coincide con lo que te pasó; si falta algo o no coincide, no encargas
+    el PR 4 y lo escalas al Team Manager. Tú copias los dos archivos al worktree, y el SHA-256 va en
+    `LICENCIAS.md` (tarea 3.1); el implementador no descarga nada.
   - `src/reporte/presentacion/activos/` no existe; `LICENCIAS.md` lo exige la regla innegociable 6.
   - La paleta concreta la elige el implementador dentro de «negro y dorado con acentos brillantes»
     (`docs/STACK.md:34`); el test de contraste es la guarda y el usuario la valida en la revisión visual.
@@ -116,8 +117,12 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
 
 - **Base de la ola:** `ola/0-scaffolding` (avance continuo pedido por el usuario el 2026-10-16; su PR de ola
   es la #11, apilada sobre la #3). De ahí sale la rama de ola y a ahí apunta su PR. La PR de planeación de
-  esta ola apunta también a `ola/0-scaffolding`, y la PR #13 (documentos, para el usuario) apunta a
-  `master`: ninguna se mergea por la mecánica.
+  esta ola apunta también a `ola/0-scaffolding`, y ninguna se mergea por la mecánica.
+- **La PR #13 es de documentos, para el usuario, y no bloquea la ola.** Apunta a `master` y escribe en
+  `docs/DOMINIO.md` y `docs/PLAN.md` lo que D1 y D2 decidieron. Los changes ya traen esas definiciones en
+  sus specs: implementas desde ellas, no desde `docs/`, y si la #13 sigue sin mergear, la base de la ola
+  (`ola/0-scaffolding`) tendrá la redacción anterior de R16 y de la tabla de fases. Un comentario de código
+  que cite R16 se escribe con la definición de la spec.
 - Quién propone (el Team Manager, vía el Planeador) y quién toma (el PM); a quién se escala (al Team
   Manager). El handover, no cambiar la rama del checkout principal y el comando pesado uno a la vez viven en
   `desarrollo-autonomo-pm` (§6, §1.7) y en `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con
@@ -134,5 +139,5 @@ que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al
 
 - `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre `ola/0-scaffolding`, mecánica de
   OpenSpec de los dos changes; con eso, la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager
-  **solo si hay algo que pedir al usuario** —la fuente de D3, si aún no está en `~/activos-reporte/inter-4.1/`—,
-  y después la rama, el registro y los encargos de los PRs 1 y 2 en paralelo.
+  **solo si hay algo que pedir al usuario** —la fuente de D3 o su SHA-256, si aún no te llegaron; no
+  frenan los PRs 1–3—, y después la rama, el registro y los encargos de los PRs 1 y 2 en paralelo.
