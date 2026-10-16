@@ -19,7 +19,7 @@
 | # | Grupo (change · tareas) | Rama | Estado |
 |---|---|---|---|
 | #9 | `move-generator-package` · 1.1 | `test/0-generator-reproducibility-guard` | mergeada (f64ed17) — 0 mecánicas · 0 rondas · 0 por corrección; crítico LISTA en la pasada 1 con 4 NO BLOQUEA, cerrados en la pasada final (7909743) sin crítico |
-| — | `move-generator-package` · 2.1–2.4 | `refactor/0-move-generator-package` | pendiente |
+| #10 | `move-generator-package` · 2.1–2.4 | `refactor/0-move-generator-package` | mergeada (6bac375) — 0 mecánicas · 0 rondas · 0 por corrección; crítico LISTA en la pasada 1 con 4 NO BLOQUEA, cerrados en la pasada final (d05a2fc) sin crítico |
 
 ## Decisiones del PM
 
@@ -27,6 +27,10 @@
 - PR #9: `PYTHONIOENCODING=utf-8` queda sin mutante (en esta máquina Python ya coerciona a UTF-8): se acepta como defensa ante un locale ajeno. Descartado: dejar la salida a la codificación heredada.
 
 - Los worktrees se montan con la ruta real `/mnt/c/…/.claude/worktrees/<nombre>`, no con el `$PWD` de la sesión (`/home/JP/Código/…`, un enlace simbólico): con el enlace, el gancho `comprobar` resuelve la ruta real y da FUERA. Descartado: tocar el gancho, que es configuración de la mecánica.
+- PR #10: se acepta que ruff (I001) reordene el import movido tras `from faker import Faker` (3 líneas de diff en `generar_transacciones.py` en vez de 1). El crítico comprobó que `configuracion` no tiene efectos de importación y que la salida es idéntica; la guarda sigue verde. Descartado: excluir el archivo del lint o tocar `pyproject.toml`, fuera de alcance.
+- PR #10: en la pasada final se autorizó al implementador a tocar también `test_el_nucleo_no_importa_io` (el encargo lo dejaba fuera), para que los dos tests de pureza fallen si `src/reporte` no tiene módulos. Descartado: arreglar solo el test nuevo y dejar el mismo hueco en el viejo.
+- PR #10: el README describe el reporte en futuro («todavía no existe») y pide Python 3.14, a propuesta del crítico. Descartado: la introducción en presente, que prometía un reporte que hoy no se puede generar.
+- PR #10: el PM cortó un `bash` del implementador que quedó colgado esperando un heredoc mal cerrado (una edición abandonada del README); no había escrito nada y el README ya estaba corregido por otra vía.
 
 ## Deuda
 
