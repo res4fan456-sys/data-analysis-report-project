@@ -1,12 +1,15 @@
 # Reporte de gasto mensual
 
-Toma el CSV de transacciones de un mes y genera una única página HTML local, sin red y en
-español de México, con el análisis de gasto. Este repositorio incluye también un generador
-sintético que usa [Faker](https://faker.readthedocs.io/) para producir el CSV de prueba: los
-gastos de **una persona durante un mes** (20,000 transacciones por defecto). Cada ejecución
-produce datos nuevos, pero siempre con patrones de gasto detectables, para alimentar el reporte.
+El reporte tomará el CSV de transacciones de un mes y generará una única página HTML local,
+sin red y en español de México, con el análisis de gasto. Todavía no existe: hoy el repositorio
+solo ofrece el generador sintético, que usa [Faker](https://faker.readthedocs.io/) para producir
+el CSV de prueba: los gastos de **una persona durante un mes** (20,000 transacciones por
+defecto). Cada ejecución produce datos nuevos, pero siempre con patrones de gasto detectables,
+para alimentar el reporte cuando exista.
 
 ## Instalación
+
+Requiere Python 3.14 o superior.
 
 ```bash
 python3 -m venv .venv
