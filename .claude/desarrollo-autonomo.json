@@ -57,7 +57,7 @@
     ]
   },
   "worktree": {
-    "preparar": "python3 -m venv {wt}/.venv && {wt}/.venv/bin/pip install --quiet --disable-pip-version-check --no-index --find-links .cache/pip -r requirements-dev.txt -e .",
+    "preparar": "python3 -m venv {wt}/.venv && {wt}/.venv/bin/pip install --quiet --disable-pip-version-check --no-index --find-links {wt}/../../../.cache/pip -r requirements-dev.txt -e .",
     "comprobar": "{wt}/.venv/bin/python -c 'import reporte, pathlib; print(pathlib.Path(reporte.__file__).resolve())'",
     "limpiar": "rm -rf {wt}/.venv"
   },
@@ -66,6 +66,7 @@
     "nombre": "Reporte de gasto mensual",
     "descripcion": "Toma el CSV de transacciones de un mes y genera una única página HTML local, sin red y en español de México, con el análisis de gasto; termina con «Aquí queda la línea del respeto».",
     "usuarioFinal": "el autor",
+    "ramaPrincipal": "master",
     "idiomaCommits": "en",
     "idiomaRamas": "en",
     "invariantes": [

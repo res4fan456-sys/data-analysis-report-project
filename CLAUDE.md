@@ -40,16 +40,16 @@ La implementación no la escribe quien dirige: se delega. El detalle es del skil
 
 ### Skills
 
-Se buscan e instalan **solo** con `/find-skills` (o `/da-init --skills`), con alcance de proyecto; instala el usuario. **Obligatorios al implementar:** `tdd`, `codebase-design` y `gh`. Los de cada área los fija el perfil y los nombra el encargo. Se invocan **antes** de escribir código, una vez cada uno (los precargados no se reinvocan); el PM lo verifica. Seguridad de autenticación: `/security-review` antes de integrar a `main`.
+Se buscan e instalan **solo** con `/find-skills` (o `/da-init --skills`), con alcance de proyecto; instala el usuario. **Obligatorios al implementar:** `tdd`, `codebase-design` y `gh`. Los de cada área los fija el perfil y los nombra el encargo. Se invocan **antes** de escribir código, una vez cada uno (los precargados no se reinvocan); el PM lo verifica. Seguridad de autenticación: `/security-review` antes de integrar a `master`.
 
 ---
 
 ## Git
 
-`main` es la rama principal. **Nunca se commitea directamente a `main`.**
+`master` es la rama principal. **Nunca se commitea directamente a `master`.**
 
 1. **Ramas y PRs pequeñas.** La unidad de integración es un grupo de tareas coherente de `tasks.md`: rama propia (`<tipo>/<fase>-<descripcion-corta>`, en inglés), PR propia, merge al pasar revisión. La rama la crea el PM antes de lanzar al implementador.
-2. **Implementadores y críticos no tocan git.** El implementador deja sus cambios sin commitear; el crítico solo lee (`gh pr view/diff`, `git show/diff/ls-tree`). Planeador y Archivador tienen rama propia y PR a `main`.
+2. **Implementadores y críticos no tocan git.** El implementador deja sus cambios sin commitear; el crítico solo lee (`gh pr view/diff`, `git show/diff/ls-tree`). Planeador y Archivador tienen rama propia y PR a `master`.
 3. **Los mensajes de commit los escribe quien leyó el diff completo** (el PM dentro de la ola), nunca el implementador.
 4. **Quién mergea qué.** El usuario, toda PR con código de producto: la de ola y la de un arreglo. El **Team Manager**, las de planeación y archivado, solo si su diff cae en su dominio de rutas (`.claude/da/da pr-dominio <n>`) y con `openspec validate` y CI en verde. El PM, las internas contra `ola/*`. Nadie más.
 5. **Toda PR lleva evidencia** con la plantilla de `formato-de-pr.md` (skill del PM): alcance, `verify` y `sistema` resumidos con su SHA. GitHub se opera con `gh`.
@@ -57,13 +57,13 @@ Se buscan e instalan **solo** con `/find-skills` (o `/da-init --skills`), con al
 ### Desarrollo autónomo por olas
 
 - **Seis roles** —Team Manager, Planeador, PM, implementador, crítico y Archivador—. **El porqué, los principios y la tabla de roles** están en `docs/DESARROLLO-AUTONOMO.md` (§3, §4). **El procedimiento de cada rol, en su skill** `desarrollo-autonomo-<rol>`, único documento normativo del rol, precargado por `.claude/agents/<rol>.md`.
-- **Dos carriles.** *Arreglo*: issue con `carril:arreglo`, un PM con un implementador, una PR a `main` que mergea el usuario; sin Planeador, crítico ni registro. *Ola*: planeación, PRs internas y cierre, con los seis roles.
+- **Dos carriles.** *Arreglo*: issue con `carril:arreglo`, un PM con un implementador, una PR a `master` que mergea el usuario; sin Planeador, crítico ni registro. *Ola*: planeación, PRs internas y cierre, con los seis roles.
 - **El usuario habla siempre con el Team Manager**, que le lleva solo lo que el equipo no puede procurarse, los cambios de alcance y los `[PENDIENTE]`; lo demás se decide y se escribe en el registro, y el usuario lo confirma o revierte en la PR de ola.
 - **Lo que esta mecánica relaja de este archivo, completo:** *Git* punto 4, *Desarrollo agéntico* punto 6, la lectura de git del crítico y la escritura de git del Planeador y el Archivador, y `verify` en PRs sin código. Nada más.
 
 ### Hallazgos y deuda en issues de GitHub
 
-Lo que no entra en una ola va a una **issue** con la plantilla `.github/ISSUE_TEMPLATE/hallazgo.md` (Planeador: `origen:pre-vuelo`; PM: `origen:ola`), con `archivo:línea` verificado y tras `gh issue list --search`; `impacto:visible` es el filtro de prioridad. Toda PR a `main` que arregla una issue lleva `Closes #N`.
+Lo que no entra en una ola va a una **issue** con la plantilla `.github/ISSUE_TEMPLATE/hallazgo.md` (Planeador: `origen:pre-vuelo`; PM: `origen:ola`), con `archivo:línea` verificado y tras `gh issue list --search`; `impacto:visible` es el filtro de prioridad. Toda PR a `master` que arregla una issue lleva `Closes #N`.
 
 ### Mensajes de commit
 
@@ -76,7 +76,7 @@ En inglés y convencionales (`feat:`, `fix:`, `chore:`, `test:`, `docs:`, `refac
 1. **No se escribe código sin una tarea de OpenSpec.**
 2. **Nada marcado `[PENDIENTE]` se implementa.** Se pregunta al usuario y se cierra la decisión antes.
 3. **Se respeta el alcance de la fase.** Lo que `docs/PLAN.md` declara fuera de alcance no entra «de paso».
-4. **Las fases son secuenciales.** No se empieza una sin que el entregable de la anterior esté demostrado y confirmado; con **avance continuo** pedido expresamente por el usuario, la siguiente se apila sobre la PR de la anterior sin esperar su merge (`desarrollo-autonomo-team-manager` §1), y nada entra en `main` sin él.
+4. **Las fases son secuenciales.** No se empieza una sin que el entregable de la anterior esté demostrado y confirmado; con **avance continuo** pedido expresamente por el usuario, la siguiente se apila sobre la PR de la anterior sin esperar su merge (`desarrollo-autonomo-team-manager` §1), y nada entra en `master` sin él.
 5. **Solo el usuario instala en el proyecto.** Ningún agente ejecuta instaladores ni descargas (`pip install`, `pip3 install`, `pipx install`, `uv add`, `uv pip install`, `uv sync`, `uvx`, `poetry add`, `conda install`, `npx`, `npm install`, `npm i`, `brew install`, `apt install` y `apt-get install`, imágenes de Docker): propone el comando exacto y espera. Excepción: el directorio temporal propio de Claude, fuera del repositorio.
 6. **Nadie despliega** desde la mecánica; si el proyecto gana un despliegue, entra aquí con su procedimiento.
 7. **Toda regla que se pueda volver automática (lint, test de arquitectura, hook) debe volverse automática.** Un archivo de reglas es un recordatorio; una regla de lint es una garantía.

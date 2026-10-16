@@ -7,13 +7,13 @@
 
 ## 1. El objetivo
 
-El usuario no opera el desarrollo: **lo revisa una vez por ola**. Un **Team Manager** mantiene el desarrollo continuo: lanza al **Planeador** que prepara cada ola, a un **project manager** que la lleva con implementadores y críticos hasta una sola PR a `main`, y al **Archivador** que la cierra tras el merge. El usuario entra, por el Team Manager, en dos momentos: para decidir lo que solo él puede decidir (alcance, instalaciones, credenciales, `[PENDIENTE]`), y para revisar y mergear la PR de ola. El relevo del project manager cuando su contexto se llena lo hace el Team Manager, no el usuario. Un cambio pequeño no paga la ola: va por el **carril de arreglo** (§8).
+El usuario no opera el desarrollo: **lo revisa una vez por ola**. Un **Team Manager** mantiene el desarrollo continuo: lanza al **Planeador** que prepara cada ola, a un **project manager** que la lleva con implementadores y críticos hasta una sola PR a `master`, y al **Archivador** que la cierra tras el merge. El usuario entra, por el Team Manager, en dos momentos: para decidir lo que solo él puede decidir (alcance, instalaciones, credenciales, `[PENDIENTE]`), y para revisar y mergear la PR de ola. El relevo del project manager cuando su contexto se llena lo hace el Team Manager, no el usuario. Un cambio pequeño no paga la ola: va por el **carril de arreglo** (§8).
 
 ## 2. Glosario
 
 | Término | Qué es |
 |---|---|
-| **Fase** | Un tramo de `docs/PLAN.md` con objetivo, entregable verificable y lo que queda fuera de alcance. Las fases son secuenciales en `main`; con avance continuo (petición expresa del usuario) se apilan sin esperar el merge |
+| **Fase** | Un tramo de `docs/PLAN.md` con objetivo, entregable verificable y lo que queda fuera de alcance. Las fases son secuenciales en `master`; con avance continuo (petición expresa del usuario) se apilan sin esperar el merge |
 | **Ola** | La unidad de entrega: 2 changes de OpenSpec como mucho, hasta 5 PRs internas, una rama `ola/<ola>` y una PR de cierre que revisa el usuario |
 | **Carril** | El camino de un cambio: *ola* (completo) o *arreglo* (corto: ≤30 líneas de producto, un PM con un implementador, sin crítico ni registro) |
 | **Grupo de tareas** | El subconjunto de `tasks.md` que entrega una PR interna (unas 600 líneas de diff o menos) |
@@ -28,7 +28,7 @@ El usuario no opera el desarrollo: **lo revisa una vez por ola**. Un **Team Mana
 | **Checks ligeros** | Lo que un implementador corre dentro de su worktree mientras itera (`.venv/bin/pytest -q -m "not sistema" {rutas}` y los de su área) |
 | **Comando pesado** | Lo que solo corre el PM, uno a la vez en toda la máquina (el candado es por máquina y lo comparten todos los proyectos que corran en ella): `.claude/da/da verify`, `.claude/da/da sistema`, `.venv/bin/pytest -q -m sistema`, `pytest -q`, `pytest tests`, `docker compose up`, `docker compose build`, `docker build`, `docker run` y `graft build` |
 | **Suite de sistema** | `sistema`: la prueba de más alto nivel contra el sistema real; exclusiva por máquina |
-| **El usuario** | La persona que decide alcance y mergea a `main`. Distinto de **el autor**, para quien se construye el producto |
+| **El usuario** | La persona que decide alcance y mergea a `master`. Distinto de **el autor**, para quien se construye el producto |
 | **Severidades** | El crítico: `BLOQUEA` / `NO BLOQUEA` dentro de `LISTA` / `NO LISTA`. El Planeador: `BLOQUEA EL ARRANQUE` / `CORREGIR ANTES DE ENCARGAR` / `DEUDA`. Una issue lleva *Riesgo* y la etiqueta `impacto:visible`, que son prioridad, no severidad |
 
 ## 3. Principios
@@ -49,7 +49,7 @@ Ninguna optimización de velocidad puede romper uno de estos. Son la única list
 12. **Cero forks.** Toda delegación va por un agente lanzado **con nombre** y con el alias de modelo que le toca (`opus`, `sonnet`, `fable`, `haiku`); nadie sobrescribe el modelo de un agente con nombre salvo los casos declarados en §4. Los subagentes built-in heredan el modelo del padre: si un rol los lanza, indica el modelo.
 13. **La lista `Agent(...)` de un agente no es garantía.** En el hilo principal es lista blanca; dentro de un subagente, la plataforma la ignora o la hereda según su versión. Por eso quién lanza a quién —el Team Manager solo al Planeador, al PM, al Archivador y al lector— lo garantiza el hook `.claude/da/guardia.cjs` (`PreToolUse` sobre `Agent`), no la lista de tools.
 14. **Cada agente carga lo mínimo.** `CLAUDE.md` es corto porque lo carga cada agente en cada turno; lo que comparten varios roles se repite en cada skill, porque cada agente carga un solo skill. Las definiciones de agente precargan solo el skill del rol (y `tdd`, `codebase-design` y `gh` en el implementador); lo demás lo nombra el encargo y se invoca una vez.
-15. **El código llega a `main` solo con el merge del usuario.** El Team Manager mergea las PRs de planeación y de archivado, y solo dentro de su dominio de rutas (`.claude/da/da pr-dominio`); el PM, las internas contra `ola/*`. Nadie más.
+15. **El código llega a `master` solo con el merge del usuario.** El Team Manager mergea las PRs de planeación y de archivado, y solo dentro de su dominio de rutas (`.claude/da/da pr-dominio`); el PM, las internas contra `ola/*`. Nadie más.
 
 ## 4. El equipo
 
@@ -57,12 +57,12 @@ Seis roles. El modelo se nombra por **alias**, y quien delega lo menciona al lan
 
 | Rol | Modelo · esfuerzo | Lo lanza | Hace | No hace | Skill · agente |
 |---|---|---|---|---|---|
-| Team Manager | `opus` · high | El usuario (su sesión de Claude Code) | Mantiene el desarrollo continuo: lanza al Planeador, a un PM por ola o por arreglo y al Archivador; releva al PM tras su handover; decide lo técnico dentro del alcance aprobado; **mergea las PRs de planeación y de archivado** dentro de su dominio de rutas; único interlocutor del usuario | Código, encargar a implementadores o críticos, comando pesado, escribir en `ola/*`, cambiar la rama del checkout principal, decidir alcance/instalaciones/credenciales/`[PENDIENTE]`, mergear código a `main` | `desarrollo-autonomo-team-manager` · `team-manager.md` |
+| Team Manager | `opus` · high | El usuario (su sesión de Claude Code) | Mantiene el desarrollo continuo: lanza al Planeador, a un PM por ola o por arreglo y al Archivador; releva al PM tras su handover; decide lo técnico dentro del alcance aprobado; **mergea las PRs de planeación y de archivado** dentro de su dominio de rutas; único interlocutor del usuario | Código, encargar a implementadores o críticos, comando pesado, escribir en `ola/*`, cambiar la rama del checkout principal, decidir alcance/instalaciones/credenciales/`[PENDIENTE]`, mergear código a `master` | `desarrollo-autonomo-team-manager` · `team-manager.md` |
 | Planeador | `opus` · high | Team Manager, o el usuario en sesión independiente | Pre-vuelo de una ola: verifica los changes contra el PLAN y el código, reporta, refina los artefactos por su skill, escribe el brief del PM, abre la PR de planeación acotada a su dominio de rutas | Código, encargos, lanzar PMs, tocar `ola/*`, comando pesado | `desarrollo-autonomo-planeador` · `planeador.md` |
-| Project manager | `opus` · high, uno a la vez por ola | Team Manager | Lleva un tramo de ola o un arreglo: OpenSpec, git, encargos, comando pesado, diff con mirada de integración, merges internos, registro, decisiones; handover a las 3 PRs internas mergeadas o el umbral, en frontera de PR | Código de producto, parchear, verificar visuales en el navegador, hablar con el usuario, mergear a `main` | `desarrollo-autonomo-pm` · `pm.md` |
+| Project manager | `opus` · high, uno a la vez por ola | Team Manager | Lleva un tramo de ola o un arreglo: OpenSpec, git, encargos, comando pesado, diff con mirada de integración, merges internos, registro, decisiones; handover a las 3 PRs internas mergeadas o el umbral, en frontera de PR | Código de producto, parchear, verificar visuales en el navegador, hablar con el usuario, mergear a `master` | `desarrollo-autonomo-pm` · `pm.md` |
 | Implementador | `sonnet` · high, uno por grupo (una variante por área: `implementador`, `implementador-datos`, `implementador-presentacion`, `implementador-app` y `implementador-generador`) | Project manager | TDD acotado a su grupo; por test, la mutación y el comportamiento que protege; reporta por criterio | Git, `openspec/`, comando pesado, instalar, forks, salir de su grupo, comentarios nuevos sin un porqué que cite `docs/` u `openspec/specs/` | `desarrollo-autonomo-implementador` · `implementador.md, implementador-datos.md, implementador-presentacion.md, implementador-app.md, implementador-generador.md` |
 | Crítico | `opus` · xhigh, una instancia por PR | Project manager | Revisa el código de la PR contra los criterios de su grupo; juzga el valor de cada test; veredicto LISTA / NO LISTA con hallazgos BLOQUEA / NO BLOQUEA y una sección propia de *Comentarios y citas*, en 80 líneas o menos | Código, git (salvo lectura), comando pesado, revisar al PM | `desarrollo-autonomo-critico` · `critico.md` |
-| Archivador | `haiku` (`sonnet` con delta specs) | Team Manager, tras el merge a `main` | Sincroniza specs, archiva los changes, cierra las issues absorbidas, abre su PR a `main` (la mergea el TM) | Código, comando pesado, mergear | `desarrollo-autonomo-archivador` · `archivador.md` |
+| Archivador | `haiku` (`sonnet` con delta specs) | Team Manager, tras el merge a `master` | Sincroniza specs, archiva los changes, cierra las issues absorbidas, abre su PR a `master` (la mergea el TM) | Código, comando pesado, mergear | `desarrollo-autonomo-archivador` · `archivador.md` |
 
 Un `lector` (`haiku`, solo lectura) responde preguntas concretas con `archivo:línea` a quien no debe cargar su contexto leyendo código.
 
@@ -73,14 +73,14 @@ Un `lector` (`haiku`, solo lectura) responde preguntas concretas con `archivo:l�
 | Planeación | Solo si hay una decisión de alcance (un criterio cambia, un change no cabe, un `[PENDIENTE]`), una contradicción entre el PLAN y el código que obliga a elegir, algo que el equipo no puede procurarse, o una planeación que pasa de 1 hora(s) sin brief. Lo demás lo decide el TM y queda en `docs/olas/<ola>-revision.md` y en el brief. La PR de planeación la mergea el TM. |
 | Arranque de la ola | Recibe un **aviso** (qué ola, qué changes, qué PRs vendrán). La lista única de arranque llega solo si contiene algo que él debe proveer: instalaciones, credenciales, scopes, dispositivos, `[PENDIENTE]`. |
 | Durante la ola | Le llegan solo dos cosas, por el Team Manager: lo que el equipo no puede procurarse y un cambio de alcance. Puede dar sugerencias; entran como decisiones del registro. |
-| Cierre de la ola | Revisa y mergea la PR `ola/<ola>` → `main`; confirma o revierte en bloque las decisiones y la deuda del registro. La PR de archivado que sigue la mergea el TM. |
-| Arreglo | Revisa y mergea su única PR a `main`; si el arreglo es visual, la verificación en vivo es suya. |
+| Cierre de la ola | Revisa y mergea la PR `ola/<ola>` → `master`; confirma o revierte en bloque las decisiones y la deuda del registro. La PR de archivado que sigue la mergea el TM. |
+| Arreglo | Revisa y mergea su única PR a `master`; si el arreglo es visual, la verificación en vivo es suya. |
 
 **Por qué un Team Manager.** Una ola larga encadena varios PMs, cada uno relevado cuando su contexto se llena; alguien tiene que lanzarlos, recibir sus handovers y resolver los escalados sin molestar al usuario. Una decisión técnica dentro del alcance no necesita al usuario: el Team Manager la toma y la deja escrita.
 
 **Por qué un Planeador.** El pre-vuelo de una ola lo corre una sesión aparte antes de delegar. Nombrarlo lo separa del PM: el Planeador protege el entregable de la ola; el PM lo construye. Verifica changes contra el código, no diseña arquitectura de cero: por eso corre en `opus`.
 
-**Por qué un Archivador.** Sincronizar specs y archivar los changes deja `main` en rojo cuando lo hace el mismo que cierra la ola: las specs pasan a describir código que todavía no llegó. Separarlo, con su propia PR validada por CI y **sin** correr el comando pesado en local, corta esa clase de fallo.
+**Por qué un Archivador.** Sincronizar specs y archivar los changes deja `master` en rojo cuando lo hace el mismo que cierra la ola: las specs pasan a describir código que todavía no llegó. Separarlo, con su propia PR validada por CI y **sin** correr el comando pesado en local, corta esa clase de fallo.
 
 **Por qué el mismo crítico en las pasadas siguientes.** Una instancia nueva por pasada evita el anclaje, pero cuesta releer la PR entera cada vez y no atrapa nada que la primera pasada no hubiera visto. Un crítico que revisa su propia lista sabe exactamente qué buscar; el sesgo de anclaje se acepta a cambio.
 
@@ -130,12 +130,12 @@ Se miden tres familias, con `.claude/da/da medir`, y cada carril tiene su propia
 
 ## 8. Los dos carriles y el flujo de una ola
 
-**Arreglo.** Una issue con `carril:arreglo` (30 líneas de producto o menos, sin una regla de dominio en el núcleo, un cambio de contrato entre módulos, una migración y un flujo nuevo en la suite de sistema); un PM que entra por `desarrollo-autonomo-pm` §0 con un implementador, sin Planeador, crítico ni registro; OpenSpec mínimo sincronizado y archivado en la misma rama; una sola PR a `main` que mergea el usuario.
+**Arreglo.** Una issue con `carril:arreglo` (30 líneas de producto o menos, sin una regla de dominio en el núcleo, un cambio de contrato entre módulos, una migración y un flujo nuevo en la suite de sistema); un PM que entra por `desarrollo-autonomo-pm` §0 con un implementador, sin Planeador, crítico ni registro; OpenSpec mínimo sincronizado y archivado en la misma rama; una sola PR a `master` que mergea el usuario.
 
-**Ola.** Tres PRs a `main` y el usuario mergea una:
+**Ola.** Tres PRs a `master` y el usuario mergea una:
 
 1. **Planeación** (Planeador): valida los changes contra el plan y el código, los parte en ≤5 PRs internas, escribe `docs/olas/<ola>-revision.md` y `<ola>-brief.md`, abre la PR de planeación. La mergea el Team Manager con `.claude/da/da pr-dominio`.
-2. **Arranque** (PM): `.claude/da/da preflight`, `verify` en `main`, diseño verificado contra el código, una sola lista al Team Manager; rama `ola/<ola>`, worktree, registro.
+2. **Arranque** (PM): `.claude/da/da preflight`, `verify` en `master`, diseño verificado contra el código, una sola lista al Team Manager; rama `ola/<ola>`, worktree, registro.
 3. **Bucle por grupo** (PM, implementador, crítico): encargo → implementación en su worktree → revisión propia del PM sobre el árbol sin commitear → commit con las casillas volteadas y `verify` → PR interna → crítico → triage → ≤2 rondas → pasada final de comentarios → squash a `ola/<ola>` y línea en el registro.
 4. **Handover** (PM → Team Manager → PM de relevo): a las 3 PRs mergeadas o al umbral de contexto, siempre en frontera de PR, por la sección *Handover* del registro.
 5. **Cierre** (PM): `verify` y `sistema` sobre `ola/<ola>`, `## Coste` con `.claude/da/da medir`, PR de ola con la plantilla B. **La mergea el usuario.**
@@ -156,7 +156,7 @@ Un módulo apagado nunca relaja una regla; la alternativa va siempre hacia lo es
 
 ## 10. Cómo cambia la mecánica
 
-Entre olas, en su propia PR, nunca a mitad de una (principio 10). Un cambio de mecánica se **ensaya** en una rama antes de entrar a `main`: la sesión del Team Manager corre desde un worktree en esa rama mientras las ramas `ola/*` y `fix/*` siguen naciendo de `main`; la muestra es una ola del backlog y un arreglo; el criterio de entrada se fija **antes** sobre las métricas del §6 y lo juzga el usuario con las tablas delante. Si no se cumple, la rama se borra.
+Entre olas, en su propia PR, nunca a mitad de una (principio 10). Un cambio de mecánica se **ensaya** en una rama antes de entrar a `master`: la sesión del Team Manager corre desde un worktree en esa rama mientras las ramas `ola/*` y `fix/*` siguen naciendo de `master`; la muestra es una ola del backlog y un arreglo; el criterio de entrada se fija **antes** sobre las métricas del §6 y lo juzga el usuario con las tablas delante. Si no se cumple, la rama se borra.
 
 Lo que un proyecto aprende de su propio stack —trampas de entorno, trampas de captura, casos del pre-vuelo— va a las semillas de cada skill, que son del proyecto y el kit nunca pisa. Lo que corrige la mecánica misma vuelve al kit, para todos.
 

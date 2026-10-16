@@ -151,7 +151,7 @@ Se escribe **una vez, al cerrar la ola** (§5). Su lector es el usuario, que dec
 ````markdown
 ## Estado
 
-`ola/<ola>` → `main` · N PRs internas mergeadas · `sistema` N/N sobre `<sha>` · N de M casillas: <las que no, y de quién son> · **<lista para mergear | lista para mergear, si <condición> | no mergeable: razón>**
+`ola/<ola>` → `master` · N PRs internas mergeadas · `sistema` N/N sobre `<sha>` · N de M casillas: <las que no, y de quién son> · **<lista para mergear | lista para mergear, si <condición> | no mergeable: razón>**
 
 ## Contexto
 
@@ -160,7 +160,7 @@ Se escribe **una vez, al cerrar la ola** (§5). Su lector es el usuario, que dec
 1. <de dónde viene la ola: el feedback, el PLAN, el change>
 2. <qué changes, cuántos grupos y cuántas PRs>
    1. <un dato por línea>
-3. <qué mecánica rigió, y de qué rama salió si no fue `main`>
+3. <qué mecánica rigió, y de qué rama salió si no fue `master`>
 
 ### Grupo N — #NNN — <una oración: qué era el grupo>
 
@@ -247,7 +247,7 @@ Se escribe **una vez**, al abrir la única PR del carril de arreglo (`desarrollo
 
 ## Alcance
 
-#N · `<change>` · tareas 1.1–1.N · archivado en esta rama · base `main`
+#N · `<change>` · tareas 1.1–1.N · archivado en esta rama · base `master`
 
 ## Evidencia — `<sha>`
 

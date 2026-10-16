@@ -3,7 +3,7 @@
   "archivos": {
     ".claude/agents/archivador.md": {
       "tipo": "generado",
-      "hash": "85df2ad8f2b53c3a26eddadcf0e7f0827d13df8fdfba298029bbf82d747a7029"
+      "hash": "9cfb85fc5d80c68fbde8b8e4e10ba9da7fd3be8694ef5b4c7e1fdea6ad252e04"
     },
     ".claude/agents/critico.md": {
       "tipo": "generado",
@@ -39,11 +39,11 @@
     },
     ".claude/agents/pm.md": {
       "tipo": "generado",
-      "hash": "7bdb854772343bb20021637c6c04e66cbf6c8c3262c31e45b070732147becaa1"
+      "hash": "20ee84c0ce7ac130fed8202e83ae799ab6b298bf9548d7765fb5ee4aee62373f"
     },
     ".claude/agents/team-manager.md": {
       "tipo": "generado",
-      "hash": "24ff8f62ec74fe136af11db0fa40caf4bb1d432c292547f70d4cf2ddcf3e9ce0"
+      "hash": "9459730bb8a6072c2f2980f6431ee2027528e24c5349b3902fe77ac7e19456e8"
     },
     ".claude/da/guardia.json": {
       "tipo": "generado",
@@ -55,7 +55,7 @@
     },
     ".claude/skills/desarrollo-autonomo-archivador/SKILL.md": {
       "tipo": "generado",
-      "hash": "dbc5c6c7113c14aab14a7f56ed949eea5df954dc26538d24e8af7c7f13401596"
+      "hash": "9270c2205630730a3c8d943eb50ac46b2cfdb6cb23e900f7d49455387d8f751c"
     },
     ".claude/skills/desarrollo-autonomo-critico/SKILL.md": {
       "tipo": "generado",
@@ -67,7 +67,7 @@
     },
     ".claude/skills/desarrollo-autonomo-planeador/brief-de-pm.md": {
       "tipo": "generado",
-      "hash": "8b79f2daadef405e573d81b9504ba72489cc3c42f18bec415906800261f8d1a9"
+      "hash": "ee5d5e8424eb3f9d38c7eb43ba1798dee08225e78e26d5d2140079274c951c61"
     },
     ".claude/skills/desarrollo-autonomo-planeador/casos-del-pre-vuelo.md": {
       "tipo": "sembrado",
@@ -87,15 +87,15 @@
     },
     ".claude/skills/desarrollo-autonomo-planeador/SKILL.md": {
       "tipo": "generado",
-      "hash": "0bd77c304e7710fddcd571e7baaba663e7766611fef4c5c11082f9a9859620ae"
+      "hash": "6a46ffd422905b5badd41e698d2f7dfa0708cd8e5f3297085ae12f7571e100ff"
     },
     ".claude/skills/desarrollo-autonomo-pm/arranque.md": {
       "tipo": "generado",
-      "hash": "24d64af46cee41213b20ab43e35444397211aafda982dd5206a66e18a3df29cb"
+      "hash": "8617ae8b79396de9ea4efd3bb071a615760a8358b50b842cf4feadff08bbf010"
     },
     ".claude/skills/desarrollo-autonomo-pm/arreglo.md": {
       "tipo": "generado",
-      "hash": "81c0a6748dfb92703d7d168cdb5905bfd56627a59ac8a6380ebd1e75ab4ed745"
+      "hash": "8c3d829b170e1472f9f43a2019aacf632b7c95964f610c03a000991fd7c7cca6"
     },
     ".claude/skills/desarrollo-autonomo-pm/bucle-por-grupo.md": {
       "tipo": "generado",
@@ -103,7 +103,7 @@
     },
     ".claude/skills/desarrollo-autonomo-pm/cierre.md": {
       "tipo": "generado",
-      "hash": "9e4a3821c6ee296b89a563a9737d5bfef66b1bc760def74f73fd7ec277db6bf4"
+      "hash": "b9a937359309207eb5734813952a68418aee7954ded6c8f7fc02873973b88e54"
     },
     ".claude/skills/desarrollo-autonomo-pm/encargo-critico.md": {
       "tipo": "generado",
@@ -115,11 +115,11 @@
     },
     ".claude/skills/desarrollo-autonomo-pm/formato-de-pr.md": {
       "tipo": "generado",
-      "hash": "0fddc04afab109d65d0b7de0ef3815e7f176b0673555052b30e8654356f5a04d"
+      "hash": "41f894cfc0c1c86581c195bd99f7d1698fe7200cdb3e7dde0565dbaf1bfa6127"
     },
     ".claude/skills/desarrollo-autonomo-pm/registro-de-ola.md": {
       "tipo": "generado",
-      "hash": "1b81cff644e8663b05b13c308ea15101d874367a08b96f974aa292b41eab6a56"
+      "hash": "ecbbad6e4acda75c232bef9656c6ebd730d27d75fa992116777cb7ba62d0ec55"
     },
     ".claude/skills/desarrollo-autonomo-pm/retoma.md": {
       "tipo": "generado",
@@ -127,7 +127,7 @@
     },
     ".claude/skills/desarrollo-autonomo-pm/SKILL.md": {
       "tipo": "generado",
-      "hash": "a61ddf1c88eb210d8e3e935d49715d6ea9905e634c3d604ae73e4b678b42ebb6"
+      "hash": "3e4882c7c320095391bb96e172c767ff8338ae8059e4308f5627eff1181aacf9"
     },
     ".claude/skills/desarrollo-autonomo-pm/trampas-de-entorno.md": {
       "tipo": "sembrado",
@@ -139,23 +139,23 @@
     },
     ".claude/skills/desarrollo-autonomo-team-manager/SKILL.md": {
       "tipo": "generado",
-      "hash": "719d527305b33ce34360ea9d8a22f8e157c8e2175a6a6b25e0d08928649a0986"
+      "hash": "17d88455889ca9db7deb2c3e838a79b956442556f6bfcb54ba10b6bee25180cf"
     },
     ".github/ISSUE_TEMPLATE/hallazgo.md": {
       "tipo": "generado",
-      "hash": "407f38309f8a7756f7377d0cd787476aeb6353e2913c9d642c9e2ccd8b46e2ef"
+      "hash": "2dafe1bd372887cfc4c1a98c411cf484bd182f314fad44aa33b1253c8d8ad8a0"
     },
     ".github/workflows/citas.yml": {
       "tipo": "generado",
-      "hash": "eda43dbffdc8f56f2aefd28757834b911f51d9435ddd51ba6911cb408cfa4591"
+      "hash": "918550f65945c8b6d99d015c11d6fc9c0e14600f63dae27aae847ae7b7849e56"
     },
     ".gitignore": {
       "tipo": "gitignore",
-      "hash": "3bdfe31123ab733b57eab0fb3a89b1fac452316aa4ab78c80e713e9aad46f6dc"
+      "hash": "e97e443b9623466ad732e22f483bc7522dbcb2f3ed77e17e386b541ea763868e"
     },
     "CLAUDE.md": {
       "tipo": "claude-md",
-      "hash": "11fa3be55f99cbf7b136ff6ce86e33f184091c4ae72bf36316843b06bc9b267b"
+      "hash": "b03c26333d3dca05b5decd4b2a9e9f865b703cb7928ea62d0e01cf02d068a330"
     },
     "docs/ARQUITECTURA.md": {
       "tipo": "sembrado",
@@ -163,7 +163,7 @@
     },
     "docs/DESARROLLO-AUTONOMO.md": {
       "tipo": "generado",
-      "hash": "fe5b57f5f7dacd07020e227cdb2a5cf42a116fd28f19239d0d17785ab5a21ddb"
+      "hash": "ab0d9b74a790d72279b32eb6486faf2c0fc9a6cf48cc3aa4193e87a1487aa679"
     },
     "docs/olas/.gitkeep": {
       "tipo": "sembrado",

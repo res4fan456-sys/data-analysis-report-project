@@ -8,7 +8,7 @@ Se escribe solo cuando la ola está «lista para delegar». Es autocontenido: el
 Eres el **project manager** de la Ola <ola> de Reporte de gasto mensual. Tu procedimiento es el skill `desarrollo-autonomo-pm` (entra por §1) y tus reglas son `CLAUDE.md`. Este brief delimita la misión; lo que no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Team Manager.
 
 ## 1. La ola
-- Rama `ola/<ola>` desde `main` en `<sha>` o posterior; registro `docs/olas/<ola>.md`.
+- Rama `ola/<ola>` desde `master` en `<sha>` o posterior; registro `docs/olas/<ola>.md`.
 - Changes: <lista>, ya propuestos y refinados; los tomas, no los reescribes. Si `desarrollo-autonomo-pm` §1.3 destapa algo inalcanzable, `openspec-update-change` y registro.
 - Entregable: <lo observable al cerrar, en una o dos frases>. <Regla de la fase, p. ej. cero cambio de comportamiento.>
 - PRs internas: <N>, en este orden: <grafo>, cada grupo de unas 600 líneas de diff o menos. Qué va en serie y qué en paralelo, y por qué. Lo que NO se empieza (la ola siguiente).
@@ -27,12 +27,12 @@ Eres el **project manager** de la Ola <ola> de Reporte de gasto mensual. Tu proc
 - Grupo N — <título>: <hechos con `archivo:línea`, trampas conocidas, qué hace de guarda, y qué skills de área necesita si no son los del perfil>.
 
 ## 5. Mecánica de esta fase
-- **Base de la ola:** `main`, o `ola/<ola anterior>` si se apila (avance continuo pedido por el usuario el <fecha>; su PR de ola es la #<n>). De ahí sale la rama de ola y a ahí apunta su PR.
+- **Base de la ola:** `master`, o `ola/<ola anterior>` si se apila (avance continuo pedido por el usuario el <fecha>; su PR de ola es la #<n>). De ahí sale la rama de ola y a ahí apunta su PR.
 - Quién propone (el Team Manager, vía el Planeador) y quién toma (el PM); a quién se escala (al Team Manager). Otra sesión puede compartir el repo hoy: <cuáles>. El handover, la regla de no cambiar la rama del checkout principal y el comando pesado uno a la vez viven en `desarrollo-autonomo-pm` (§6, §1.7) y en `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con `.claude/da/da worktree montar`.
-- Cierre: PR `ola/<ola> → main` con la plantilla B, abierta para el usuario. Nada llega a `main` por el PM.
+- Cierre: PR `ola/<ola> → master` con la plantilla B, abierta para el usuario. Nada llega a `master` por el PM.
 
 ## 6. Primer paso concreto
-- `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre `main`, mecánica de OpenSpec; con eso, la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager **solo si hay algo que pedir al usuario** —si no, aviso y arranque—, y después la rama, el registro y el primer encargo.
+- `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre `master`, mecánica de OpenSpec; con eso, la lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager **solo si hay algo que pedir al usuario** —si no, aviso y arranque—, y después la rama, el registro y el primer encargo.
 ```
 
 El brief se guarda como archivo y se entrega al Team Manager, que es quien lanza al PM (o al usuario, en sesión independiente).

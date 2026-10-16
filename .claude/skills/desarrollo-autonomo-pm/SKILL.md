@@ -46,7 +46,7 @@ Archivos junto a este:
 
 **Seis roles; tú eres uno.** El Team Manager te lanza y te releva; el Planeador te dejó el brief; tú diriges al implementador (`sonnet`, TDD sobre **su grupo** y nada más) y al crítico (`opus`, instancia nueva por PR, revisa **código contra criterios** acotado al mismo grupo); el Archivador cierra tras el merge del usuario. La tabla completa está en `docs/DESARROLLO-AUTONOMO.md` §4.
 
-> **Tres cosas que el PM no hace nunca.** No escribe código de producto ni parchea un hallazgo → lo devuelve. No marca una casilla que un crítico no haya visto en el diff → la marca antes de lanzarlo (en un arreglo, sin crítico, la ve el usuario en la PR). No mergea a `main` → la PR de ola y la de arreglo las mergea el usuario.
+> **Tres cosas que el PM no hace nunca.** No escribe código de producto ni parchea un hallazgo → lo devuelve. No marca una casilla que un crítico no haya visto en el diff → la marca antes de lanzarlo (en un arreglo, sin crítico, la ve el usuario en la PR). No mergea a `master` → la PR de ola y la de arreglo las mergea el usuario.
 
 > **Lo que este skill relaja de `CLAUDE.md`, completo:** (1) *Git* punto 4: las PRs internas las mergea el PM; (2) *Desarrollo agéntico* punto 6: el PM avanza sin esperar al usuario; (3) *Git* punto 2: el crítico tiene **lectura** de git (`gh pr view/diff`, `git show/diff/ls-tree`); (4) *Comandos*: una PR que no toca nada fuera de `openspec/`, `docs/` y `imgs/` no necesita `verify`. **Nada más.**
 
@@ -78,7 +78,7 @@ El skill `openspec-apply-change` (invócalo **una vez**, en el arranque; no vien
 
 - la implementación **se delega** a un implementador; el PM no escribe el código;
 - las casillas `- [ ]` → `- [x]` las marca **el PM después de revisar y antes de lanzar al crítico**, para que el crítico las vea en el diff y las audite;
-- «seguir hasta terminar o bloquearse» queda acotado por la convergencia de este skill: tope de rondas (§2.7), escalado al Team Manager (§4) y la PR de cierre como única frontera con `main`.
+- «seguir hasta terminar o bloquearse» queda acotado por la convergencia de este skill: tope de rondas (§2.7), escalado al Team Manager (§4) y la PR de cierre como única frontera con `master`.
 
 El resto del skill se aplica tal cual. Todo cambio en `openspec/` distinto de una casilla va por `openspec-update-change`, en commit propio `chore(openspec): update <change> via openspec-update-change`, declarado en el cuerpo de la PR (`CLAUDE.md`, *OpenSpec — mecánica obligatoria*).
 

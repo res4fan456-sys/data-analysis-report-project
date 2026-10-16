@@ -15,7 +15,7 @@ name: Citas
 # `workflow_dispatch` permite lanzarlo a mano contra cualquier rama.
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'openspec/**'
       - 'docs/**'
@@ -23,7 +23,7 @@ on:
       - '.claude/**'
       - '**/*.md'
   pull_request:
-    branches: [main]
+    branches: [master]
     paths:
       - 'openspec/**'
       - 'docs/**'
