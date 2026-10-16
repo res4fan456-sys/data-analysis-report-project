@@ -18,7 +18,7 @@
 
 | # | Grupo (change · tareas) | Rama | Estado |
 |---|---|---|---|
-| #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | en revisión (crítico, pasada 1); 1 devolución del PM antes del crítico (líneas en blanco, por lectura del diff) |
+| #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | mergeada (3cff17b) — 1 mecánica (líneas en blanco, por lectura del diff del PM) · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (segundos 60/61); pasada final por la salida (a), LISTA en la pasada corta |
 | #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
 | — | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | pendiente (tras PR 1) |
 | — | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | pendiente (tras PR 2 y PR 3) |
@@ -48,8 +48,8 @@
 ## Entorno vivo
 
 - Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
-- `.claude/worktrees/g1-datos` (`feat/1-read-transactions-csv`) y `.claude/worktrees/g2-presentacion` (`feat/1-es-mx-formatters-network-detector`), con sus PRs (#17 abierta; #16 mergeada).
 - 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API (no los paró el usuario); reanudados por `SendMessage` a la misma instancia.
+- El implementador de #17 (`implementador-datos`) actúa sobre los mensajes del PM, pero sus reportes tras reanudarlo nunca llegaron (ni como mensaje ni como archivo); el PM revisó cada corrección leyendo el diff y el crítico sembró las mutaciones.
 
 ## Coste
 
