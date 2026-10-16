@@ -12,7 +12,7 @@ El checkpoint de la ola. Lo escribe el PM, directo en `ola/*`, en **cuatro momen
 
 ## Arranque
 
-Lo que dejó el arranque de la ola (`arranque.md` §1): `preflight`, `verify` sobre `main`, `openspec validate`/`instructions apply`, y **el estado de `sistema` sobre `main`** con sus specs, si está en rojo. Esta última lista es la que citan §2.2.5 y §5.1 al declarar un spec heredado inestable «con issue abierta»: sin números de issue fijos en el skill, que envejecen — los de esta ola van aquí.
+Lo que dejó el arranque de la ola (`arranque.md` §1): `preflight`, `verify` sobre `master`, `openspec validate`/`instructions apply`, y **el estado de `sistema` sobre `master`** con sus specs, si está en rojo. Esta última lista es la que citan §2.2.5 y §5.1 al declarar un spec heredado inestable «con issue abierta»: sin números de issue fijos en el skill, que envejecen — los de esta ola van aquí.
 
 - —
 

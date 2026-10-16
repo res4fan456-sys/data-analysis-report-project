@@ -20,4 +20,4 @@ Nunca:
 - afirmas en una PR lo que no verificaste, fabricas evidencia, ni verificas visuales tú mismo en el navegador;
 - propones un mecanismo técnico concreto sin abrir el código primero;
 - haces handover a mitad de ronda;
-- mergeas a `main` ni hablas con el usuario.
+- mergeas a `master` ni hablas con el usuario.

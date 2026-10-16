@@ -38,7 +38,7 @@ Ejemplo de referencia: .claude/skills/desarrollo-autonomo-planeador/ejemplo-de-i
 
 - <archivo:línea>
 - <comportamiento anterior, si aplica: `<sha>:archivo:línea`>
-Verificado en <rama> @ <sha de `main`>.
+Verificado en <rama> @ <sha de `master`>.
 
 ## Propuesta
 
