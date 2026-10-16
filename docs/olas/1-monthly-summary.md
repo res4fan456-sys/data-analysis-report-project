@@ -7,7 +7,7 @@
 - Base: `chore/1-monthly-summary-planning` f67d529 (avance continuo pedido por el usuario; pila #14 → `ola/0-scaffolding` → #11 → `chore/0-scaffolding-planning` → #3 → `master`). La PR de ola apunta a `chore/1-monthly-summary-planning`, por indicación del Team Manager; el brief decía `ola/0-scaffolding`, que es la base de esa rama.
 - `preflight`: 4/4 OK (`gh auth` con scope `workflow`, remoto y ramas `ola/*`, `openspec`, `graft`). Única rama `ola/*` remota: `ola/0-scaffolding`, en espera de merge (PR #11 abierta), no activa.
 - `verify` sobre la base (f67d529, worktree del PM): formato, lint, tipos, test y citas OK; 2 passed, 3 deselected.
-- `sistema` sobre la base: ver la línea siguiente.
+- `sistema` sobre la base (f67d529): 3 passed, 2 deselected en 64 s; sin rojos heredados.
 - `openspec instructions apply`: `read-transactions-csv` ready 0/5, `monthly-summary-page` ready 0/9; sin `context` ni `operationGuidance`.
 - Inventario de lo que solo el usuario puede dar: nada. La fuente (D3) está fuera del repo y sus dos SHA-256 coinciden con el brief (comprobado de nuevo en el arranque). Sin `[PENDIENTE]` en los artefactos.
 - Comprobado contra el código antes de encargar: `pandas.read_csv(dtype=str, keep_default_na=False, encoding="utf-8-sig")` lanza `EmptyDataError` con 0 bytes, da 0 filas con solo el encabezado, lanza `ParserError` «Expected 9 fields in line 3, saw 10» con un campo de más (la línea coincide con la fila de hoja de cálculo), rellena con `''` (no con nulos, por `keep_default_na=False`) una fila con campos de menos, y quita el BOM del nombre de la primera columna.
@@ -18,19 +18,22 @@
 
 | # | Grupo (change · tareas) | Rama | Estado |
 |---|---|---|---|
-| — | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | en curso |
-| — | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | en curso |
+| #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | en revisión (crítico, pasada 1); 1 devolución del PM antes del crítico (líneas en blanco, por lectura del diff) |
+| #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | ronda 1 en curso (BLOQUEA: `np.float64` en los formateadores) |
 | — | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | pendiente (tras PR 1) |
 | — | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | pendiente (tras PR 2 y PR 3) |
 | — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
 
 ## Decisiones del PM
 
-- —
+- PR #17: un registro completamente vacío (línea en blanco) se ignora en cualquier posición, sin correr la numeración de hoja de cálculo; una línea de solo espacios sigue siendo una fila y se rechaza. Es lo que hacía el `read_csv` por defecto que el design proponía (`skip_blank_lines`). Descartado: rechazar el CSV válido que termina con una línea en blanco (lo que hacía la primera entrega, con un mensaje que nombraba un `id_transaccion` vacío). Devolución del PM antes del crítico, por lectura del diff.
+- PR #17: la lectura usa `csv` de stdlib en modo estricto en vez de `read_csv`, como el design deja a juicio del implementador; interfaz y mensajes no cambian. Descartado: traducir `ParserError` de pandas.
+- PR #17: `OSError` al leer (permisos) no se traduce a `ErrorDeEntrada`; `is_file()` cubre ruta inexistente y carpeta. Descartado: un test que simule el error con un doble del sistema de archivos.
+- PR #17: el reporte de mutación de la corrección de líneas en blanco no llegó al PM (las respuestas del implementador tras reanudarlo no se entregaron); sus seis tests van como `sin garantía` en `Mutación` y la mutación la siembra el crítico. Descartado: relanzar otra instancia solo para medirla.
 
 ## Deuda
 
-- —
+- PR #16: puntos ciegos del detector de red en JavaScript minificado (literal regex con comilla, `import{a}from"…"`, `importScripts(f(), …)`), caso cuadrático con `url(` sin cerrar, y posiciones fuera de la definición de R16 (`imagesrcset`, `background`, `meta refresh`, `image-set`, `img.src =`). No afecta a la página de la Fase 1; muerde al incrustar ECharts. Issue #18.
 
 ## Se coló
 
@@ -43,6 +46,8 @@
 ## Entorno vivo
 
 - Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
+- `.claude/worktrees/g1-datos` (`feat/1-read-transactions-csv`) y `.claude/worktrees/g2-presentacion` (`feat/1-es-mx-formatters-network-detector`), con sus PRs abiertas (#17 y #16).
+- 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API (no los paró el usuario); reanudados por `SendMessage` a la misma instancia.
 
 ## Coste
 
