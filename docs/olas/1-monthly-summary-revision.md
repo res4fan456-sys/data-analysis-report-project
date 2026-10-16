@@ -99,6 +99,12 @@ Ninguno pendiente: lo corregí al proponer.
   Fase 0» (`docs/STACK.md:32` en la base), porque #8 entró en `master` después. No afecta a la Fase 1 (no hay
   gráficas) y la pila llega a `master` sin conflicto. Se corrige solo al mergear la pila.
 - **E3 — Issue #7** (`requirements.txt` sin uso): sigue abierta, carril de arreglo; esta ola no la toca.
+- **E4 — El workflow `Citas` falla en toda PR a `master` sin revisar nada.** `.claude/da/da` y
+  `.claude/da/pesado.sh` están en git con modo `100644` (`core.filemode = false` en este checkout) y el
+  runner responde `Permission denied` [V: run 38864057636 de la PR #13; los 6 últimos runs, en rojo]. No
+  toca esta ola (sus PRs apuntan a `ola/*` y el workflow filtra `master`), pero impide que el Team Manager
+  mergee PRs de planeación o archivado a `master` con CI en verde. Arreglo de mecánica para el usuario:
+  issue #15.
 
 ## 5. Tope de PRs y partición
 
