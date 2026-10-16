@@ -18,10 +18,13 @@
 
 | # | Grupo (change · tareas) | Rama | Estado |
 |---|---|---|---|
-| — | `move-generator-package` · 1.1 | `test/0-generator-reproducibility-guard` | pendiente |
+| #9 | `move-generator-package` · 1.1 | `test/0-generator-reproducibility-guard` | mergeada (f64ed17) — 0 mecánicas · 0 rondas · 0 por corrección; crítico LISTA en la pasada 1 con 4 NO BLOQUEA, cerrados en la pasada final (7909743) sin crítico |
 | — | `move-generator-package` · 2.1–2.4 | `refactor/0-move-generator-package` | pendiente |
 
 ## Decisiones del PM
+
+- PR #9: los 4 NO BLOQUEA del crítico (stderr visible y código antes del CSV, 29 de febrero antes del SHA, `timeout` de 300 s, `PYTHONIOENCODING=utf-8` en el subproceso) se corrigen en la pasada final y no van a issue: son del archivo de la guarda, que el grupo 2 necesita legible si el movimiento rompe el import. Juzgada por el PM sin crítico (solo test), con `verify` y `sistema` verdes sobre 7909743.
+- PR #9: `PYTHONIOENCODING=utf-8` queda sin mutante (en esta máquina Python ya coerciona a UTF-8): se acepta como defensa ante un locale ajeno. Descartado: dejar la salida a la codificación heredada.
 
 - Los worktrees se montan con la ruta real `/mnt/c/…/.claude/worktrees/<nombre>`, no con el `$PWD` de la sesión (`/home/JP/Código/…`, un enlace simbólico): con el enlace, el gancho `comprobar` resuelve la ruta real y da FUERA. Descartado: tocar el gancho, que es configuración de la mecánica.
 
