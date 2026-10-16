@@ -34,23 +34,66 @@
 
 ## Deuda
 
-- —
+- Ninguna de la ola: los 8 NO BLOQUEA de las dos PRs se cerraron en sus pasadas finales.
 
 ## Se coló
 
-- —
+- Ninguno.
 
 ## Lo que queda fuera
 
 - Fase 1 entera, la API del perfil inyectado (D4) y la verificación de ECharts (D2), por el brief.
+- Issues de pre-vuelo #5 (R16 y ECharts), #6 (test de las reglas 1 y 2) y #7 (`requirements.txt` sin uso tras el README nuevo): de fases posteriores, sin absorber.
 
 ## Entorno vivo
 
-- Worktree del PM: `/mnt/c/Users/juanp/OneDrive/Documents/Código/data-analysis-report-project/.claude/worktrees/pm-0-scaffolding` (`ola/0-scaffolding`).
+- Vacío al cerrar: los worktrees de los grupos se quitaron tras cada merge y el del PM tras abrir la PR de ola.
 
 ## Coste
 
-- —
+### Mecánica
+
+| Métrica | Valor |
+| --- | --- |
+| ctx0 — critico | 26.6k |
+| caché escrita — critico | 131.4k |
+| caché leída — critico | 1.6M |
+| ctx0 — implementador-generador | 39.6k |
+| caché escrita — implementador-generador | 264.9k |
+| caché leída — implementador-generador | 1.6M |
+| ctx0 — pm | 32.7k |
+| caché escrita — pm | 803.5k |
+| caché leída — pm | 5.5M |
+| caché leída — pm — PR #10 | 2.1M |
+| caché leída — pm — PR #9 | 1.2M |
+| caché leída — critico — PR #10 | 842.7k |
+| caché leída — critico — PR #9 | 713.4k |
+| PRs a GitHub | 2 |
+| Merges a master — cierre o arreglo | 0 |
+| Merges a master — planeación y archivado | 0 |
+| Horas de espera (promedio) — cierre o arreglo | 0.0 |
+| Horas de espera (promedio) — planeación y archivado | 0.0 |
+| Corridas de evidencia | 4 |
+| Pasadas de crítico | 2 |
+| BLOQUEA en veredictos | 0 |
+| NO BLOQUEA en veredictos | 4 |
+
+### Trabajo
+
+| PR | Caché leída/línea (producto) | Horas/línea (producto) | Caché leída/línea (test) | Horas/línea (test) |
+| --- | --- | --- | --- | --- |
+| #10 | 42.8k | 0.0 | 79.1k | 0.0 |
+| #9 | 597.5k | 0.2 | 10.8k | 0.0 |
+
+### Guardas
+
+| Guarda | Valor |
+| --- | --- |
+| Se coló | 0 |
+| BLOQUEA de código | 0 |
+| sistema al cierre | 3/3 sobre 1e31dd3 (OK) |
+
+- Aviso de `da medir`: no reconoce el formato del veredicto de la PR #9, así que cuenta 4 NO BLOQUEA en vez de 8 (4 en #9 y 4 en #10, todos cerrados en las pasadas finales).
 
 ## Handover
 
