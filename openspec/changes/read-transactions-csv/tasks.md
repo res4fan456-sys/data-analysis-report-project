@@ -15,17 +15,17 @@ mensaje debe nombrar (la columna, la fila y el campo, los meses, la ruta), no su
 
 ## 1. Lectura y validación del CSV (PR 1, área `datos` más `src/reporte/nucleo/tipos.py` y `tests/test_arquitectura.py`, ~600 líneas)
 
-- [ ] 1.1 Crear `tests/test_arquitectura.py` con la matriz de imports de `docs/ARQUITECTURA.md` (design,
+- [x] 1.1 Crear `tests/test_arquitectura.py` con la matriz de imports de `docs/ARQUITECTURA.md` (design,
   «Test de arquitectura»), antes de crear las capas. **Flujo que protege:** que ninguna capa de
   `src/reporte` importe de una capa o librería que la matriz no le permite (reglas innegociables 1 y 2,
   issue #6). Se verifica con el test en verde al cerrar el grupo y con una mutación por regla: un
   `import reporte.datos` sembrado en `nucleo`, un `import pathlib` en `nucleo`, un
   `import reporte.presentacion` en `datos` (cada una lo pone en rojo nombrando archivo e import).
-- [ ] 1.2 Crear `src/reporte/nucleo/__init__.py` y `src/reporte/nucleo/tipos.py` con la dataclass congelada
+- [x] 1.2 Crear `src/reporte/nucleo/__init__.py` y `src/reporte/nucleo/tipos.py` con la dataclass congelada
   `Transacciones(tabla: pd.DataFrame, mes: date, avisos: tuple[str, ...])` de `docs/ARQUITECTURA.md`
   (Contratos). Solo el tipo: `analizar` y el resto del núcleo son del change `monthly-summary-page`. Se
   verifica con `mypy` y con el test de 1.1 en verde.
-- [ ] 1.3 Crear `src/reporte/datos/` con `ErrorDeEntrada` y `leer_transacciones(ruta: Path) -> Transacciones`,
+- [x] 1.3 Crear `src/reporte/datos/` con `ErrorDeEntrada` y `leer_transacciones(ruta: Path) -> Transacciones`,
   exportados desde `reporte.datos`, que cumplen los requisitos de columnas, codificación, archivo sin
   transacciones, ruta inexistente y resultado tipado de la spec `lectura-de-transacciones`. **Flujo que
   protege:** que el autor que pasa un CSV con el contrato de 9 columnas obtenga sus transacciones tipadas, y
@@ -33,13 +33,13 @@ mensaje debe nombrar (la columna, la fila y el campo, los meses, la ruta), no su
   encabezado», «Acentos y BOM» y «Montos con más de 2 decimales»). Se verifica con un test por escenario de
   esos requisitos en `tests/datos/`, por `leer_transacciones`, y la mutación de cada uno (p. ej. quitar
   `-sig` del encoding pone en rojo el escenario del BOM).
-- [ ] 1.4 En la misma capa, la validación de filas, identificadores y mes: requisitos «Cada fila cumple el
+- [x] 1.4 En la misma capa, la validación de filas, identificadores y mes: requisitos «Cada fila cumple el
   formato de sus campos», «El rechazo de una fila dice su número y su motivo», «El identificador de cada
   transacción es único» y «Todas las transacciones caen en un solo mes». **Flujo que protege:** que nunca se
   descarte una fila en silencio y que el mensaje lleve al autor a la fila exacta (R2, R3). Se verifica con un
   test por escenario y la mutación de cada uno (p. ej. numerar las filas desde 1 en la primera transacción
   pone en rojo el escenario de la primera fila inválida).
-- [ ] 1.5 Los avisos de coordenadas fuera de México: requisito «Las coordenadas fuera de México se aceptan
+- [x] 1.5 Los avisos de coordenadas fuera de México: requisito «Las coordenadas fuera de México se aceptan
   con aviso», con los límites incluidos como válidos. **Flujo que protege:** que un CSV real con una compra
   en el extranjero genere el reporte y lo advierta (caso borde «Coordenadas fuera de México»). Se verifica
   con los dos escenarios y la mutación de un límite (`<` por `<=`).
