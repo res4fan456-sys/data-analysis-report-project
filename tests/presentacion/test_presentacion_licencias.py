@@ -12,17 +12,24 @@ def _celdas(linea: str) -> list[str]:
 
 
 def activos_sin_declarar(directorio: pathlib.Path) -> list[str]:
-    """Una línea por activo incrustable que `LICENCIAS.md` no declara bien, con el motivo."""
-    filas = [
-        _celdas(linea)
-        for linea in (directorio / "LICENCIAS.md").read_text(encoding="utf-8").splitlines()
-        if linea.startswith("|")
-    ]
+    """Una línea por activo incrustable que `LICENCIAS.md` no declara bien, con el motivo. Solo se
+    exceptúan `LICENCIAS.md` y los archivos de la tabla «Textos de licencia»."""
+    filas: list[list[str]] = []
+    textos_de_licencia: set[str] = set()
+    en_textos = False
+    for linea in (directorio / "LICENCIAS.md").read_text(encoding="utf-8").splitlines():
+        if linea.startswith("#"):
+            en_textos = "Textos de licencia" in linea
+        elif linea.startswith("|"):
+            fila = _celdas(linea)
+            if en_textos:
+                textos_de_licencia.add(fila[0].strip("`"))
+            else:
+                filas.append(fila)
     columnas = next((f for f in filas if "Archivo" in f), [])
     problemas: list[str] = []
     for activo in sorted(directorio.iterdir()):
-        es_texto_de_licencia = "license" in activo.name.lower()
-        if activo.name == "LICENCIAS.md" or es_texto_de_licencia:
+        if activo.name == "LICENCIAS.md" or activo.name in textos_de_licencia:
             continue
         fila = next((f for f in filas if f and f[0].strip("`") == activo.name), None)
         if fila is None:
@@ -42,7 +49,10 @@ def _sembrar(tmp_path: pathlib.Path, tabla: str) -> pathlib.Path:
     (tmp_path / "fuente.woff2").write_bytes(b"contenido")
     (tmp_path / "Fuente-LICENSE.txt").write_text("texto de licencia", encoding="utf-8")
     (tmp_path / "LICENCIAS.md").write_text(
-        "| Archivo | Versión | Licencia | Origen | SHA-256 |\n|---|---|---|---|---|\n" + tabla,
+        "# Activos\n\n| Archivo | Versión | Licencia | Origen | SHA-256 |\n|---|---|---|---|---|\n"
+        + tabla
+        + "\n## Textos de licencia\n\n| Archivo | Licencia de | SHA-256 |\n|---|---|---|\n"
+        "| `Fuente-LICENSE.txt` | `fuente.woff2` | 00 |\n",
         encoding="utf-8",
     )
     return tmp_path
@@ -83,3 +93,17 @@ def test_un_activo_bien_declarado_se_acepta(tmp_path: pathlib.Path) -> None:
     )
 
     assert activos_sin_declarar(directorio) == []
+
+
+def test_un_activo_con_license_en_el_nombre_pero_fuera_de_la_tabla_de_textos_se_rechaza(
+    tmp_path: pathlib.Path,
+) -> None:
+    huella = hashlib.sha256(b"contenido").hexdigest()
+    directorio = _sembrar(
+        tmp_path, f"| fuente.woff2 | 1.0 | OFL-1.1 | https://x.mx/f | {huella} |\n"
+    )
+    (directorio / "mexico-unlicensed.geojson").write_text("{}", encoding="utf-8")
+
+    assert activos_sin_declarar(directorio) == [
+        "mexico-unlicensed.geojson: no figura en LICENCIAS.md"
+    ]

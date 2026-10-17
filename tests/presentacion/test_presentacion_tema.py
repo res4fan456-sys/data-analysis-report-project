@@ -1,6 +1,8 @@
 """La paleta negro y dorado se lee en los dos temas: contraste WCAG 2.1 de cada par de colores en que
 se usa (requisito de legibilidad de la página)."""
 
+import re
+
 import pytest
 
 from reporte.presentacion.tema import PARES, TEMA_CLARO, TEMA_OSCURO, Tema
@@ -31,16 +33,21 @@ def test_cada_par_de_colores_cumple_su_contraste_minimo(tema: Tema, par) -> None
     assert proporcion >= par.minimo, f"{tema.nombre}: {par.primer_plano} sobre {par.fondo}"
 
 
-def test_el_texto_va_a_4_5_y_el_acento_de_las_cifras_grandes_a_3() -> None:
-    minimos = {(p.primer_plano, p.fondo): p.minimo for p in PARES}
+def test_los_pares_de_colores_y_sus_minimos_son_los_del_requisito() -> None:
+    declarados = {
+        ("texto", "fondo", 4.5),
+        ("texto", "superficie", 4.5),
+        ("texto_secundario", "fondo", 4.5),
+        ("texto_secundario", "superficie", 4.5),
+        ("acento", "fondo", 3.0),
+        ("acento", "superficie", 3.0),
+    }
 
-    assert minimos[("texto", "fondo")] == 4.5
-    assert minimos[("texto_secundario", "superficie")] == 4.5
-    assert minimos[("acento", "superficie")] == 3.0
+    assert {(p.primer_plano, p.fondo, p.minimo) for p in PARES} == declarados
+    assert len(PARES) == len(declarados)
 
 
-def test_los_dos_temas_tienen_los_mismos_tokens_y_colores_hexadecimales() -> None:
-    claro, oscuro = dict(TEMA_CLARO.colores()), dict(TEMA_OSCURO.colores())
+def test_los_colores_de_los_dos_temas_son_hexadecimales_de_seis_digitos() -> None:
+    colores = [valor for tema in (TEMA_CLARO, TEMA_OSCURO) for _, valor in tema.colores()]
 
-    assert claro.keys() == oscuro.keys()
-    assert all(len(c) == 7 and c.startswith("#") for c in [*claro.values(), *oscuro.values()])
+    assert all(re.fullmatch(r"#[0-9a-f]{6}", c) for c in colores)

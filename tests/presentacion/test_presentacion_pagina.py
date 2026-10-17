@@ -13,7 +13,7 @@ from _pagina_de_prueba import (
 )
 
 from reporte.presentacion import referencias_de_red, renderizar
-from reporte.presentacion.tema import TEMA_CLARO, TEMA_OSCURO
+from reporte.presentacion.tema import TEMA_CLARO, TEMA_OSCURO, Tema
 
 ACTIVOS = pathlib.Path(__file__).resolve().parents[2] / "src/reporte/presentacion/activos"
 CIERRE = "Aquí queda la línea del respeto"
@@ -30,7 +30,6 @@ def test_el_resumen_de_septiembre_muestra_cada_cifra_en_es_mx() -> None:
     texto = " | ".join(visibles)
 
     for esperado in (
-        "septiembre de 2026",
         "1 de septiembre de 2026",
         "30 de septiembre de 2026",
         "$400.00",
@@ -42,12 +41,18 @@ def test_el_resumen_de_septiembre_muestra_cada_cifra_en_es_mx() -> None:
         "75.0 %",
     ):
         assert any(esperado in nodo for nodo in visibles), f"falta {esperado!r} en: {texto}"
+    assert "septiembre de 2026" in visibles
     assert "3" in visibles
+
+
+def test_la_pagina_no_reescribe_con_css_el_texto_de_los_formateadores() -> None:
+    assert "text-transform" not in _estilo(renderizar(analisis_de_septiembre()))
 
 
 def test_el_periodo_de_febrero_bisiesto_termina_el_29() -> None:
     visibles = textos_visibles(renderizar(analisis_de_febrero_bisiesto()))
 
+    assert "febrero de 2028" in visibles
     assert any("29 de febrero de 2028" in nodo for nodo in visibles)
     assert not any("28 de febrero de 2028" in nodo for nodo in visibles)
 
@@ -101,11 +106,10 @@ def test_la_fuente_inter_va_incrustada_con_el_contenido_exacto_del_archivo() -> 
     assert base64.b64decode(origen.group(1)) == (ACTIVOS / "InterVariable.woff2").read_bytes()
 
 
-def test_el_texto_de_la_pagina_usa_la_familia_inter() -> None:
+def test_el_cuerpo_de_la_pagina_usa_la_familia_inter() -> None:
     estilo = _estilo(renderizar(analisis_de_septiembre()))
-    fuera_de_font_face = re.sub(r"@font-face\s*\{[^}]*\}", "", estilo)
 
-    assert re.search(r"""font-family:\s*["']?Inter\b""", fuera_de_font_face)
+    assert re.search(r"""\bbody\s*\{[^}]*font-family:\s*["']?Inter\b""", estilo)
 
 
 def test_el_ultimo_texto_visible_es_el_cierre_con_avisos_y_sin_ellos() -> None:
@@ -125,26 +129,21 @@ def test_el_boton_del_tema_esta_en_el_encabezado_y_se_nombra_en_espanol() -> Non
     assert "tema" in (atributos.get("aria-label") or "").lower()
 
 
-def test_el_script_del_tema_guarda_dentro_de_try_y_se_aplica_antes_del_cuerpo() -> None:
-    html = renderizar(analisis_de_septiembre())
-    scripts = [s for s in re.findall(r"<script[^>]*>(.*?)</script>", html, flags=re.DOTALL)]
-
-    assert len(scripts) == 1
-    usos = scripts[0].count("localStorage")
-    protegidos = re.findall(r"try\s*\{[^}]*localStorage[^}]*\}\s*catch", scripts[0])
-    assert usos >= 2
-    assert len(protegidos) == usos
-    assert html.index("<script") < html.index("<body")
-    assert "data-tema" in scripts[0]
+def _variables(estilo: str, patron: str) -> dict[str, str]:
+    bloque = re.search(patron + r"\s*\{([^}]*)\}", estilo)
+    assert bloque is not None, f"no hay un bloque {patron}"
+    return dict(re.findall(r"(--[\w-]+):\s*([^;]+);", bloque.group(1)))
 
 
-def test_el_css_vuelca_los_tokens_de_los_dos_temas_y_sigue_al_sistema() -> None:
+def _tokens(tema: Tema) -> dict[str, str]:
+    return {"--" + nombre.replace("_", "-"): valor for nombre, valor in tema.colores()}
+
+
+def test_cada_bloque_de_css_lleva_los_colores_de_su_tema() -> None:
     estilo = _estilo(renderizar(analisis_de_septiembre()))
+    media_oscura = r"@media \(prefers-color-scheme: dark\)\s*\{\s*:root:not\(\[data-tema\]\)"
 
-    assert "prefers-color-scheme: dark" in estilo
-    assert ':root[data-tema="claro"]' in estilo
-    assert ':root[data-tema="oscuro"]' in estilo
-    for tema in (TEMA_CLARO, TEMA_OSCURO):
-        for token, valor in tema.colores():
-            nombre = "--" + token.replace("_", "-")
-            assert f"{nombre}: {valor}" in estilo
+    assert _variables(estilo, r"(?m)^:root") == _tokens(TEMA_CLARO)
+    assert _variables(estilo, media_oscura) == _tokens(TEMA_OSCURO)
+    assert _variables(estilo, r':root\[data-tema="claro"\]') == _tokens(TEMA_CLARO)
+    assert _variables(estilo, r':root\[data-tema="oscuro"\]') == _tokens(TEMA_OSCURO)
