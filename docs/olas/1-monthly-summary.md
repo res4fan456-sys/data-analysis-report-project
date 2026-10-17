@@ -20,7 +20,7 @@
 |---|---|---|---|
 | #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | mergeada (3cff17b) — 1 mecánica (líneas en blanco, por lectura del diff del PM) · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (segundos 60/61); pasada final por la salida (a), LISTA en la pasada corta |
 | #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
-| #20 | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | abierta, lista para mergear (aparcada por la pausa del usuario) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (empate decidido por el error de la suma `float`); pasada final por la salida (a), LISTA en la pasada corta sobre 4738bd6 |
+| #20 | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | mergeada (ec732eb) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (empate decidido por el error de la suma `float`); pasada final por la salida (a), LISTA en la pasada corta sobre 4738bd6; rebasada como 43c7f80 (`verify` OK; `sistema` de 4738bd6, producto idéntico) |
 | — | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | pendiente (tras PR 2 y PR 3) |
 | — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
 
@@ -49,11 +49,10 @@
 
 ## Entorno vivo
 
-- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`), limpio tras este commit.
-- `.claude/worktrees/g3-nucleo` (`feat/1-monthly-summary-core` en 4738bd6, pusheada), sin cambios sin commitear; se quita tras el merge de #20.
-- Ningún comando pesado en vuelo. Ningún implementador ni crítico trabajando.
-- 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API (no los paró el usuario); reanudados por `SendMessage` a la misma instancia.
-- El implementador de #17 (`implementador-datos`) actúa sobre los mensajes del PM, pero sus reportes tras reanudarlo nunca llegaron (ni como mensaje ni como archivo); el PM revisó cada corrección leyendo el diff y el crítico sembró las mutaciones.
+- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
+- `g3-nucleo` quitado tras el merge de #20.
+- 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API; reanudados por `SendMessage` a la misma instancia.
+- El implementador de #17 no entregó sus reportes tras reanudarlo; a cada implementador se le pide copia del reporte en archivo del scratchpad.
 
 ## Coste
 
@@ -61,16 +60,4 @@
 
 ## Handover
 
-- **Estado estable:** ola pausada por el usuario (pedido del Team Manager, 2026-10-17). #16 y #17 mergeadas; #20 abierta con el último veredicto LISTA (pasada corta sobre 4738bd6), sin nada en vuelo.
-- **Hecho:** `read-transactions-csv` grupo 1 (#17, 3cff17b) y `monthly-summary-page` grupo 1 (#16, 1216a79) mergeados en `ola/1-monthly-summary`; `monthly-summary-page` grupo 2 implementado y revisado en #20.
-- **Lo que queda en orden:**
-  1. Mergear #20: `verify` y `sistema` verdes sobre 4738bd6 (el último `## Evidencia` del hilo, que es la punta de la rama). Antes, editar el cuerpo con *Rondas de crítico* (pasada 1 en 605febf NO LISTA 1 BLOQUEA + 3 NO BLOQUEA; pasada 2 en 042ed17 LISTA 1 NO BLOQUEA + 1 de comentarios; pasada corta en 4738bd6 LISTA) y `cuerpo-pr lint --plantilla A --cierre`. Si `ola/1-monthly-summary` se movió (este commit del registro la movió), rebasar y `verify` de nuevo antes de mergear. Después: línea en el registro, `graft build`, `worktree quitar g3-nucleo`.
-  2. Con #20 son 3 PRs internas mergeadas: umbral de handover de este PM. El PM siguiente arranca el PR 4 (`monthly-summary-page` grupo 3, la página, `implementador-presentacion`) desde `ola/1-monthly-summary`; antes copia `InterVariable.woff2` y `LICENSE.txt` (como `Inter-LICENSE.txt`) de `/home/JP/activos-reporte/inter-4.1/` a `src/reporte/presentacion/activos/` del worktree y repite `sha256sum` contra el brief (§4, grupo 4). Luego el PR 5 (CLI, `sistema`, README) y la revisión visual para la PR de ola.
-- **Avisos para los encargos:**
-  - Worktrees con la ruta real `/mnt/c/…/.claude/worktrees/<nombre>`. `gh pr merge --delete-branch` se llevó en esta ola el worktree del grupo además de la rama (`worktree quitar` dijo «no existe»).
-  - Pedir a cada implementador una copia de su reporte en un archivo de su subdirectorio del scratchpad: al implementador de #17 no le llegaron al PM sus respuestas tras reanudarlo; con el de #20 la copia funcionó.
-  - Scripts temporales de cada agente en un subdirectorio propio del scratchpad (`impl-<área>/`, `critico-prN/`): dos implementadores se pisaron un `mut.py`.
-  - `nucleo` entrega `float`/`int` nativos y `presentacion` acepta `np.float64` igual; `Analisis` de la Fase 1 = `mes`, `ultimo_dia`, `resumen`, `avisos`. Formateadores: `formatear_monto`, `formatear_porcentaje`, `formatear_entero`, `formatear_fecha`, `formatear_mes`, `dia_de_la_semana`; detector `referencias_de_red` (todos desde `reporte.presentacion`).
-  - `tests/test_arquitectura.py` vigila ya `nucleo`, `datos` y `presentacion` (esta última: stdlib, `jinja2` y `reporte.nucleo`; `markupsafe` no está en la matriz).
-- **Pendiente con el Team Manager o el usuario:** la pausa; ningún escalado abierto. Issues abiertas en la ola: #18 (detector de red en JS minificado, Fase 2) y #19 (guarda del núcleo sin I/O de pandas).
-- **Por qué paro:** pausa pedida por el usuario; además, con el merge de #20 este PM llega a su umbral de 3 PRs internas.
+- 2026-10-17: retomada por un PM de relevo (§1b); el handover anterior queda en el historial de git (7cdf08a).
