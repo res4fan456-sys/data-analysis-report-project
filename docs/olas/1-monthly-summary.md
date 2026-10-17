@@ -64,7 +64,12 @@
 
 ## Entorno vivo
 
-- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`), con `output/reporte_2026-09.html` y su CSV generados para la revisión visual (`output/` está en `.gitignore`). Se quita después del merge del usuario.
+- Worktree del PM `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`): quitado el 2026-10-17, tras el merge de #26 por el usuario.
+- Integración a `master` (2026-10-17): el usuario mergeó #3 (a `master`, 32f6128), #11, #14 y #26 (a `chore/1-monthly-summary-planning`, 70a2c6b); solo #3 llegó a `master`.
+  - Rama `chore/integrate-waves-0-1`, desde `origin/chore/1-monthly-summary-planning`, con `origin/master` mergeado encima (1a6a810).
+  - Único conflicto: add/add en `tasks.md` de `move-generator-package`; gana la versión de la rama, que solo difiere en las cinco casillas marcadas.
+  - Lo que solo estaba en `master` (#13, #8, #27) queda idéntico a `master`, con los bits de ejecución de `.claude/da/`; #4 es la base común de las dos ramas.
+  - Su PR a `master` lleva `Closes #5` y `Closes #6`; la mergea el usuario.
 - `da worktree listar` aún muestra `g1-datos`, `g2-presentacion` y `g3-nucleo`, sin carpeta (issue #25).
 - Ningún comando pesado, implementador ni crítico en vuelo.
 
