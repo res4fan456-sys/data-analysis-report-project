@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reporte de gasto de {{ mes }}</title>
+<script>
+(function () {
+  var raiz = document.documentElement;
+  var CLAVE = "tema";
+  var elegido = null;
+  try { elegido = window.localStorage.getItem(CLAVE); } catch (e) { elegido = null; }
+  if (elegido === "claro" || elegido === "oscuro") { raiz.setAttribute("data-tema", elegido); }
+  function vigente() {
+    var puesto = raiz.getAttribute("data-tema");
+    if (puesto) { return puesto; }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "oscuro" : "claro";
+  }
+  function etiquetar(boton) {
+    boton.setAttribute("aria-label", "Cambiar a tema " + (vigente() === "oscuro" ? "claro" : "oscuro"));
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    var boton = document.getElementById("cambiar-tema");
+    etiquetar(boton);
+    boton.addEventListener("click", function () {
+      var siguiente = vigente() === "oscuro" ? "claro" : "oscuro";
+      raiz.setAttribute("data-tema", siguiente);
+      try { window.localStorage.setItem(CLAVE, siguiente); } catch (e) { }
+      etiquetar(boton);
+    });
+  });
+})();
+</script>
+<style>
+@font-face {
+  font-family: Inter;
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url(data:font/woff2;base64,{{ fuente_inter }}) format("woff2");
+}
+:root {
+  color-scheme: light;
+{%- for nombre, valor in variables_claro %}
+  {{ nombre }}: {{ valor }};
+{%- endfor %}
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema]) {
+    color-scheme: dark;
+{%- for nombre, valor in variables_oscuro %}
+    {{ nombre }}: {{ valor }};
+{%- endfor %}
+  }
+}
+:root[data-tema="claro"] {
+  color-scheme: light;
+{%- for nombre, valor in variables_claro %}
+  {{ nombre }}: {{ valor }};
+{%- endfor %}
+}
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+{%- for nombre, valor in variables_oscuro %}
+  {{ nombre }}: {{ valor }};
+{%- endfor %}
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: Inter, system-ui, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+main, header, footer { max-width: 60rem; margin: 0 auto; padding: 1.5rem; }
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid var(--acento);
+}
+h1 { margin: 0; font-size: 1.25rem; color: var(--texto-secundario); font-weight: 600; }
+h2 { margin: 0 0 1rem; font-size: 1rem; color: var(--texto-secundario); font-weight: 600; }
+.mes { margin: 0.25rem 0 0; font-size: 2.25rem; font-weight: 800; text-transform: capitalize; }
+.periodo { margin: 0; color: var(--texto-secundario); }
+button {
+  font: inherit;
+  color: var(--texto);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+button:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+#avisos {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--superficie);
+  border: 1px solid var(--acento);
+  border-radius: 0.75rem;
+}
+#avisos ul { margin: 0; padding-left: 1.25rem; }
+.resumen { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin: 0; }
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+.tarjeta dt { color: var(--texto-secundario); font-size: 0.875rem; }
+.tarjeta dd { margin: 0; }
+.cifra { color: var(--acento); font-size: 2rem; font-weight: 800; line-height: 1.2; white-space: nowrap; }
+.detalle { color: var(--texto-secundario); font-size: 0.875rem; }
+footer { text-align: center; color: var(--texto-secundario); border-top: 1px solid var(--borde); }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Reporte de gasto mensual</h1>
+    <p class="mes">{{ mes }}</p>
+    <p class="periodo">Del {{ desde }} al {{ hasta }}</p>
+  </div>
+  <button type="button" id="cambiar-tema" aria-label="Cambiar el tema de color">Tema</button>
+</header>
+<main>
+{%- if avisos %}
+  <section id="avisos" aria-labelledby="titulo-avisos">
+    <h2 id="titulo-avisos">Avisos</h2>
+    <ul>
+{%- for aviso in avisos %}
+      <li>{{ aviso }}</li>
+{%- endfor %}
+    </ul>
+  </section>
+{%- endif %}
+  <section aria-labelledby="titulo-resumen">
+    <h2 id="titulo-resumen">Resumen del mes</h2>
+    <dl class="resumen">
+      <div class="tarjeta">
+        <dt>Gasto total</dt>
+        <dd class="cifra">{{ total }}</dd>
+      </div>
+      <div class="tarjeta">
+        <dt>Transacciones</dt>
+        <dd class="cifra">{{ numero }}</dd>
+      </div>
+      <div class="tarjeta">
+        <dt>Ticket promedio</dt>
+        <dd class="cifra">{{ ticket_promedio }}</dd>
+      </div>
+      <div class="tarjeta">
+        <dt>Día de mayor gasto</dt>
+        <dd class="cifra">{{ monto_dia_mayor_gasto }}</dd>
+        <dd class="detalle">{{ dia_mayor_gasto_semana }}, {{ dia_mayor_gasto }}</dd>
+      </div>
+      <div class="tarjeta">
+        <dt>Gasto variable</dt>
+        <dd class="cifra">{{ gasto_variable }}</dd>
+        <dd class="detalle">{{ proporcion_variable }} del total</dd>
+      </div>
+    </dl>
+  </section>
+</main>
+<footer>
+  <p>Aquí queda la línea del respeto</p>
+</footer>
+</body>
+</html>
