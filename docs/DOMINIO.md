@@ -39,17 +39,23 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
 - **R4 — Resumen ejecutivo.**
   - Gasto total, número de transacciones, ticket promedio (total / número) y el día de mayor gasto con su monto.
   - Entre 3 y 5 hallazgos principales, ordenados por relevancia.
+    - **Candidatos:** cada patrón que aparece (R14), y cada viaje por separado.
+    - **Relevancia:** la proporción del gasto total que el hallazgo explica: la categoría dominante, su gasto; la zona favorita, su gasto en `Comida` + `Entretenimiento`; un viaje, su gasto; la quincena, lo que sus días de pago gastan por encima de días normales; el fin de semana, lo que sus días gastan por encima de lunes a jueves.
+    - Van de mayor a menor relevancia; si empatan, en el orden categoría dominante, zona favorita, quincena, fin de semana, viaje.
+    - Si hay menos de 3, se completan, en este orden, con el día de mayor gasto, la proporción del gasto variable y el ticket promedio.
 - **R5 — Gasto variable.** Es el gasto total menos los cargos fijos (`Vivienda`, `Servicios`, `Suscripciones`) y la categoría `Viajes`.
 
 **Patrones**
 
-- **R6 — Categoría dominante.** Es la categoría con mayor participación en el gasto variable. Se reporta su % del gasto variable y su % del total.
-- **R7 — Zona favorita.** Es la zona no lejana con mayor gasto en `Comida` + `Entretenimiento`. Se reporta su % de ese gasto.
+- **R6 — Categoría dominante.** Es la categoría con mayor participación en el gasto variable. Se reporta su % del gasto variable y su % del total. Si dos empatan, gana la primera en orden alfabético.
+- **R7 — Zona favorita.** Es la zona no lejana con mayor gasto en `Comida` + `Entretenimiento`. Se reporta su % de ese gasto en las zonas no lejanas. Si dos empatan, gana la primera en orden alfabético.
 - **R8 — Zona lejana y viaje.**
   - **Centro principal:** la mediana de latitud y la mediana de longitud de todas las transacciones.
   - **Zona lejana:** una zona cuyo centroide está a más de 50 km del centro principal (distancia haversine).
   - **Viaje:** cada bloque de días consecutivos con al menos una transacción en una misma zona lejana.
   - **Gasto del viaje:** el de esos días en esa zona, más las transacciones de categoría `Viajes` del mes que mencionan la ciudad o ocurren en ella.
+    - **La ciudad** de una zona es su nombre hasta la primera coma (`Guadalajara, Jal.` → `Guadalajara`); el `concepto` la menciona si la contiene, sin distinguir mayúsculas.
+    - Cada transacción cuenta una sola vez. Una de `Viajes` que menciona la ciudad fuera de los días de un viaje se suma al primer viaje a esa zona que empieza después de ella, o al último si ninguno.
   - Se reportan el destino, las fechas de inicio y fin y el gasto del viaje.
   - Si no hay zonas lejanas, la sección dice «No se detectó un viaje este mes».
 - **R9 — Quincena.**
@@ -59,9 +65,10 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
     - **la cuesta:** del 12 al 14 y los 3 días previos al último;
     - **normal:** el resto.
   - Para cada tipo se reporta el gasto promedio por día y su factor contra los días normales (p. ej. «×2.3»).
+  - El gasto promedio por día de un tipo es todo su gasto entre el número de días del calendario de ese tipo, tengan gasto o no.
 - **R10 — Fin de semana.**
-  - Se compara el gasto promedio por día de viernes a domingo contra el de lunes a jueves.
-  - Se reporta aparte el entretenimiento nocturno: categoría `Entretenimiento` con hora ≥ 20 o < 4.
+  - Se compara el gasto promedio por día de viernes a domingo contra el de lunes a jueves, con el promedio por día del calendario de R9, y se reporta su factor.
+  - Se reporta aparte el entretenimiento nocturno: categoría `Entretenimiento` con hora ≥ 20 o < 4, de todos los días, con su % del gasto de `Entretenimiento`.
 
 **Desglose**
 
@@ -84,7 +91,13 @@ La fuente de verdad del comportamiento del reporte. Cada regla tiene al menos un
   - Si el centro principal no cae en CDMX, la vista de ciudad muestra solo los puntos, sin polígonos.
 - **R14 — Honestidad.**
   - Cada hallazgo sale de los datos y lleva su cifra.
-  - Si un patrón no aparece (p. ej. ninguna categoría supera el 30 % del gasto variable, o el factor de quincena es < 1.1), se dice así y no se presenta como patrón.
+  - Si un patrón no aparece, se dice así, con su cifra, y no se presenta como patrón. Cada patrón aparece solo si:
+    - **categoría dominante:** supera el 30 % del gasto variable;
+    - **zona favorita:** reúne al menos el 30 % del gasto en `Comida` + `Entretenimiento` de las zonas no lejanas;
+    - **quincena:** el factor del día de pago es de al menos ×1.1;
+    - **fin de semana:** su factor es de al menos ×1.1;
+    - **viaje:** hay al menos una zona lejana.
+  - Un patrón cuya cifra no se puede calcular se declara «sin datos suficientes»: la categoría dominante sin gasto variable, la zona favorita sin gasto en `Comida` + `Entretenimiento` en zonas no lejanas, la quincena sin gasto en días normales y el fin de semana sin gasto de lunes a jueves.
 - **R15 — Formato es-MX.**
   - Montos como `$1,234.56`. Porcentajes con un decimal (`42.3 %`).
   - Fechas como «15 de septiembre de 2026» y días de la semana en español.
