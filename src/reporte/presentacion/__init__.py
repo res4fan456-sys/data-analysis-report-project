@@ -8,6 +8,7 @@ from reporte.presentacion.formatos import (
     formatear_monto,
     formatear_porcentaje,
 )
+from reporte.presentacion.pagina import renderizar
 from reporte.presentacion.red import referencias_de_red
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "formatear_monto",
     "formatear_porcentaje",
     "referencias_de_red",
+    "renderizar",
 ]

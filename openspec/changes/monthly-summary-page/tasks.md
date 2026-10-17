@@ -45,15 +45,15 @@ Reglas de la fase para todos los grupos:
 
 ## 3. La página del reporte (PR 4, área `presentacion`, ~500 líneas sin contar el binario de la fuente)
 
-- [ ] 3.1 Copiar `InterVariable.woff2` y su texto de licencia (los entrega el usuario; ruta en el brief) a
+- [x] 3.1 Copiar `InterVariable.woff2` y su texto de licencia (los entrega el usuario; ruta en el brief) a
   `src/reporte/presentacion/activos/` y crear `activos/LICENCIAS.md` con versión (Inter 4.1), licencia
   (OFL-1.1), origen y SHA-256 del archivo, más el test de licencias (requisito «Cada activo incrustado declara
   versión y licencia»). **Flujo que protege:** que ningún activo entre a la página sin versión y licencia
   (regla innegociable 6). Se verifica con el test en verde y la mutación de borrar la fila de Inter.
-- [ ] 3.2 El tema como datos y el test de contraste (requisito «La paleta negro y dorado es legible en los
+- [x] 3.2 El tema como datos y el test de contraste (requisito «La paleta negro y dorado es legible en los
   dos temas»; design, «Tema como datos»). **Flujo que protege:** que el texto se lea en los dos temas.
   Se verifica con el test de cada par y la mutación de oscurecer el texto del tema oscuro.
-- [ ] 3.3 `renderizar(analisis) -> str`, exportado desde `reporte.presentacion`, con la plantilla Jinja2: la
+- [x] 3.3 `renderizar(analisis) -> str`, exportado desde `reporte.presentacion`, con la plantilla Jinja2: la
   fuente incrustada, el tema con su botón y su script, los avisos, el encabezado con mes y periodo, el resumen
   formateado y el cierre (requisitos «La página muestra el encabezado y el resumen del mes», «…los avisos…»,
   «El texto que viene de los datos se muestra literal», «La fuente Inter va incrustada», «La página es un
