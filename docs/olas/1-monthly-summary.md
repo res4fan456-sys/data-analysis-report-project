@@ -21,7 +21,7 @@
 | #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | mergeada (3cff17b) — 1 mecánica (líneas en blanco, por lectura del diff del PM) · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (segundos 60/61); pasada final por la salida (a), LISTA en la pasada corta |
 | #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
 | #20 | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | mergeada (ec732eb) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (empate decidido por el error de la suma `float`); pasada final por la salida (a), LISTA en la pasada corta sobre 4738bd6; rebasada como 43c7f80 (`verify` OK; `sistema` de 4738bd6, producto idéntico) |
-| #21 | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | abierta (a59f177, `verify` y `sistema` OK), en primera pasada del crítico |
+| #21 | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | mergeada (871c98b) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (CSS `capitalize` reescribía el mes; su test buscaba subcadena); pasada final trivial (solo tests) en 7551ccc |
 | — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
 
 ## Decisiones del PM
@@ -33,6 +33,10 @@
 - PR #17: las líneas en blanco antes del encabezado también se ignoran (el encabezado es el primer registro no vacío), a raíz del NO BLOQUEA 3 del crítico. Descartado: rechazarlas con un «faltan las nueve columnas» que no dice qué arreglar.
 
 - PR #20: un empate de días en dinero que solo difiere por el error de la suma binaria cuenta como empate (gana el más temprano); una diferencia real, aunque sea de menos de un centavo, no. Descartado: redondear las sumas diarias a centavos en `nucleo` (`CLAUDE.md`, Convenciones: se redondea solo al formatear).
+
+- PR #21: el JavaScript del tema (almacenamiento en `try/catch`, script antes del cuerpo, `aria-label` al alternar) queda sin test automático y va a la revisión visual; el crítico lo probó con Chrome headless (preferencia del sistema, alternar, almacenamiento bloqueado, elección guardada). Descartado: un test que cuente `localStorage` dentro de `try` en el texto del script (afirma marcado, `CLAUDE.md` TDD regla 6).
+- PR #21: la paleta la eligió el implementador (oscuro: fondo `#0b0b0d`, texto `#f4f1e8`, acento `#f5c542`; claro: fondo `#faf8f2`, texto `#17140d`, acento `#8a6200`), con contraste medido por par; el usuario la valida en la revisión visual. El crítico avisa que el dorado del claro tira a ocre.
+- PR #21: el lector de «último texto visible» no ve texto en atributos (`value` de un `input`) ni en `content` de CSS. Aceptado sin acción: la página no tiene ese marcado.
 
 ## Deuda
 
@@ -51,7 +55,7 @@
 
 - Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
 - `g3-nucleo` quitado tras el merge de #20.
-- `.claude/worktrees/g4-pagina` (`feat/1-report-page`, #21); fuente copiada desde `/home/JP/activos-reporte/inter-4.1/`, SHA-256 iguales al brief.
+- `g4-pagina` quitado tras el merge de #21 (la fuente se copió desde `/home/JP/activos-reporte/inter-4.1/` con SHA-256 iguales al brief).
 - 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API; reanudados por `SendMessage` a la misma instancia.
 - El implementador de #17 no entregó sus reportes tras reanudarlo; a cada implementador se le pide copia del reporte en archivo del scratchpad.
 
