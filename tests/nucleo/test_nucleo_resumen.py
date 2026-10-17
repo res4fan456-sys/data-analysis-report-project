@@ -191,7 +191,7 @@ def test_el_analisis_trae_el_mes_y_su_ultimo_dia_del_calendario(
 
 
 def test_los_avisos_llegan_sin_cambiar_y_en_el_mismo_orden() -> None:
-    avisos = ("segundo aviso", "primer aviso", "tercer aviso")
+    avisos = ("segundo aviso", "primer aviso", "primer aviso")
 
     analisis = analizar(_transacciones([("2026-09-01 10:00:00", 10, "Comida")], avisos=avisos))
 

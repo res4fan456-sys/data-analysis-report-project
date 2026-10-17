@@ -51,8 +51,8 @@ def _primer_dia_con_el_maximo(gasto_por_dia: pd.Series[float]) -> pd.Timestamp:
     """Día más temprano cuya suma empata con la mayor.
 
     Los montos no se redondean en el núcleo (docs/DOMINIO.md, caso borde «Montos con más de 2
-    decimales»), así que dos sumas que solo difieren por el error de la suma binaria cuentan como
-    empate y una diferencia real, aunque sea menor a un centavo, no.
+    decimales»), así que las sumas a una diferencia relativa de hasta 1e-9 del máximo (el error de la
+    suma binaria) cuentan como empate y una diferencia mayor decide.
     """
     maximo = float(gasto_por_dia.max())
     empatados = [math.isclose(float(suma), maximo, rel_tol=1e-9) for suma in gasto_por_dia]
