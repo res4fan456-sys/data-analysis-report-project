@@ -66,18 +66,18 @@ Reglas de la fase para todos los grupos:
 
 ## 4. La CLI y la suite de sistema de la fase (PR 5, áreas `app` y `generador` más `README.md`, ~300 líneas)
 
-- [ ] 4.1 Crear `src/reporte/app.py` con `main(argv: list[str] | None = None) -> int` y
+- [x] 4.1 Crear `src/reporte/app.py` con `main(argv: list[str] | None = None) -> int` y
   `src/reporte/__main__.py`, con todos los requisitos de la spec `linea-de-comandos` (design, «CLI»).
   **Flujo que protege:** que el autor genere la página con un comando y que, ante un CSV rechazado o una
   salida imposible, lea por qué en español sin una traza de Python. Se verifica con un test por escenario en
   `tests/app/` (`main([...])` con `tmp_path`, CSV escritos en el test) y la mutación de cada uno (p. ej.
   tomar el mes del nombre del archivo pone en rojo «El nombre sale del mes de los datos»).
-- [ ] 4.2 Crear `tests/sistema/test_reporte.py` con marcador `sistema` (design, «Suite `sistema` de la
+- [x] 4.2 Crear `tests/sistema/test_reporte.py` con marcador `sistema` (design, «Suite `sistema` de la
   fase»). **Flujo que protege:** el entregable de la Fase 1 de punta a punta, con el generador real y el
   comando que corre el autor: la página existe, no usa la red, cierra con el mensaje literal, pesa < 10 MB y
   sus KPIs coinciden con el CSV; y un CSV inválido da código 1 con su motivo. Se verifica con la suite
   `sistema` en verde y la mutación de cambiar el total esperado (falla el caso de KPIs).
-- [ ] 4.3 Actualizar `README.md`: el reporte ya existe (fuera el «todavía no existe» de `README.md:3-8`) y
+- [x] 4.3 Actualizar `README.md`: el reporte ya existe (fuera el «todavía no existe» de `README.md:3-8`) y
   una sección de uso con `python -m reporte output/transacciones_AAAA-MM.csv`, `-o` y el código de salida de
   un CSV rechazado. Se verifica con `.claude/da/da citas` limpio y cada comando del README corriendo tal como
   está escrito (salvo el de instalación, que corre el usuario).

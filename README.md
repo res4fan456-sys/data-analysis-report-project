@@ -1,11 +1,10 @@
 # Reporte de gasto mensual
 
-El reporte tomará el CSV de transacciones de un mes y generará una única página HTML local,
-sin red y en español de México, con el análisis de gasto. Todavía no existe: hoy el repositorio
-solo ofrece el generador sintético, que usa [Faker](https://faker.readthedocs.io/) para producir
-el CSV de prueba: los gastos de **una persona durante un mes** (20,000 transacciones por
-defecto). Cada ejecución produce datos nuevos, pero siempre con patrones de gasto detectables,
-para alimentar el reporte cuando exista.
+El reporte toma el CSV de transacciones de un mes y genera una única página HTML local, sin red y
+en español de México, con el análisis de gasto. El repositorio incluye además un generador sintético,
+que usa [Faker](https://faker.readthedocs.io/) para producir el CSV de prueba: los gastos de **una
+persona durante un mes** (20,000 transacciones por defecto). Cada ejecución produce datos nuevos,
+pero siempre con patrones de gasto detectables, para alimentar el reporte.
 
 ## Instalación
 
@@ -16,6 +15,33 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 ```
+
+## Uso del reporte
+
+Desde la raíz del repositorio, con el entorno activado. Para tener un CSV con el que probar, genera
+uno de septiembre de 2026 (ver [Uso del generador](#uso-del-generador)) y pásalo al reporte:
+
+```bash
+python -m generador --mes 2026-09 --semilla 42
+python -m reporte output/transacciones_2026-09.csv
+```
+
+Escribe `reporte_AAAA-MM.html` junto al CSV (aquí, `output/reporte_2026-09.html`), con el mes
+tomado de las transacciones y no del nombre del archivo, e imprime la ruta escrita; una página
+anterior del mismo mes se reemplaza. Con `-o` (o `--salida`) eliges dónde queda, y las carpetas
+que falten se crean:
+
+```bash
+python -m reporte output/transacciones_2026-09.csv -o output/informes/septiembre.html
+```
+
+Códigos de salida:
+
+| Código | Cuándo |
+|---|---|
+| `0` | La página se escribió |
+| `1` | El CSV se rechazó (el mensaje en español dice qué corregir) o la página no se pudo escribir; en ambos casos el mensaje sale por la salida de error, sin traza de Python, y un CSV rechazado no deja página |
+| `2` | Uso incorrecto: falta el CSV o se pasó una opción desconocida |
 
 ## Uso del generador
 
