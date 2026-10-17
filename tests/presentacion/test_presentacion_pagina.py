@@ -46,7 +46,11 @@ def test_el_resumen_de_septiembre_muestra_cada_cifra_en_es_mx() -> None:
 
 
 def test_la_pagina_no_reescribe_con_css_el_texto_de_los_formateadores() -> None:
-    assert "text-transform" not in _estilo(renderizar(analisis_de_septiembre()))
+    html = renderizar(analisis_de_septiembre())
+    en_atributos = [a.get("style") or "" for _, a, _ in leer(html).elementos]
+
+    assert "text-transform" not in _estilo(html)
+    assert all("text-transform" not in estilo for estilo in en_atributos)
 
 
 def test_el_periodo_de_febrero_bisiesto_termina_el_29() -> None:

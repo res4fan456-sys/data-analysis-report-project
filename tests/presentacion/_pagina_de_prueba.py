@@ -1,5 +1,6 @@
-"""Ayudas de los tests de la página: un `Analisis` hecho a mano y el HTML leído como lo vería quien
-abre la página (texto visible, elementos)."""
+"""Ayudas de los tests de la página: un `Analisis` hecho a mano y un lector del HTML que devuelve sus
+elementos y los nodos de texto fuera de `head`, `script`, `style`, `template` y de los elementos con
+`hidden`. No aplica CSS."""
 
 from datetime import date
 from html.parser import HTMLParser
