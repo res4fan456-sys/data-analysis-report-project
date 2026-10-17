@@ -2,7 +2,9 @@
 en español y un código de salida (docs/ARQUITECTURA.md, capa `app`)."""
 
 import argparse
+import os
 import sys
+import uuid
 from pathlib import Path
 
 from reporte.datos import ErrorDeEntrada, leer_transacciones
@@ -25,6 +27,19 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _escribir_sin_dejar_a_medias(destino: Path, pagina: str) -> None:
+    """Escribe en un temporal de la carpeta del destino y lo mueve encima: queda la página anterior o
+    la nueva completa, nunca una truncada, y un fallo no deja el temporal."""
+    temporal = destino.with_name(f".{destino.name}.{uuid.uuid4().hex}.tmp")
+    try:
+        with temporal.open("x", encoding="utf-8") as archivo:
+            archivo.write(pagina)
+        os.replace(temporal, destino)
+    except BaseException:
+        temporal.unlink(missing_ok=True)
+        raise
+
+
 def main(argv: list[str] | None = None) -> int:
     """Devuelve el código de salida: 0 si escribió la página, 1 si el CSV se rechazó o la página no
     se pudo escribir. Un uso incorrecto lo termina `argparse` con código 2."""
@@ -44,9 +59,15 @@ def main(argv: list[str] | None = None) -> int:
     destino: Path = argumentos.salida or (
         argumentos.csv.parent / f"reporte_{analisis.mes:%Y-%m}.html"
     )
+    if destino.exists() and destino.samefile(argumentos.csv):
+        print(
+            f"La página no puede escribirse en «{destino}»: es el mismo archivo que el CSV.",
+            file=sys.stderr,
+        )
+        return 1
     try:
         destino.parent.mkdir(parents=True, exist_ok=True)
-        destino.write_text(pagina, encoding="utf-8")
+        _escribir_sin_dejar_a_medias(destino, pagina)
     except OSError:
         print(
             f"No se pudo escribir la página en «{destino}». "
