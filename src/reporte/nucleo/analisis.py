@@ -1,6 +1,7 @@
 """Análisis del mes: las cifras del resumen ejecutivo (R3, R4 y R5 de docs/DOMINIO.md)."""
 
 import calendar
+import math
 from dataclasses import dataclass
 from datetime import date
 
@@ -46,12 +47,24 @@ def analizar(transacciones: Transacciones) -> Analisis:
     )
 
 
+def _primer_dia_con_el_maximo(gasto_por_dia: pd.Series[float]) -> pd.Timestamp:
+    """Día más temprano cuya suma empata con la mayor.
+
+    Los montos no se redondean en el núcleo (docs/DOMINIO.md, caso borde «Montos con más de 2
+    decimales»), así que dos sumas que solo difieren por el error de la suma binaria cuentan como
+    empate y una diferencia real, aunque sea menor a un centavo, no.
+    """
+    maximo = float(gasto_por_dia.max())
+    empatados = [math.isclose(float(suma), maximo, rel_tol=1e-9) for suma in gasto_por_dia]
+    return pd.Timestamp(gasto_por_dia.index[empatados.index(True)])
+
+
 def _resumir(transacciones: Transacciones) -> Resumen:
     tabla = transacciones.tabla
     total = float(tabla["monto"].sum())
     numero = len(tabla)
     gasto_por_dia = tabla.groupby(tabla["fecha"].dt.normalize())["monto"].sum()
-    dia_mayor_gasto = pd.Timestamp(gasto_por_dia.idxmax())
+    dia_mayor_gasto = _primer_dia_con_el_maximo(gasto_por_dia)
     variable = tabla.loc[~tabla["categoria"].isin(CATEGORIAS_FUERA_DEL_VARIABLE), "monto"].sum()
     return Resumen(
         total=total,

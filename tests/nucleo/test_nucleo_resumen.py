@@ -5,7 +5,7 @@ from datetime import date
 import pandas as pd
 import pytest
 
-from reporte.nucleo import Analisis, Resumen, analizar
+from reporte.nucleo import analizar
 from reporte.nucleo.tipos import Transacciones
 
 
@@ -37,10 +37,12 @@ def test_tres_transacciones_dan_total_numero_y_ticket_promedio() -> None:
     assert resumen.ticket_promedio == pytest.approx(133.3333333333)
 
 
-def test_una_sola_transaccion_produce_el_resumen() -> None:
-    resumen = analizar(_montos(87.25)).resumen
+def test_una_sola_transaccion_a_mitad_de_mes_produce_el_resumen_del_mes() -> None:
+    analisis = analizar(_transacciones([("2026-09-17 10:00:00", 87.25, "Comida")]))
 
+    resumen = analisis.resumen
     assert (resumen.total, resumen.numero, resumen.ticket_promedio) == (87.25, 1, 87.25)
+    assert analisis.mes == date(2026, 9, 1)
 
 
 def test_las_cifras_del_resumen_son_tipos_nativos() -> None:
@@ -88,6 +90,37 @@ def test_empate_entre_dos_dias_gana_el_mas_temprano_aunque_vaya_despues_en_el_ar
 
     assert resumen.dia_mayor_gasto == date(2026, 9, 5)
     assert resumen.monto_dia_mayor_gasto == 400
+
+
+def test_dos_dias_que_solo_difieren_por_el_error_de_la_suma_binaria_empatan() -> None:
+    assert 10.00 + 250.96 != 260.96
+
+    resumen = analizar(
+        _transacciones(
+            [
+                ("2026-09-12 09:00:00", 10.00, "Comida"),
+                ("2026-09-12 18:00:00", 250.96, "Comida"),
+                ("2026-09-05 12:00:00", 260.96, "Comida"),
+            ]
+        )
+    ).resumen
+
+    assert resumen.dia_mayor_gasto == date(2026, 9, 5)
+    assert resumen.monto_dia_mayor_gasto == pytest.approx(260.96)
+
+
+def test_una_diferencia_real_menor_a_un_centavo_no_es_empate() -> None:
+    resumen = analizar(
+        _transacciones(
+            [
+                ("2026-09-05 12:00:00", 400.00, "Comida"),
+                ("2026-09-12 12:00:00", 400.004, "Comida"),
+            ]
+        )
+    ).resumen
+
+    assert resumen.dia_mayor_gasto == date(2026, 9, 12)
+    assert resumen.monto_dia_mayor_gasto == pytest.approx(400.004)
 
 
 def test_cargos_fijos_y_viajes_fuera_del_variable() -> None:
@@ -158,17 +191,17 @@ def test_el_analisis_trae_el_mes_y_su_ultimo_dia_del_calendario(
 
 
 def test_los_avisos_llegan_sin_cambiar_y_en_el_mismo_orden() -> None:
-    avisos = ("coordenadas fuera de México", "otro aviso", "coordenadas fuera de México")
+    avisos = ("segundo aviso", "primer aviso", "tercer aviso")
 
     analisis = analizar(_transacciones([("2026-09-01 10:00:00", 10, "Comida")], avisos=avisos))
 
     assert analisis.avisos == avisos
 
 
-def test_el_analisis_es_un_contrato_congelado() -> None:
+def test_el_analisis_y_su_resumen_son_inmutables() -> None:
     analisis = analizar(_montos(10))
 
-    assert isinstance(analisis, Analisis)
-    assert isinstance(analisis.resumen, Resumen)
     with pytest.raises(AttributeError):
         analisis.mes = date(2026, 1, 1)  # type: ignore[misc]
+    with pytest.raises(AttributeError):
+        analisis.resumen.total = 0.0  # type: ignore[misc]
