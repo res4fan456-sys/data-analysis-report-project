@@ -6,7 +6,8 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
 
 ## 1. La ola
 
-- Rama `ola/2-spending-patterns` desde `master` tras la integración de la pila de las fases 0 y 1 y su archivado;
+- Rama `ola/2-spending-patterns` desde `master` con la integración de la pila de las fases 0 y 1 (#29, a36b316),
+  el archivado de esas olas y la PR #31;
   registro `docs/olas/2-spending-patterns.md`. El pre-vuelo leyó el código en `ola/1-monthly-summary` @ 09f4fe7
   (el mismo que la integración lleva a `master`) y los documentos en `master` @ 01a8e9b; el Team Manager te da el
   SHA de `master` desde el que arrancas.
@@ -26,7 +27,8 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
     página con las cinco secciones.
   - Cada grupo, unas 600 líneas de diff o menos (estimados: P1 550, P2 550, C1 560 sin `echarts.min.js`, C2 650,
     P3 250). C2 es el más grande; si al encargar pasa de 700, avisa al Team Manager antes de partir nada.
-- No se empieza: desglose y atípicos (Fase 3), mapa (Fase 4), #28, `--abrir` (#12).
+- No se empieza: desglose y atípicos (Fase 3), mapa (Fase 4), #28, `--abrir` (#12, fuera de esta ola por decisión
+  del usuario del 2026-10-17).
 
 ## 2. Lecturas obligatorias antes del primer encargo
 
@@ -44,9 +46,8 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
 - El resumen de la Fase 1 no cambia: ninguna cifra, texto ni campo existente de `Analisis` o `Resumen`.
 - Los campos nuevos de `Analisis` (`patrones`, `hallazgos`) llevan los nombres del design de
   `detect-spending-patterns`; C1 y C2 los consumen tal cual. Un cambio de nombre es `openspec-update-change`.
-- Umbrales, relevancia y «ciudad» son los de las specs (decisiones D1 y D2 del pre-vuelo, recomendadas y pendientes
-  de confirmar por el usuario en la PR de ola). Si el Team Manager te comunica otra opción, se cambia la spec antes
-  que el código.
+- Umbrales, relevancia y «ciudad» son los de las specs y los de `docs/DOMINIO.md` tras la PR #30 (decisiones D1 y
+  D2 del pre-vuelo, confirmadas por el usuario el 2026-10-17). R16 no cambia (D3).
 - El archivo de ECharts no se edita ni se reformatea; se revisa por su SHA-256.
 - Los títulos de las cinco secciones, «Hallazgos principales», «No se detectó un viaje este mes» y «Sin datos
   suficientes para este patrón» son texto contrato; las frases de los hallazgos no lo son.
@@ -100,12 +101,21 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
 
 ## 5. Mecánica de esta fase
 
-- **Base de la ola:** `master`, tras la integración de la pila de las fases 0 y 1 y su archivado. De ahí sale la
-  rama de ola y a ahí apunta su PR.
+- **Base de la ola:** `master`, con #29, el archivado de las olas 0 y 1 y #31. De ahí sale la rama de ola y a ahí
+  apunta su PR.
 - Quién propone (el Team Manager, vía el Planeador) y quién toma (tú); a quién se escala (al Team Manager). El
   handover, la rama del checkout principal y el comando pesado viven en `desarrollo-autonomo-pm` (§6, §1.7) y en
   `CLAUDE.md` (*Desarrollo agéntico* 8-9); worktrees con `.claude/da/da worktree montar`.
-- **ECharts lo baja el usuario**, fuera del repositorio. Comandos que le lleva el Team Manager:
+- **ECharts ya lo bajó el usuario** (2026-10-17), fuera del repositorio. Los copias tú o el implementador de C1
+  a `src/reporte/presentacion/activos/` como `echarts.min.js`, `echarts-LICENSE.txt` y `echarts-NOTICE.txt`:
+  - Origen local: `/home/JP/activos-reporte/echarts-6.0.0/package/`. SHA-256 comprobados por el Planeador sobre esos archivos [V]:
+  - `dist/echarts.min.js` (1,117,939 bytes): `baa8dfe7e1d9336b98e8986ba7e20ea15e7cdbea1ef42a59d59478632fa45a1d`
+  - `LICENSE` (Apache-2.0): `634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a`
+  - `NOTICE`: `dc0d9176413c3d96d0ac40b39b1dbb11e3043b7b010be560f5dfe66bd3774ae1`
+  - SHA-1 del `.tgz`: `2935aa7751c282d1abbbf7d719d397199a15b9e7`; la igualdad con el `dist.shasum` del registro
+    la confirma el usuario.
+  - `</script` no aparece en `echarts.min.js`, tampoco sin distinguir mayúsculas [V] (paso 3 de la verificación).
+- Comandos con los que se bajó (para 5.6.0, si la verificación falla, cambiando la versión):
 
   ```bash
   mkdir -p ~/activos-reporte/echarts-6.0.0
@@ -116,9 +126,9 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
   sha256sum ~/activos-reporte/echarts-6.0.0/package/dist/echarts.min.js ~/activos-reporte/echarts-6.0.0/package/LICENSE ~/activos-reporte/echarts-6.0.0/package/NOTICE
   ```
 
-  Las dos huellas SHA-1 deben coincidir. Si la verificación falla, los mismos comandos con `5.6.0`. Los tres
-  SHA-256 que reporte el usuario van a tu registro y a `activos/LICENCIAS.md`. Versión 6.0.0, licencia Apache-2.0,
-  origen `https://registry.npmjs.org/echarts/-/echarts-6.0.0.tgz`, entrada `package/dist/echarts.min.js`.
+  Los tres SHA-256 van a tu registro y a `activos/LICENCIAS.md`, con versión 6.0.0, licencia Apache-2.0 y origen
+  `https://registry.npmjs.org/echarts/-/echarts-6.0.0.tgz`, entrada `package/dist/echarts.min.js` (y `package/LICENSE`,
+  `package/NOTICE` para los textos de licencia).
 - Cierre: PR `ola/2-spending-patterns → master` con la plantilla B, abierta para el usuario, con `Closes #18`.
   Nada llega a `master` por ti.
 
@@ -126,10 +136,11 @@ no esté aquí lo decide el skill, y lo que el skill no decida lo escalas al Tea
 
 - `.claude/da/da preflight` limpio, `.claude/da/da verify` verde sobre la base, mecánica de OpenSpec de los dos
   changes.
-- **Verificación de ECharts** con el archivo que bajó el usuario, antes de encargar C1 (lista completa en el
+- **Verificación de ECharts** con el archivo que bajó el usuario (los SHA-256 y la ausencia de `</script` ya los
+  comprobó el Planeador; repítelos sobre la copia en el worktree), antes de encargar C1 (lista completa en el
   design de `chart-pattern-sections`, «Librería»): SHA, `referencias_de_red` sobre una página que lo incrusta
   (R16 contra el archivo real: `()`, o cada posición abierta y juzgada), sin `</script`, revisión en menos de 2 s,
   `.claude/da/da citas` limpio sobre el archivo, y una gráfica de barras dibujada en Chrome sin red. Si falla con
   carga real, `</script` o dibujo, 5.6.0; si falla `citas`, escala al Team Manager. El resultado va al registro.
 - Lista de arranque (`desarrollo-autonomo-pm` §1.6) al Team Manager **solo si hay algo que pedir al usuario**
-  (los SHA de ECharts, si aún no llegaron); después la rama, el registro y el encargo de P1.
+  (hoy nada: ECharts y las decisiones ya están); después la rama, el registro y el encargo de P1.

@@ -8,9 +8,9 @@ la Fase 2, ECharts al empezar la Fase 2). [V] = verificado en el código o con d
 
 - `detect-spending-patterns`: lista para un PM.
 - `chart-pattern-sections`: lista para un PM.
-- **Ola: lista para delegar**, con dos condiciones de arranque que no son decisiones: el usuario baja ECharts y
-  reporta sus SHA-256 (§8), y la PR de planeación se rebasa sobre `master` cuando la integración y el archivado
-  terminen (las deltas `MODIFIED` necesitan las specs principales).
+- **Ola: lista para delegar.** Decisiones cerradas por el usuario el 2026-10-17 (§7) y ECharts ya bajado (§8).
+  Queda una condición de arranque que no es decisión: la PR de planeación se rebasa sobre `master` cuando el
+  archivado de las olas 0 y 1 y la PR #31 estén ahí (las deltas `MODIFIED` necesitan las specs principales).
 - Lo más importante: medí con el generador real que los patrones inyectados se detectan con las reglas tal como
   están escritas (11 corridas); el fin de semana no es parte del perfil y la suite de sistema no lo afirma.
 
@@ -108,6 +108,9 @@ la Fase 2, ECharts al empezar la Fase 2). [V] = verificado en el código o con d
 
 ## 7. Decisiones
 
+Cerradas el 2026-10-17: el usuario eligió **A** en D1, D2, D3 y D4; el Team Manager aceptó D5. D4 es la PR #30
+(`docs/DOMINIO.md`), que mergea el usuario. Además, #12 (`--abrir`) queda fuera de esta ola.
+
 1. **D1 — Umbrales de R14 para zona favorita y fin de semana.** *Del usuario.*
    - A) Por analogía: zona favorita si concentra al menos 30 % del gasto en Comida + Entretenimiento de las zonas
      cercanas; fin de semana si su factor es al menos ×1.1. Ya escrito en la spec.
@@ -140,8 +143,16 @@ la Fase 2, ECharts al empezar la Fase 2). [V] = verificado en el código o con d
 
 ## 8. Lo que solo el usuario puede dar
 
-- El paquete de ECharts 6.0.0 bajado fuera del repositorio y los SHA-256 de sus tres archivos (comandos en el brief,
-  §5). Si la verificación falla, el de 5.6.0.
+- Entregado.
+- ECharts 6.0.0, bajado por el usuario el 2026-10-17 fuera del repositorio, en
+  `/home/JP/activos-reporte/echarts-6.0.0/package/`. SHA-256 comprobados por el Planeador sobre esos archivos [V]:
+  - `dist/echarts.min.js` (1,117,939 bytes): `baa8dfe7e1d9336b98e8986ba7e20ea15e7cdbea1ef42a59d59478632fa45a1d`
+  - `LICENSE` (Apache-2.0): `634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a`
+  - `NOTICE`: `dc0d9176413c3d96d0ac40b39b1dbb11e3043b7b010be560f5dfe66bd3774ae1`
+  - SHA-1 del `.tgz`: `2935aa7751c282d1abbbf7d719d397199a15b9e7`; la igualdad con el `dist.shasum` del registro
+    la confirma el usuario.
+  - `</script` no aparece en `echarts.min.js`, tampoco sin distinguir mayúsculas [V] (paso 3 de la verificación).
+- Si la verificación del PM falla, el usuario baja 5.6.0 con los mismos comandos (brief, §5).
 
 ## Issues creadas
 
