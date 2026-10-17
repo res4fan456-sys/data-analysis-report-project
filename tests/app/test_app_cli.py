@@ -131,17 +131,13 @@ def test_un_csv_sin_permiso_de_lectura_da_error_con_la_ruta_sin_traza_y_sin_pagi
     assert _paginas(tmp_path) == []
 
 
-def _linea_de_uso(texto: str) -> str:
-    return next(linea for linea in texto.splitlines() if linea.startswith("usage:"))
-
-
 @pytest.mark.parametrize("argumentos", [[], ["transacciones.csv", "--no-existe"]])
 def test_un_uso_incorrecto_muestra_la_linea_de_uso_y_sale_con_codigo_2(
     argumentos: list[str], capsys: pytest.CaptureFixture[str]
 ) -> None:
     with pytest.raises(SystemExit):
         main(["-h"])
-    uso = _linea_de_uso(capsys.readouterr().out)
+    uso = capsys.readouterr().out.splitlines()[0]
 
     with pytest.raises(SystemExit) as salida:
         main(argumentos)

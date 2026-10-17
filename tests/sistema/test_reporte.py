@@ -1,5 +1,6 @@
 """El entregable de la Fase 1 de punta a punta: el CSV del generador real pasa por `python -m reporte`
-como lo corre el autor, y la página resultante cumple R15, R16 y R17 de docs/DOMINIO.md."""
+como lo corre el autor, y la página resultante cumple R16, R17 y
+muestra las cifras del resumen de docs/DOMINIO.md."""
 
 from __future__ import annotations
 
