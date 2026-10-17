@@ -144,3 +144,46 @@ def test_un_uso_incorrecto_muestra_la_linea_de_uso_y_sale_con_codigo_2(
 
     assert salida.value.code == 2
     assert uso in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("variante", ["igual", "con-rodeo"])
+def test_una_salida_que_resuelve_al_csv_se_rechaza_nombrando_la_ruta_y_deja_el_csv_intacto(
+    tmp_path: pathlib.Path, capsys: pytest.CaptureFixture[str], variante: str
+) -> None:
+    csv = escribir_csv(tmp_path / "datos" / "septiembre.csv")
+    original = csv.read_bytes()
+    salida = csv if variante == "igual" else tmp_path / "datos" / ".." / "datos" / "septiembre.csv"
+
+    codigo = main([str(csv), "-o", str(salida)])
+
+    mensajes = capsys.readouterr()
+    assert codigo == 1
+    assert str(salida) in mensajes.err
+    assert "Traceback" not in mensajes.err
+    assert csv.read_bytes() == original
+    assert sorted(p.name for p in csv.parent.iterdir()) == ["septiembre.csv"]
+
+
+def test_una_escritura_fallida_conserva_la_pagina_anterior_y_no_deja_temporales(
+    tmp_path: pathlib.Path,
+    capsys: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    csv = escribir_csv(tmp_path / "septiembre.csv")
+    anterior = tmp_path / "salida" / "reporte_2026-09.html"
+    anterior.parent.mkdir()
+    anterior.write_text("pagina vieja", encoding="utf-8")
+
+    def reemplazo_que_falla(origen: object, destino: object) -> None:
+        raise OSError("disco lleno")
+
+    monkeypatch.setattr(os, "replace", reemplazo_que_falla)
+
+    codigo = main([str(csv), "-o", str(anterior)])
+
+    mensajes = capsys.readouterr()
+    assert codigo == 1
+    assert str(anterior) in mensajes.err
+    assert "Traceback" not in mensajes.err
+    assert anterior.read_text(encoding="utf-8") == "pagina vieja"
+    assert list(anterior.parent.iterdir()) == [anterior]
