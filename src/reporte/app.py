@@ -34,6 +34,12 @@ def main(argv: list[str] | None = None) -> int:
     except ErrorDeEntrada as error:
         print(error, file=sys.stderr)
         return 1
+    except OSError:
+        print(
+            f"No se pudo leer el CSV «{argumentos.csv}». Revisa que tengas permiso de lectura.",
+            file=sys.stderr,
+        )
+        return 1
     pagina = renderizar(analisis)
     destino: Path = argumentos.salida or (
         argumentos.csv.parent / f"reporte_{analisis.mes:%Y-%m}.html"

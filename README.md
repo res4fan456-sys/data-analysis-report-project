@@ -32,7 +32,7 @@ anterior del mismo mes se reemplaza. Con `-o` (o `--salida`) eliges dónde queda
 que falten se crean:
 
 ```bash
-python -m reporte output/transacciones_2026-09.csv -o informes/septiembre.html
+python -m reporte output/transacciones_2026-09.csv -o output/informes/septiembre.html
 ```
 
 Códigos de salida:

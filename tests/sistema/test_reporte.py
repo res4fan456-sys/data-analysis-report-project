@@ -134,7 +134,7 @@ def test_total_numero_y_ticket_promedio_visibles_son_los_que_da_sumar_el_csv(
         formatear_entero(len(montos)),
         formatear_monto(total / len(montos)),
     ):
-        assert any(esperado in nodo for nodo in visibles), f"falta {esperado!r} en la página"
+        assert esperado in visibles, f"falta {esperado!r} como nodo de texto de la página"
 
 
 def test_un_csv_con_columna_de_mas_da_codigo_1_nombrandola_y_sin_pagina(tmp_path: Path) -> None:

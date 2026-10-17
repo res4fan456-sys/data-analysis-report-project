@@ -16,7 +16,7 @@ ACCESO_INDIRECTO = {"importlib", "builtins"}
 STDLIB = set(sys.stdlib_module_names)
 
 # capa -> (librerías externas permitidas, prefijos internos permitidos). Una capa ausente de la tabla
-# (`__main__` y el `__init__.py` raíz) puede importar de todas.
+# (el `__init__.py` raíz) puede importar de todas.
 MATRIZ: dict[str, tuple[set[str], tuple[str, ...]]] = {
     "nucleo": ((STDLIB - IO_PROHIBIDO - ACCESO_INDIRECTO) | {"pandas"}, ("reporte.nucleo",)),
     "datos": (STDLIB | {"pandas"}, ("reporte.datos", "reporte.nucleo.tipos")),
@@ -60,7 +60,7 @@ def capa_de(archivo: pathlib.Path, raiz: pathlib.Path) -> str:
     partes = archivo.relative_to(raiz).parts
     if len(partes) > 1:
         return partes[0]
-    return "app" if partes[0] == "app.py" else "raiz"
+    return "app" if partes[0] in {"app.py", "__main__.py"} else "raiz"
 
 
 def infracciones(raiz: pathlib.Path) -> list[str]:
@@ -125,6 +125,7 @@ PROHIBIDOS = [
     ("app.py", "from generador.configuracion import ZONAS\n", "generador.configuracion.ZONAS"),
     ("app.py", "from faker import Faker\n", "faker.Faker"),
     ("app.py", "import pandas\n", "pandas"),
+    ("__main__.py", "import jinja2\n", "jinja2"),
 ]
 
 PERMITIDOS = [
@@ -140,7 +141,7 @@ PERMITIDOS = [
     ("app.py", "import argparse\nimport pathlib\nimport sys\n"),
     ("app.py", "from reporte import datos, nucleo, presentacion\nfrom reporte.app import main\n"),
     ("app.py", "from .datos import ErrorDeEntrada\nfrom .presentacion import renderizar\n"),
-    ("__main__.py", "from reporte.app import main\nimport requests\n"),
+    ("__main__.py", "from reporte.app import main\n"),
 ]
 
 
