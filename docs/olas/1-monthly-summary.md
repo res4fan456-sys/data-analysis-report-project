@@ -21,7 +21,7 @@
 | #17 | `read-transactions-csv` · 1.1–1.5 | `feat/1-read-transactions-csv` | mergeada (3cff17b) — 1 mecánica (líneas en blanco, por lectura del diff del PM) · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (segundos 60/61); pasada final por la salida (a), LISTA en la pasada corta |
 | #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
 | #20 | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | mergeada (ec732eb) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (empate decidido por el error de la suma `float`); pasada final por la salida (a), LISTA en la pasada corta sobre 4738bd6; rebasada como 43c7f80 (`verify` OK; `sistema` de 4738bd6, producto idéntico) |
-| — | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | pendiente (tras PR 2 y PR 3) |
+| #21 | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | abierta (a59f177, `verify` y `sistema` OK), en primera pasada del crítico |
 | — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
 
 ## Decisiones del PM
@@ -51,6 +51,7 @@
 
 - Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
 - `g3-nucleo` quitado tras el merge de #20.
+- `.claude/worktrees/g4-pagina` (`feat/1-report-page`, #21); fuente copiada desde `/home/JP/activos-reporte/inter-4.1/`, SHA-256 iguales al brief.
 - 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API; reanudados por `SendMessage` a la misma instancia.
 - El implementador de #17 no entregó sus reportes tras reanudarlo; a cada implementador se le pide copia del reporte en archivo del scratchpad.
 
