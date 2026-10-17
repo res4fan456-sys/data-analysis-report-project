@@ -42,6 +42,8 @@
 - PR #22: un CSV que no se puede leer (`OSError`, p. ej. sin permiso) da en `app` un mensaje en español con la ruta y código 1, sin traza. Descartado: dejarlo a issue (la spec no enumera el caso) o traducirlo en `datos/`.
 - PR #22: la escritura atómica de la página (#23) y el rechazo de `-o` igual al CSV (#24) van a issue. Descartado: corregirlos en la PR, fuera de la spec `linea-de-comandos`.
 
+- Cierre: lo lleva el mismo PM que mergeó #20–#22, retomado por el Team Manager tras el handover, por economía de tokens (decisión del Team Manager). Descartado: lanzar un PM nuevo que releyera la ola por §1b.
+
 ## Deuda
 
 - PR #16: puntos ciegos del detector de red en JavaScript minificado (literal regex con comilla, `import{a}from"…"`, `importScripts(f(), …)`), caso cuadrático con `url(` sin cerrar, y posiciones fuera de la definición de R16 (`imagesrcset`, `background`, `meta refresh`, `image-set`, `img.src =`). No afecta a la página de la Fase 1; muerde al incrustar ECharts. Issue #18.
@@ -49,6 +51,8 @@
 
 - PR #22: una página que se escribe a medias (disco lleno, Ctrl-C) pierde la anterior del mismo mes. Issue #23.
 - PR #22: `-o` igual al CSV de entrada lo sobrescribe con HTML sin avisar. Issue #24.
+
+- Mecánica: `da worktree quitar` no borra del registro un worktree cuya carpeta ya no existe (`git worktree prune` no aplica: git ya no lo tiene). Issue #25.
 
 ## Se coló
 
@@ -60,22 +64,62 @@
 
 ## Entorno vivo
 
-- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`). Los de los grupos (`g3-nucleo`, `g4-pagina`, `g5-cli`) ya no existen: `gh pr merge --delete-branch` se llevó el directorio; `da worktree listar` aún lista `g1-datos`, `g2-presentacion` y `g3-nucleo` (registros sin directorio; `worktree quitar` dice «no existe»).
-- Ningún comando pesado en vuelo. Ningún implementador ni crítico trabajando.
+- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`), con `output/reporte_2026-09.html` y su CSV generados para la revisión visual (`output/` está en `.gitignore`). Se quita después del merge del usuario.
+- `da worktree listar` aún muestra `g1-datos`, `g2-presentacion` y `g3-nucleo`, sin carpeta (issue #25).
+- Ningún comando pesado, implementador ni crítico en vuelo.
 
 ## Coste
 
-- —
+### Mecánica
+
+| Métrica | Valor |
+| --- | --- |
+| ctx0 — critico | 26.3k |
+| caché escrita — critico | 2.3M |
+| caché leída — critico | 16.9M |
+| ctx0 — implementador | 39.3k |
+| caché escrita — implementador | 382.9k |
+| caché leída — implementador | 1.5M |
+| ctx0 — implementador-app | 38.1k |
+| caché escrita — implementador-app | 465.8k |
+| caché leída — implementador-app | 3.7M |
+| ctx0 — implementador-datos | 40.6k |
+| caché escrita — implementador-datos | 718.2k |
+| caché leída — implementador-datos | 2.1M |
+| ctx0 — implementador-presentacion | 38.9k |
+| caché escrita — implementador-presentacion | 1.2M |
+| caché leída — implementador-presentacion | 3.8M |
+| ctx0 — pm | 33.0k |
+| caché escrita — pm | 5.6M |
+| caché leída — pm | 31.1M |
+| PRs a GitHub | 5 |
+| Merges a master — cierre o arreglo | 0 |
+| Merges a master — planeación y archivado | 0 |
+| Horas de espera (promedio) — cierre o arreglo | 0.0 |
+| Horas de espera (promedio) — planeación y archivado | 0.0 |
+| Corridas de evidencia | 15 |
+| Pasadas de crítico | 12 |
+| BLOQUEA en veredictos | 7 |
+| NO BLOQUEA en veredictos | 43 |
+
+### Trabajo
+
+| PR | Caché leída/línea (producto) | Horas/línea (producto) | Caché leída/línea (test) | Horas/línea (test) |
+| --- | --- | --- | --- | --- |
+| #22 | 0 | 0.0 | 0 | 0.0 |
+| #21 | 0 | 0.0 | 0 | 0.0 |
+| #20 | 0 | 0.1 | 0 | 0.0 |
+| #17 | 0 | 0.0 | 0 | 0.0 |
+| #16 | 0 | 0.0 | 0 | 0.0 |
+
+### Guardas
+
+| Guarda | Valor |
+| --- | --- |
+| Se coló | 0 |
+| BLOQUEA de código | 7 (#16: 1, #17: 1, #20: 1, #21: 2, #22: 2) |
+| sistema al cierre | 7/7 sobre 9eb9044 |
 
 ## Handover
 
-- **Estado estable:** las cinco PRs internas mergeadas en `ola/1-monthly-summary`; nada en vuelo. Las 14 casillas de los dos changes, marcadas.
-- **Hecho:** #20 (núcleo, ec732eb), #21 (página, 871c98b) y #22 (CLI, `sistema`, README, 56cf538) por este PM; #16 y #17 por el anterior.
-- **Lo que queda en orden:** solo el cierre (§5).
-  1. `verify` y `sistema` sobre la punta de `ola/1-monthly-summary` en `pm-ola1` (en #22: 269 passed; `sistema` 7 passed).
-  2. Generar `output/reporte_2026-09.html` con `python -m generador --mes 2026-09 --semilla 42` y `python -m reporte output/transacciones_2026-09.csv` (README) para la revisión visual de `tasks.md` (sección «Revisión visual de la fase»).
-  3. Registro: tabla desde `gh pr list`, `## Coste` con `.claude/da/da medir 1-monthly-summary`.
-  4. PR de ola con la plantilla B, **base `chore/1-monthly-summary-planning`** (no `master`); `Closes #5` y `#6` solo cuando el arreglo llegue a `master` (brief §5).
-- **Avisos para los encargos:** ya no quedan encargos. Para la PR de ola: la paleta (decisión de #21) y el JavaScript del tema solo los valida la revisión visual; `ultimo_dia` en `Analisis` es aditivo y se declara (brief §3).
-- **Pendiente con el Team Manager o el usuario:** ningún escalado. Issues abiertas en la ola: #18, #19, #23, #24.
-- **Por qué paro:** con #22 este PM llega a 3 PRs internas mergeadas (§6).
+- —: la ola se cerró sin relevo pendiente; el handover anterior queda en el historial de git (9eb9044).
