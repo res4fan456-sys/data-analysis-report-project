@@ -16,11 +16,12 @@ ACCESO_INDIRECTO = {"importlib", "builtins"}
 STDLIB = set(sys.stdlib_module_names)
 
 # capa -> (librerías externas permitidas, prefijos internos permitidos). Una capa ausente de la tabla
-# (`app`, `__main__` y el `__init__.py` raíz) puede importar de todas.
+# (`__main__` y el `__init__.py` raíz) puede importar de todas.
 MATRIZ: dict[str, tuple[set[str], tuple[str, ...]]] = {
     "nucleo": ((STDLIB - IO_PROHIBIDO - ACCESO_INDIRECTO) | {"pandas"}, ("reporte.nucleo",)),
     "datos": (STDLIB | {"pandas"}, ("reporte.datos", "reporte.nucleo.tipos")),
     "presentacion": (STDLIB | {"jinja2"}, ("reporte.presentacion", "reporte.nucleo")),
+    "app": (STDLIB, ("reporte",)),
 }
 CAPAS_SIN_LLAMADAS_PROHIBIDAS = {"nucleo"}
 LLAMADAS_PROHIBIDAS = {"open", "__import__"}
@@ -57,7 +58,9 @@ def _prohibido(capa: str, nombre: str, raiz_nombre: str) -> bool:
 
 def capa_de(archivo: pathlib.Path, raiz: pathlib.Path) -> str:
     partes = archivo.relative_to(raiz).parts
-    return partes[0] if len(partes) > 1 else "raiz"
+    if len(partes) > 1:
+        return partes[0]
+    return "app" if partes[0] == "app.py" else "raiz"
 
 
 def infracciones(raiz: pathlib.Path) -> list[str]:
@@ -86,7 +89,7 @@ def infracciones(raiz: pathlib.Path) -> list[str]:
 
 def test_el_arbol_real_respeta_la_matriz_de_imports() -> None:
     capas = {capa_de(a, RAIZ) for a in RAIZ.rglob("*.py")}
-    assert {"nucleo", "datos"} <= capas, f"la guarda no encontró nucleo y datos: {sorted(capas)}"
+    assert {"nucleo", "datos", "app"} <= capas, f"la guarda no encontró las capas: {sorted(capas)}"
     assert infracciones(RAIZ) == []
 
 
@@ -118,6 +121,10 @@ PROHIBIDOS = [
     ("datos/lectura.py", "import requests\n", "requests"),
     ("presentacion/pagina.py", "import pandas\n", "pandas"),
     ("presentacion/pagina.py", "from reporte.datos import leer\n", "reporte.datos.leer"),
+    ("app.py", "import generador\n", "generador"),
+    ("app.py", "from generador.configuracion import ZONAS\n", "generador.configuracion.ZONAS"),
+    ("app.py", "from faker import Faker\n", "faker.Faker"),
+    ("app.py", "import pandas\n", "pandas"),
 ]
 
 PERMITIDOS = [
@@ -130,7 +137,9 @@ PERMITIDOS = [
     ("datos/__init__.py", "from .lectura import leer_transacciones\n"),
     ("presentacion/pagina.py", "import jinja2\nfrom reporte.nucleo import Analisis\n"),
     ("presentacion/pagina.py", "import pathlib\nfrom ..nucleo.analisis import Analisis\n"),
-    ("app.py", "import pandas\nimport pathlib\nfrom reporte import datos, nucleo, presentacion\n"),
+    ("app.py", "import argparse\nimport pathlib\nimport sys\n"),
+    ("app.py", "from reporte import datos, nucleo, presentacion\nfrom reporte.app import main\n"),
+    ("app.py", "from .datos import ErrorDeEntrada\nfrom .presentacion import renderizar\n"),
     ("__main__.py", "from reporte.app import main\nimport requests\n"),
 ]
 
