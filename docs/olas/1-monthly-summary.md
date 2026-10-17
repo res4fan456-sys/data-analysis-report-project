@@ -22,7 +22,7 @@
 | #16 | `monthly-summary-page` · 1.1–1.2 | `feat/1-es-mx-formatters-network-detector` | mergeada (1216a79) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (`np.float64` en los formateadores); pasada final por la salida (b): docstring de `red.py` a #18 |
 | #20 | `monthly-summary-page` · 2.1 | `feat/1-monthly-summary-core` | mergeada (ec732eb) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (empate decidido por el error de la suma `float`); pasada final por la salida (a), LISTA en la pasada corta sobre 4738bd6; rebasada como 43c7f80 (`verify` OK; `sistema` de 4738bd6, producto idéntico) |
 | #21 | `monthly-summary-page` · 3.1–3.3 | `feat/1-report-page` | mergeada (871c98b) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (CSS `capitalize` reescribía el mes; su test buscaba subcadena); pasada final trivial (solo tests) en 7551ccc |
-| — | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | pendiente (tras PR 4) |
+| #22 | `monthly-summary-page` · 4.1–4.3 | `feat/1-report-cli` | mergeada (56cf538) — 0 mecánicas · 1 ronda · 0 por corrección; BLOQUEA de juicio del crítico (nombre de la página sin probar con otro mes; uso en stderr sin proteger); pasada final trivial (solo tests) en 535aeaa |
 
 ## Decisiones del PM
 
@@ -38,10 +38,17 @@
 - PR #21: la paleta la eligió el implementador (oscuro: fondo `#0b0b0d`, texto `#f4f1e8`, acento `#f5c542`; claro: fondo `#faf8f2`, texto `#17140d`, acento `#8a6200`), con contraste medido por par; el usuario la valida en la revisión visual. El crítico avisa que el dorado del claro tira a ocre.
 - PR #21: el lector de «último texto visible» no ve texto en atributos (`value` de un `input`) ni en `content` de CSS. Aceptado sin acción: la página no tiene ese marcado.
 
+- PR #22: la capa `app` (con `__main__.py`) solo importa stdlib y `reporte.*` en `tests/test_arquitectura.py`; «todas las anteriores» de `docs/ARQUITECTURA.md` se lee como capas, no como sus librerías. Descartado: dejar permitido `import pandas` en `app.py`, como tenía la guarda desde #17. El crítico la juzgó defendible.
+- PR #22: un CSV que no se puede leer (`OSError`, p. ej. sin permiso) da en `app` un mensaje en español con la ruta y código 1, sin traza. Descartado: dejarlo a issue (la spec no enumera el caso) o traducirlo en `datos/`.
+- PR #22: la escritura atómica de la página (#23) y el rechazo de `-o` igual al CSV (#24) van a issue. Descartado: corregirlos en la PR, fuera de la spec `linea-de-comandos`.
+
 ## Deuda
 
 - PR #16: puntos ciegos del detector de red en JavaScript minificado (literal regex con comilla, `import{a}from"…"`, `importScripts(f(), …)`), caso cuadrático con `url(` sin cerrar, y posiciones fuera de la definición de R16 (`imagesrcset`, `background`, `meta refresh`, `image-set`, `img.src =`). No afecta a la página de la Fase 1; muerde al incrustar ECharts. Issue #18.
 - PR #17: la guarda de arquitectura no detecta en `nucleo` las llamadas de I/O de pandas (`pd.read_csv`, `to_csv`…). Hoy el núcleo no lee nada. Issue #19.
+
+- PR #22: una página que se escribe a medias (disco lleno, Ctrl-C) pierde la anterior del mismo mes. Issue #23.
+- PR #22: `-o` igual al CSV de entrada lo sobrescribe con HTML sin avisar. Issue #24.
 
 ## Se coló
 
@@ -53,11 +60,8 @@
 
 ## Entorno vivo
 
-- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`).
-- `g3-nucleo` quitado tras el merge de #20.
-- `g4-pagina` quitado tras el merge de #21 (la fuente se copió desde `/home/JP/activos-reporte/inter-4.1/` con SHA-256 iguales al brief).
-- 2026-10-16: el implementador de #16 y el crítico de #17 se cortaron por el límite de uso de la API; reanudados por `SendMessage` a la misma instancia.
-- El implementador de #17 no entregó sus reportes tras reanudarlo; a cada implementador se le pide copia del reporte en archivo del scratchpad.
+- Worktree del PM: `.claude/worktrees/pm-ola1` (`ola/1-monthly-summary`). Los de los grupos (`g3-nucleo`, `g4-pagina`, `g5-cli`) ya no existen: `gh pr merge --delete-branch` se llevó el directorio; `da worktree listar` aún lista `g1-datos`, `g2-presentacion` y `g3-nucleo` (registros sin directorio; `worktree quitar` dice «no existe»).
+- Ningún comando pesado en vuelo. Ningún implementador ni crítico trabajando.
 
 ## Coste
 
@@ -65,4 +69,13 @@
 
 ## Handover
 
-- 2026-10-17: retomada por un PM de relevo (§1b); el handover anterior queda en el historial de git (7cdf08a).
+- **Estado estable:** las cinco PRs internas mergeadas en `ola/1-monthly-summary`; nada en vuelo. Las 14 casillas de los dos changes, marcadas.
+- **Hecho:** #20 (núcleo, ec732eb), #21 (página, 871c98b) y #22 (CLI, `sistema`, README, 56cf538) por este PM; #16 y #17 por el anterior.
+- **Lo que queda en orden:** solo el cierre (§5).
+  1. `verify` y `sistema` sobre la punta de `ola/1-monthly-summary` en `pm-ola1` (en #22: 269 passed; `sistema` 7 passed).
+  2. Generar `output/reporte_2026-09.html` con `python -m generador --mes 2026-09 --semilla 42` y `python -m reporte output/transacciones_2026-09.csv` (README) para la revisión visual de `tasks.md` (sección «Revisión visual de la fase»).
+  3. Registro: tabla desde `gh pr list`, `## Coste` con `.claude/da/da medir 1-monthly-summary`.
+  4. PR de ola con la plantilla B, **base `chore/1-monthly-summary-planning`** (no `master`); `Closes #5` y `#6` solo cuando el arreglo llegue a `master` (brief §5).
+- **Avisos para los encargos:** ya no quedan encargos. Para la PR de ola: la paleta (decisión de #21) y el JavaScript del tema solo los valida la revisión visual; `ultimo_dia` en `Analisis` es aditivo y se declara (brief §3).
+- **Pendiente con el Team Manager o el usuario:** ningún escalado. Issues abiertas en la ola: #18, #19, #23, #24.
+- **Por qué paro:** con #22 este PM llega a 3 PRs internas mergeadas (§6).
