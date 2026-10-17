@@ -19,13 +19,13 @@ Reglas de la fase para todos los grupos:
 
 ## 1. Formateadores es-MX y detector de red (PR 2, área `presentacion`, ~400 líneas)
 
-- [ ] 1.1 Crear `src/reporte/presentacion/` con los formateadores de monto, porcentaje, entero, fecha, mes y
+- [x] 1.1 Crear `src/reporte/presentacion/` con los formateadores de monto, porcentaje, entero, fecha, mes y
   día de la semana (requisitos de formato de la spec `pagina-del-reporte`; design, «Formateadores puros»).
   **Flujo que protege:** que cada cifra y cada fecha que el autor lee en la página tenga el formato es-MX de
   R15, incluidos el redondeo de la mitad y los montos con más de dos decimales. Se verifica con un test por
   escenario en `tests/presentacion/` y la mutación de cada uno (p. ej. usar `round` en vez de `ROUND_HALF_UP`
   pone en rojo «Redondeo de la mitad»; un `%02d` en el día pone en rojo «Fecha de un dígito»).
-- [ ] 1.2 En la misma capa, el detector `referencias_de_red(html)` (requisitos «La página es un solo archivo
+- [x] 1.2 En la misma capa, el detector `referencias_de_red(html)` (requisitos «La página es un solo archivo
   sin referencias de red» y «Lo local y lo que no se carga no cuenta como red»; design, «Detector de red»).
   **Flujo que protege:** que ninguna página pueda cargar nada de internet sin que un test lo vea (R16,
   issue #5), sin rechazar la fuente incrustada ni las librerías de fases siguientes. Se verifica con un test
@@ -34,7 +34,7 @@ Reglas de la fase para todos los grupos:
 
 ## 2. Resumen del mes en el núcleo (PR 3, área `nucleo`, ~250 líneas)
 
-- [ ] 2.1 Crear en `src/reporte/nucleo/` el `Analisis`, el `Resumen` y `analizar(transacciones)`, exportado
+- [x] 2.1 Crear en `src/reporte/nucleo/` el `Analisis`, el `Resumen` y `analizar(transacciones)`, exportado
   desde `reporte.nucleo` (design, «`Analisis` de la Fase 1»), con todos los requisitos de la spec
   `resumen-del-mes`. **Flujo que protege:** que las cifras del resumen que el autor ve sean las del mes:
   total, número, ticket promedio, día de mayor gasto con su desempate, gasto variable y su proporción, último
@@ -45,15 +45,15 @@ Reglas de la fase para todos los grupos:
 
 ## 3. La página del reporte (PR 4, área `presentacion`, ~500 líneas sin contar el binario de la fuente)
 
-- [ ] 3.1 Copiar `InterVariable.woff2` y su texto de licencia (los entrega el usuario; ruta en el brief) a
+- [x] 3.1 Copiar `InterVariable.woff2` y su texto de licencia (los entrega el usuario; ruta en el brief) a
   `src/reporte/presentacion/activos/` y crear `activos/LICENCIAS.md` con versión (Inter 4.1), licencia
   (OFL-1.1), origen y SHA-256 del archivo, más el test de licencias (requisito «Cada activo incrustado declara
   versión y licencia»). **Flujo que protege:** que ningún activo entre a la página sin versión y licencia
   (regla innegociable 6). Se verifica con el test en verde y la mutación de borrar la fila de Inter.
-- [ ] 3.2 El tema como datos y el test de contraste (requisito «La paleta negro y dorado es legible en los
+- [x] 3.2 El tema como datos y el test de contraste (requisito «La paleta negro y dorado es legible en los
   dos temas»; design, «Tema como datos»). **Flujo que protege:** que el texto se lea en los dos temas.
   Se verifica con el test de cada par y la mutación de oscurecer el texto del tema oscuro.
-- [ ] 3.3 `renderizar(analisis) -> str`, exportado desde `reporte.presentacion`, con la plantilla Jinja2: la
+- [x] 3.3 `renderizar(analisis) -> str`, exportado desde `reporte.presentacion`, con la plantilla Jinja2: la
   fuente incrustada, el tema con su botón y su script, los avisos, el encabezado con mes y periodo, el resumen
   formateado y el cierre (requisitos «La página muestra el encabezado y el resumen del mes», «…los avisos…»,
   «El texto que viene de los datos se muestra literal», «La fuente Inter va incrustada», «La página es un
@@ -66,18 +66,18 @@ Reglas de la fase para todos los grupos:
 
 ## 4. La CLI y la suite de sistema de la fase (PR 5, áreas `app` y `generador` más `README.md`, ~300 líneas)
 
-- [ ] 4.1 Crear `src/reporte/app.py` con `main(argv: list[str] | None = None) -> int` y
+- [x] 4.1 Crear `src/reporte/app.py` con `main(argv: list[str] | None = None) -> int` y
   `src/reporte/__main__.py`, con todos los requisitos de la spec `linea-de-comandos` (design, «CLI»).
   **Flujo que protege:** que el autor genere la página con un comando y que, ante un CSV rechazado o una
   salida imposible, lea por qué en español sin una traza de Python. Se verifica con un test por escenario en
   `tests/app/` (`main([...])` con `tmp_path`, CSV escritos en el test) y la mutación de cada uno (p. ej.
   tomar el mes del nombre del archivo pone en rojo «El nombre sale del mes de los datos»).
-- [ ] 4.2 Crear `tests/sistema/test_reporte.py` con marcador `sistema` (design, «Suite `sistema` de la
+- [x] 4.2 Crear `tests/sistema/test_reporte.py` con marcador `sistema` (design, «Suite `sistema` de la
   fase»). **Flujo que protege:** el entregable de la Fase 1 de punta a punta, con el generador real y el
   comando que corre el autor: la página existe, no usa la red, cierra con el mensaje literal, pesa < 10 MB y
   sus KPIs coinciden con el CSV; y un CSV inválido da código 1 con su motivo. Se verifica con la suite
   `sistema` en verde y la mutación de cambiar el total esperado (falla el caso de KPIs).
-- [ ] 4.3 Actualizar `README.md`: el reporte ya existe (fuera el «todavía no existe» de `README.md:3-8`) y
+- [x] 4.3 Actualizar `README.md`: el reporte ya existe (fuera el «todavía no existe» de `README.md:3-8`) y
   una sección de uso con `python -m reporte output/transacciones_AAAA-MM.csv`, `-o` y el código de salida de
   un CSV rechazado. Se verifica con `.claude/da/da citas` limpio y cada comando del README corriendo tal como
   está escrito (salvo el de instalación, que corre el usuario).
