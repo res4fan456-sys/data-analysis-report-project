@@ -29,7 +29,7 @@
 | Gestor de dependencias | venv + pip con `pyproject.toml` (layout `src/`; `pip install -e ".[dev]"`) |
 | Datos | pandas 2.3.x |
 | Plantilla HTML | Jinja2 3.1.x |
-| Gráficas y mapa | Apache ECharts 6.0.0, vendorizado en `src/reporte/presentacion/activos/` e incrustado en el HTML. Se verifica en la Fase 0; si falla, 5.6.0 |
+| Gráficas y mapa | Apache ECharts 6.0.0, vendorizado en `src/reporte/presentacion/activos/` e incrustado en el HTML. Se verifica al empezar la Fase 2, la primera que dibuja gráficas; si falla, 5.6.0 |
 | Tipografía | Inter (OFL) en WOFF2, incrustada en base64 |
 | Estilo | Tokens CSS en `:root` con base negro y dorado y acentos brillantes. Tema claro y oscuro con `prefers-color-scheme`, más un botón que guarda la elección (con `try/catch` si no hay almacenamiento). Las gráficas ECharts usan la misma paleta mediante un tema registrado |
 | Geometría | Vista nacional: Natural Earth admin-1 de México (dominio público). Vista de ciudad: las 16 alcaldías de CDMX del Marco Geoestadístico INEGI (libre uso). Ambas simplificadas e incrustadas como GeoJSON |
